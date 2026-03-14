@@ -1,0 +1,1647 @@
+[
+  {
+    "id": "recipe_iron_ingot",
+    "name": "Iron Ingot",
+    "nameJa": "鉄のインゴット",
+    "isAlternate": false,
+    "machineId": "smelter",
+    "craftTimeSeconds": 2,
+    "inputs": [
+      {
+        "itemId": "iron_ore",
+        "amountPerCycle": 1,
+        "amountPerMinute": 30
+      }
+    ],
+    "outputs": [
+      {
+        "itemId": "iron_ingot",
+        "amountPerCycle": 1,
+        "amountPerMinute": 30
+      }
+    ]
+  },
+  {
+    "id": "recipe_copper_ingot",
+    "name": "Copper Ingot",
+    "nameJa": "銅のインゴット",
+    "isAlternate": false,
+    "machineId": "smelter",
+    "craftTimeSeconds": 2,
+    "inputs": [
+      {
+        "itemId": "copper_ore",
+        "amountPerCycle": 1,
+        "amountPerMinute": 30
+      }
+    ],
+    "outputs": [
+      {
+        "itemId": "copper_ingot",
+        "amountPerCycle": 1,
+        "amountPerMinute": 30
+      }
+    ]
+  },
+  {
+    "id": "recipe_steel_ingot",
+    "name": "Steel Ingot",
+    "nameJa": "鋼鉄のインゴット",
+    "isAlternate": false,
+    "machineId": "foundry",
+    "craftTimeSeconds": 4,
+    "inputs": [
+      {
+        "itemId": "iron_ore",
+        "amountPerCycle": 3,
+        "amountPerMinute": 45
+      },
+      {
+        "itemId": "coal",
+        "amountPerCycle": 3,
+        "amountPerMinute": 45
+      }
+    ],
+    "outputs": [
+      {
+        "itemId": "steel_ingot",
+        "amountPerCycle": 3,
+        "amountPerMinute": 45
+      }
+    ]
+  },
+  {
+    "id": "recipe_caterium_ingot",
+    "name": "Caterium Ingot",
+    "nameJa": "カテリウムのインゴット",
+    "isAlternate": false,
+    "machineId": "smelter",
+    "craftTimeSeconds": 4,
+    "inputs": [
+      {
+        "itemId": "caterium_ore",
+        "amountPerCycle": 3,
+        "amountPerMinute": 45
+      }
+    ],
+    "outputs": [
+      {
+        "itemId": "caterium_ingot",
+        "amountPerCycle": 1,
+        "amountPerMinute": 15
+      }
+    ]
+  },
+  {
+    "id": "recipe_aluminum_ingot",
+    "name": "Aluminum Ingot",
+    "nameJa": "アルミのインゴット",
+    "isAlternate": false,
+    "machineId": "smelter",
+    "craftTimeSeconds": 4,
+    "inputs": [
+      {
+        "itemId": "aluminum_scrap",
+        "amountPerCycle": 6,
+        "amountPerMinute": 90
+      },
+      {
+        "itemId": "silica",
+        "amountPerCycle": 5,
+        "amountPerMinute": 75
+      }
+    ],
+    "outputs": [
+      {
+        "itemId": "aluminum_ingot",
+        "amountPerCycle": 4,
+        "amountPerMinute": 60
+      }
+    ]
+  },
+  {
+    "id": "recipe_iron_plate",
+    "name": "Iron Plate",
+    "nameJa": "鉄板",
+    "isAlternate": false,
+    "machineId": "constructor",
+    "craftTimeSeconds": 6,
+    "inputs": [
+      {
+        "itemId": "iron_ingot",
+        "amountPerCycle": 3,
+        "amountPerMinute": 30
+      }
+    ],
+    "outputs": [
+      {
+        "itemId": "iron_plate",
+        "amountPerCycle": 2,
+        "amountPerMinute": 20
+      }
+    ]
+  },
+  {
+    "id": "recipe_iron_rod",
+    "name": "Iron Rod",
+    "nameJa": "鉄のロッド",
+    "isAlternate": false,
+    "machineId": "constructor",
+    "craftTimeSeconds": 4,
+    "inputs": [
+      {
+        "itemId": "iron_ingot",
+        "amountPerCycle": 1,
+        "amountPerMinute": 15
+      }
+    ],
+    "outputs": [
+      {
+        "itemId": "iron_rod",
+        "amountPerCycle": 1,
+        "amountPerMinute": 15
+      }
+    ]
+  },
+  {
+    "id": "recipe_screw",
+    "name": "Screw",
+    "nameJa": "ネジ",
+    "isAlternate": false,
+    "machineId": "constructor",
+    "craftTimeSeconds": 6,
+    "inputs": [
+      {
+        "itemId": "iron_rod",
+        "amountPerCycle": 1,
+        "amountPerMinute": 10
+      }
+    ],
+    "outputs": [
+      {
+        "itemId": "screw",
+        "amountPerCycle": 4,
+        "amountPerMinute": 40
+      }
+    ]
+  },
+  {
+    "id": "recipe_wire",
+    "name": "Wire",
+    "nameJa": "ワイヤー",
+    "isAlternate": false,
+    "machineId": "constructor",
+    "craftTimeSeconds": 4,
+    "inputs": [
+      {
+        "itemId": "copper_ingot",
+        "amountPerCycle": 1,
+        "amountPerMinute": 15
+      }
+    ],
+    "outputs": [
+      {
+        "itemId": "wire",
+        "amountPerCycle": 2,
+        "amountPerMinute": 30
+      }
+    ]
+  },
+  {
+    "id": "recipe_cable",
+    "name": "Cable",
+    "nameJa": "ケーブル",
+    "isAlternate": false,
+    "machineId": "constructor",
+    "craftTimeSeconds": 2,
+    "inputs": [
+      {
+        "itemId": "wire",
+        "amountPerCycle": 2,
+        "amountPerMinute": 60
+      }
+    ],
+    "outputs": [
+      {
+        "itemId": "cable",
+        "amountPerCycle": 1,
+        "amountPerMinute": 30
+      }
+    ]
+  },
+  {
+    "id": "recipe_concrete",
+    "name": "Concrete",
+    "nameJa": "コンクリート",
+    "isAlternate": false,
+    "machineId": "constructor",
+    "craftTimeSeconds": 4,
+    "inputs": [
+      {
+        "itemId": "limestone",
+        "amountPerCycle": 3,
+        "amountPerMinute": 45
+      }
+    ],
+    "outputs": [
+      {
+        "itemId": "concrete",
+        "amountPerCycle": 1,
+        "amountPerMinute": 15
+      }
+    ]
+  },
+  {
+    "id": "recipe_copper_sheet",
+    "name": "Copper Sheet",
+    "nameJa": "銅板",
+    "isAlternate": false,
+    "machineId": "constructor",
+    "craftTimeSeconds": 6,
+    "inputs": [
+      {
+        "itemId": "copper_ingot",
+        "amountPerCycle": 2,
+        "amountPerMinute": 20
+      }
+    ],
+    "outputs": [
+      {
+        "itemId": "copper_sheet",
+        "amountPerCycle": 1,
+        "amountPerMinute": 10
+      }
+    ]
+  },
+  {
+    "id": "recipe_quickwire",
+    "name": "Quickwire",
+    "nameJa": "クイックワイヤー",
+    "isAlternate": false,
+    "machineId": "constructor",
+    "craftTimeSeconds": 5,
+    "inputs": [
+      {
+        "itemId": "caterium_ingot",
+        "amountPerCycle": 1,
+        "amountPerMinute": 12
+      }
+    ],
+    "outputs": [
+      {
+        "itemId": "quickwire",
+        "amountPerCycle": 5,
+        "amountPerMinute": 60
+      }
+    ]
+  },
+  {
+    "id": "recipe_steel_beam",
+    "name": "Steel Beam",
+    "nameJa": "鋼梁",
+    "isAlternate": false,
+    "machineId": "constructor",
+    "craftTimeSeconds": 4,
+    "inputs": [
+      {
+        "itemId": "steel_ingot",
+        "amountPerCycle": 4,
+        "amountPerMinute": 60
+      }
+    ],
+    "outputs": [
+      {
+        "itemId": "steel_beam",
+        "amountPerCycle": 1,
+        "amountPerMinute": 15
+      }
+    ]
+  },
+  {
+    "id": "recipe_steel_pipe",
+    "name": "Steel Pipe",
+    "nameJa": "鋼管",
+    "isAlternate": false,
+    "machineId": "constructor",
+    "craftTimeSeconds": 6,
+    "inputs": [
+      {
+        "itemId": "steel_ingot",
+        "amountPerCycle": 3,
+        "amountPerMinute": 30
+      }
+    ],
+    "outputs": [
+      {
+        "itemId": "steel_pipe",
+        "amountPerCycle": 2,
+        "amountPerMinute": 20
+      }
+    ]
+  },
+  {
+    "id": "recipe_quartz_crystal",
+    "name": "Quartz Crystal",
+    "nameJa": "石英結晶",
+    "isAlternate": false,
+    "machineId": "constructor",
+    "craftTimeSeconds": 8,
+    "inputs": [
+      {
+        "itemId": "raw_quartz",
+        "amountPerCycle": 5,
+        "amountPerMinute": 37.5
+      }
+    ],
+    "outputs": [
+      {
+        "itemId": "quartz_crystal",
+        "amountPerCycle": 3,
+        "amountPerMinute": 22.5
+      }
+    ]
+  },
+  {
+    "id": "recipe_silica",
+    "name": "Silica",
+    "nameJa": "シリカ",
+    "isAlternate": false,
+    "machineId": "constructor",
+    "craftTimeSeconds": 8,
+    "inputs": [
+      {
+        "itemId": "raw_quartz",
+        "amountPerCycle": 3,
+        "amountPerMinute": 22.5
+      }
+    ],
+    "outputs": [
+      {
+        "itemId": "silica",
+        "amountPerCycle": 5,
+        "amountPerMinute": 37.5
+      }
+    ]
+  },
+  {
+    "id": "recipe_aluminum_casing",
+    "name": "Aluminum Casing",
+    "nameJa": "アルミ筐体",
+    "isAlternate": false,
+    "machineId": "constructor",
+    "craftTimeSeconds": 2,
+    "inputs": [
+      {
+        "itemId": "aluminum_ingot",
+        "amountPerCycle": 3,
+        "amountPerMinute": 90
+      }
+    ],
+    "outputs": [
+      {
+        "itemId": "aluminum_casing",
+        "amountPerCycle": 2,
+        "amountPerMinute": 60
+      }
+    ]
+  },
+  {
+    "id": "recipe_reinforced_iron_plate",
+    "name": "Reinforced Iron Plate",
+    "nameJa": "強化鉄板",
+    "isAlternate": false,
+    "machineId": "assembler",
+    "craftTimeSeconds": 12,
+    "inputs": [
+      {
+        "itemId": "iron_plate",
+        "amountPerCycle": 6,
+        "amountPerMinute": 30
+      },
+      {
+        "itemId": "screw",
+        "amountPerCycle": 12,
+        "amountPerMinute": 60
+      }
+    ],
+    "outputs": [
+      {
+        "itemId": "reinforced_iron_plate",
+        "amountPerCycle": 1,
+        "amountPerMinute": 5
+      }
+    ]
+  },
+  {
+    "id": "recipe_rotor",
+    "name": "Rotor",
+    "nameJa": "ローター",
+    "isAlternate": false,
+    "machineId": "assembler",
+    "craftTimeSeconds": 15,
+    "inputs": [
+      {
+        "itemId": "iron_rod",
+        "amountPerCycle": 5,
+        "amountPerMinute": 20
+      },
+      {
+        "itemId": "screw",
+        "amountPerCycle": 25,
+        "amountPerMinute": 100
+      }
+    ],
+    "outputs": [
+      {
+        "itemId": "rotor",
+        "amountPerCycle": 1,
+        "amountPerMinute": 4
+      }
+    ]
+  },
+  {
+    "id": "recipe_modular_frame",
+    "name": "Modular Frame",
+    "nameJa": "モジュラー・フレーム",
+    "isAlternate": false,
+    "machineId": "assembler",
+    "craftTimeSeconds": 60,
+    "inputs": [
+      {
+        "itemId": "reinforced_iron_plate",
+        "amountPerCycle": 3,
+        "amountPerMinute": 3
+      },
+      {
+        "itemId": "iron_rod",
+        "amountPerCycle": 12,
+        "amountPerMinute": 12
+      }
+    ],
+    "outputs": [
+      {
+        "itemId": "modular_frame",
+        "amountPerCycle": 2,
+        "amountPerMinute": 2
+      }
+    ]
+  },
+  {
+    "id": "recipe_circuit_board",
+    "name": "Circuit Board",
+    "nameJa": "回路基板",
+    "isAlternate": false,
+    "machineId": "assembler",
+    "craftTimeSeconds": 8,
+    "inputs": [
+      {
+        "itemId": "copper_sheet",
+        "amountPerCycle": 2,
+        "amountPerMinute": 15
+      },
+      {
+        "itemId": "plastic",
+        "amountPerCycle": 4,
+        "amountPerMinute": 30
+      }
+    ],
+    "outputs": [
+      {
+        "itemId": "circuit_board",
+        "amountPerCycle": 1,
+        "amountPerMinute": 7.5
+      }
+    ]
+  },
+  {
+    "id": "recipe_ai_limiter",
+    "name": "AI Limiter",
+    "nameJa": "AIリミッター",
+    "isAlternate": false,
+    "machineId": "assembler",
+    "craftTimeSeconds": 12,
+    "inputs": [
+      {
+        "itemId": "copper_sheet",
+        "amountPerCycle": 5,
+        "amountPerMinute": 25
+      },
+      {
+        "itemId": "quickwire",
+        "amountPerCycle": 20,
+        "amountPerMinute": 100
+      }
+    ],
+    "outputs": [
+      {
+        "itemId": "ai_limiter",
+        "amountPerCycle": 1,
+        "amountPerMinute": 5
+      }
+    ]
+  },
+  {
+    "id": "recipe_encased_industrial_beam",
+    "name": "Encased Industrial Beam",
+    "nameJa": "コンクリート被覆型鋼梁",
+    "isAlternate": false,
+    "machineId": "assembler",
+    "craftTimeSeconds": 10,
+    "inputs": [
+      {
+        "itemId": "steel_beam",
+        "amountPerCycle": 4,
+        "amountPerMinute": 24
+      },
+      {
+        "itemId": "concrete",
+        "amountPerCycle": 5,
+        "amountPerMinute": 30
+      }
+    ],
+    "outputs": [
+      {
+        "itemId": "encased_industrial_beam",
+        "amountPerCycle": 1,
+        "amountPerMinute": 6
+      }
+    ]
+  },
+  {
+    "id": "recipe_stator",
+    "name": "Stator",
+    "nameJa": "固定子",
+    "isAlternate": false,
+    "machineId": "assembler",
+    "craftTimeSeconds": 12,
+    "inputs": [
+      {
+        "itemId": "steel_pipe",
+        "amountPerCycle": 3,
+        "amountPerMinute": 15
+      },
+      {
+        "itemId": "wire",
+        "amountPerCycle": 8,
+        "amountPerMinute": 40
+      }
+    ],
+    "outputs": [
+      {
+        "itemId": "stator",
+        "amountPerCycle": 1,
+        "amountPerMinute": 5
+      }
+    ]
+  },
+  {
+    "id": "recipe_motor",
+    "name": "Motor",
+    "nameJa": "モーター",
+    "isAlternate": false,
+    "machineId": "assembler",
+    "craftTimeSeconds": 12,
+    "inputs": [
+      {
+        "itemId": "rotor",
+        "amountPerCycle": 2,
+        "amountPerMinute": 10
+      },
+      {
+        "itemId": "stator",
+        "amountPerCycle": 3,
+        "amountPerMinute": 15
+      }
+    ],
+    "outputs": [
+      {
+        "itemId": "motor",
+        "amountPerCycle": 1,
+        "amountPerMinute": 5
+      }
+    ]
+  },
+  {
+    "id": "recipe_versatile_framework",
+    "name": "Versatile Framework",
+    "nameJa": "多目的フレームワーク",
+    "isAlternate": false,
+    "machineId": "assembler",
+    "craftTimeSeconds": 24,
+    "inputs": [
+      {
+        "itemId": "modular_frame",
+        "amountPerCycle": 1,
+        "amountPerMinute": 2.5
+      },
+      {
+        "itemId": "steel_beam",
+        "amountPerCycle": 12,
+        "amountPerMinute": 30
+      }
+    ],
+    "outputs": [
+      {
+        "itemId": "versatile_framework",
+        "amountPerCycle": 2,
+        "amountPerMinute": 5
+      }
+    ]
+  },
+  {
+    "id": "recipe_automated_wiring",
+    "name": "Automated Wiring",
+    "nameJa": "自動ワイヤー",
+    "isAlternate": false,
+    "machineId": "assembler",
+    "craftTimeSeconds": 24,
+    "inputs": [
+      {
+        "itemId": "stator",
+        "amountPerCycle": 1,
+        "amountPerMinute": 2.5
+      },
+      {
+        "itemId": "cable",
+        "amountPerCycle": 20,
+        "amountPerMinute": 50
+      }
+    ],
+    "outputs": [
+      {
+        "itemId": "automated_wiring",
+        "amountPerCycle": 1,
+        "amountPerMinute": 2.5
+      }
+    ]
+  },
+  {
+    "id": "recipe_alclad_aluminum_sheet",
+    "name": "Alclad Aluminum Sheet",
+    "nameJa": "アルクラッド・アルミシート",
+    "isAlternate": false,
+    "machineId": "assembler",
+    "craftTimeSeconds": 6,
+    "inputs": [
+      {
+        "itemId": "aluminum_ingot",
+        "amountPerCycle": 3,
+        "amountPerMinute": 30
+      },
+      {
+        "itemId": "copper_ingot",
+        "amountPerCycle": 1,
+        "amountPerMinute": 10
+      }
+    ],
+    "outputs": [
+      {
+        "itemId": "alclad_aluminum_sheet",
+        "amountPerCycle": 3,
+        "amountPerMinute": 30
+      }
+    ]
+  },
+  {
+    "id": "recipe_heat_sink",
+    "name": "Heat Sink",
+    "nameJa": "ヒートシンク",
+    "isAlternate": false,
+    "machineId": "assembler",
+    "craftTimeSeconds": 8,
+    "inputs": [
+      {
+        "itemId": "alclad_aluminum_sheet",
+        "amountPerCycle": 5,
+        "amountPerMinute": 37.5
+      },
+      {
+        "itemId": "copper_sheet",
+        "amountPerCycle": 3,
+        "amountPerMinute": 22.5
+      }
+    ],
+    "outputs": [
+      {
+        "itemId": "heat_sink",
+        "amountPerCycle": 1,
+        "amountPerMinute": 7.5
+      }
+    ]
+  },
+  {
+    "id": "recipe_electromagnetic_control_rod",
+    "name": "Electromagnetic Control Rod",
+    "nameJa": "電磁制御ロッド",
+    "isAlternate": false,
+    "machineId": "assembler",
+    "craftTimeSeconds": 15,
+    "inputs": [
+      {
+        "itemId": "stator",
+        "amountPerCycle": 3,
+        "amountPerMinute": 12
+      },
+      {
+        "itemId": "ai_limiter",
+        "amountPerCycle": 2,
+        "amountPerMinute": 8
+      }
+    ],
+    "outputs": [
+      {
+        "itemId": "electromagnetic_control_rod",
+        "amountPerCycle": 2,
+        "amountPerMinute": 8
+      }
+    ]
+  },
+  {
+    "id": "recipe_heavy_modular_frame",
+    "name": "Heavy Modular Frame",
+    "nameJa": "ヘビー・モジュラー・フレーム",
+    "isAlternate": false,
+    "machineId": "manufacturer",
+    "craftTimeSeconds": 30,
+    "inputs": [
+      {
+        "itemId": "modular_frame",
+        "amountPerCycle": 5,
+        "amountPerMinute": 10
+      },
+      {
+        "itemId": "steel_pipe",
+        "amountPerCycle": 15,
+        "amountPerMinute": 30
+      },
+      {
+        "itemId": "encased_industrial_beam",
+        "amountPerCycle": 5,
+        "amountPerMinute": 10
+      },
+      {
+        "itemId": "screw",
+        "amountPerCycle": 100,
+        "amountPerMinute": 200
+      }
+    ],
+    "outputs": [
+      {
+        "itemId": "heavy_modular_frame",
+        "amountPerCycle": 1,
+        "amountPerMinute": 2
+      }
+    ]
+  },
+  {
+    "id": "recipe_computer",
+    "name": "Computer",
+    "nameJa": "コンピューター",
+    "isAlternate": false,
+    "machineId": "manufacturer",
+    "craftTimeSeconds": 24,
+    "inputs": [
+      {
+        "itemId": "circuit_board",
+        "amountPerCycle": 10,
+        "amountPerMinute": 25
+      },
+      {
+        "itemId": "cable",
+        "amountPerCycle": 9,
+        "amountPerMinute": 22.5
+      },
+      {
+        "itemId": "plastic",
+        "amountPerCycle": 18,
+        "amountPerMinute": 45
+      },
+      {
+        "itemId": "screw",
+        "amountPerCycle": 52,
+        "amountPerMinute": 130
+      }
+    ],
+    "outputs": [
+      {
+        "itemId": "computer",
+        "amountPerCycle": 1,
+        "amountPerMinute": 2.5
+      }
+    ]
+  },
+  {
+    "id": "recipe_crystal_oscillator",
+    "name": "Crystal Oscillator",
+    "nameJa": "水晶発振器",
+    "isAlternate": false,
+    "machineId": "manufacturer",
+    "craftTimeSeconds": 120,
+    "inputs": [
+      {
+        "itemId": "quartz_crystal",
+        "amountPerCycle": 36,
+        "amountPerMinute": 18
+      },
+      {
+        "itemId": "cable",
+        "amountPerCycle": 28,
+        "amountPerMinute": 14
+      },
+      {
+        "itemId": "reinforced_iron_plate",
+        "amountPerCycle": 5,
+        "amountPerMinute": 2.5
+      }
+    ],
+    "outputs": [
+      {
+        "itemId": "crystal_oscillator",
+        "amountPerCycle": 2,
+        "amountPerMinute": 1
+      }
+    ]
+  },
+  {
+    "id": "recipe_high_speed_connector",
+    "name": "High-Speed Connector",
+    "nameJa": "高速コネクター",
+    "isAlternate": false,
+    "machineId": "manufacturer",
+    "craftTimeSeconds": 16,
+    "inputs": [
+      {
+        "itemId": "quickwire",
+        "amountPerCycle": 56,
+        "amountPerMinute": 210
+      },
+      {
+        "itemId": "cable",
+        "amountPerCycle": 10,
+        "amountPerMinute": 37.5
+      },
+      {
+        "itemId": "circuit_board",
+        "amountPerCycle": 1,
+        "amountPerMinute": 3.75
+      }
+    ],
+    "outputs": [
+      {
+        "itemId": "high_speed_connector",
+        "amountPerCycle": 1,
+        "amountPerMinute": 3.75
+      }
+    ]
+  },
+  {
+    "id": "recipe_supercomputer",
+    "name": "Supercomputer",
+    "nameJa": "スーパーコンピューター",
+    "isAlternate": false,
+    "machineId": "manufacturer",
+    "craftTimeSeconds": 32,
+    "inputs": [
+      {
+        "itemId": "computer",
+        "amountPerCycle": 2,
+        "amountPerMinute": 3.75
+      },
+      {
+        "itemId": "ai_limiter",
+        "amountPerCycle": 2,
+        "amountPerMinute": 3.75
+      },
+      {
+        "itemId": "high_speed_connector",
+        "amountPerCycle": 3,
+        "amountPerMinute": 5.625
+      },
+      {
+        "itemId": "plastic",
+        "amountPerCycle": 28,
+        "amountPerMinute": 52.5
+      }
+    ],
+    "outputs": [
+      {
+        "itemId": "supercomputer",
+        "amountPerCycle": 1,
+        "amountPerMinute": 1.875
+      }
+    ]
+  },
+  {
+    "id": "recipe_radio_control_unit",
+    "name": "Radio Control Unit",
+    "nameJa": "無線制御ユニット",
+    "isAlternate": false,
+    "machineId": "manufacturer",
+    "craftTimeSeconds": 48,
+    "inputs": [
+      {
+        "itemId": "aluminum_casing",
+        "amountPerCycle": 32,
+        "amountPerMinute": 40
+      },
+      {
+        "itemId": "crystal_oscillator",
+        "amountPerCycle": 1,
+        "amountPerMinute": 1.25
+      },
+      {
+        "itemId": "computer",
+        "amountPerCycle": 1,
+        "amountPerMinute": 1.25
+      }
+    ],
+    "outputs": [
+      {
+        "itemId": "radio_control_unit",
+        "amountPerCycle": 2,
+        "amountPerMinute": 2.5
+      }
+    ]
+  },
+  {
+    "id": "recipe_turbo_motor",
+    "name": "Turbo Motor",
+    "nameJa": "ターボ・モーター",
+    "isAlternate": false,
+    "machineId": "manufacturer",
+    "craftTimeSeconds": 32,
+    "inputs": [
+      {
+        "itemId": "cooling_system",
+        "amountPerCycle": 4,
+        "amountPerMinute": 7.5
+      },
+      {
+        "itemId": "radio_control_unit",
+        "amountPerCycle": 2,
+        "amountPerMinute": 3.75
+      },
+      {
+        "itemId": "motor",
+        "amountPerCycle": 4,
+        "amountPerMinute": 7.5
+      },
+      {
+        "itemId": "rubber",
+        "amountPerCycle": 24,
+        "amountPerMinute": 45
+      }
+    ],
+    "outputs": [
+      {
+        "itemId": "turbo_motor",
+        "amountPerCycle": 1,
+        "amountPerMinute": 1.875
+      }
+    ]
+  },
+  {
+    "id": "recipe_adaptive_control_unit",
+    "name": "Adaptive Control Unit",
+    "nameJa": "自律制御ユニット",
+    "isAlternate": false,
+    "machineId": "manufacturer",
+    "craftTimeSeconds": 60,
+    "inputs": [
+      {
+        "itemId": "automated_wiring",
+        "amountPerCycle": 15,
+        "amountPerMinute": 15
+      },
+      {
+        "itemId": "circuit_board",
+        "amountPerCycle": 10,
+        "amountPerMinute": 10
+      },
+      {
+        "itemId": "heavy_modular_frame",
+        "amountPerCycle": 2,
+        "amountPerMinute": 2
+      },
+      {
+        "itemId": "computer",
+        "amountPerCycle": 2,
+        "amountPerMinute": 2
+      }
+    ],
+    "outputs": [
+      {
+        "itemId": "adaptive_control_unit",
+        "amountPerCycle": 2,
+        "amountPerMinute": 2
+      }
+    ]
+  },
+  {
+    "id": "recipe_modular_engine",
+    "name": "Modular Engine",
+    "nameJa": "モジュラーエンジン",
+    "isAlternate": false,
+    "machineId": "manufacturer",
+    "craftTimeSeconds": 60,
+    "inputs": [
+      {
+        "itemId": "motor",
+        "amountPerCycle": 2,
+        "amountPerMinute": 2
+      },
+      {
+        "itemId": "rubber",
+        "amountPerCycle": 15,
+        "amountPerMinute": 15
+      },
+      {
+        "itemId": "smart_plating",
+        "amountPerCycle": 2,
+        "amountPerMinute": 2
+      }
+    ],
+    "outputs": [
+      {
+        "itemId": "modular_engine",
+        "amountPerCycle": 1,
+        "amountPerMinute": 1
+      }
+    ]
+  },
+  {
+    "id": "recipe_smart_plating",
+    "name": "Smart Plating",
+    "nameJa": "スマート･プレート",
+    "isAlternate": false,
+    "machineId": "manufacturer",
+    "craftTimeSeconds": 30,
+    "inputs": [
+      {
+        "itemId": "reinforced_iron_plate",
+        "amountPerCycle": 1,
+        "amountPerMinute": 2
+      },
+      {
+        "itemId": "rotor",
+        "amountPerCycle": 1,
+        "amountPerMinute": 2
+      },
+      {
+        "itemId": "plastic",
+        "amountPerCycle": 1,
+        "amountPerMinute": 2
+      }
+    ],
+    "outputs": [
+      {
+        "itemId": "smart_plating",
+        "amountPerCycle": 1,
+        "amountPerMinute": 2
+      }
+    ]
+  },
+  {
+    "id": "recipe_plastic",
+    "name": "Plastic",
+    "nameJa": "プラスチック",
+    "isAlternate": false,
+    "machineId": "refinery",
+    "craftTimeSeconds": 6,
+    "inputs": [
+      {
+        "itemId": "crude_oil",
+        "amountPerCycle": 3,
+        "amountPerMinute": 30
+      }
+    ],
+    "outputs": [
+      {
+        "itemId": "plastic",
+        "amountPerCycle": 2,
+        "amountPerMinute": 20
+      },
+      {
+        "itemId": "heavy_oil_residue",
+        "amountPerCycle": 1,
+        "amountPerMinute": 10
+      }
+    ]
+  },
+  {
+    "id": "recipe_rubber",
+    "name": "Rubber",
+    "nameJa": "ゴム",
+    "isAlternate": false,
+    "machineId": "refinery",
+    "craftTimeSeconds": 6,
+    "inputs": [
+      {
+        "itemId": "crude_oil",
+        "amountPerCycle": 3,
+        "amountPerMinute": 30
+      }
+    ],
+    "outputs": [
+      {
+        "itemId": "rubber",
+        "amountPerCycle": 2,
+        "amountPerMinute": 20
+      },
+      {
+        "itemId": "heavy_oil_residue",
+        "amountPerCycle": 2,
+        "amountPerMinute": 20
+      }
+    ]
+  },
+  {
+    "id": "recipe_fuel",
+    "name": "Fuel",
+    "nameJa": "燃料",
+    "isAlternate": false,
+    "machineId": "refinery",
+    "craftTimeSeconds": 6,
+    "inputs": [
+      {
+        "itemId": "crude_oil",
+        "amountPerCycle": 6,
+        "amountPerMinute": 60
+      }
+    ],
+    "outputs": [
+      {
+        "itemId": "fuel",
+        "amountPerCycle": 4,
+        "amountPerMinute": 40
+      },
+      {
+        "itemId": "polymer_resin",
+        "amountPerCycle": 3,
+        "amountPerMinute": 30
+      }
+    ]
+  },
+  {
+    "id": "recipe_alumina_solution",
+    "name": "Alumina Solution",
+    "nameJa": "アルミナ溶液",
+    "isAlternate": false,
+    "machineId": "refinery",
+    "craftTimeSeconds": 6,
+    "inputs": [
+      {
+        "itemId": "bauxite",
+        "amountPerCycle": 12,
+        "amountPerMinute": 120
+      },
+      {
+        "itemId": "water",
+        "amountPerCycle": 18,
+        "amountPerMinute": 180
+      }
+    ],
+    "outputs": [
+      {
+        "itemId": "alumina_solution",
+        "amountPerCycle": 12,
+        "amountPerMinute": 120
+      },
+      {
+        "itemId": "silica",
+        "amountPerCycle": 5,
+        "amountPerMinute": 50
+      }
+    ]
+  },
+  {
+    "id": "recipe_aluminum_scrap",
+    "name": "Aluminum Scrap",
+    "nameJa": "アルミのスクラップ",
+    "isAlternate": false,
+    "machineId": "refinery",
+    "craftTimeSeconds": 1,
+    "inputs": [
+      {
+        "itemId": "alumina_solution",
+        "amountPerCycle": 4,
+        "amountPerMinute": 240
+      },
+      {
+        "itemId": "coal",
+        "amountPerCycle": 2,
+        "amountPerMinute": 120
+      }
+    ],
+    "outputs": [
+      {
+        "itemId": "aluminum_scrap",
+        "amountPerCycle": 6,
+        "amountPerMinute": 360
+      },
+      {
+        "itemId": "water",
+        "amountPerCycle": 2,
+        "amountPerMinute": 120
+      }
+    ]
+  },
+  {
+    "id": "recipe_sulfuric_acid",
+    "name": "Sulfuric Acid",
+    "nameJa": "硫酸",
+    "isAlternate": false,
+    "machineId": "refinery",
+    "craftTimeSeconds": 6,
+    "inputs": [
+      {
+        "itemId": "sulfur",
+        "amountPerCycle": 5,
+        "amountPerMinute": 50
+      },
+      {
+        "itemId": "water",
+        "amountPerCycle": 5,
+        "amountPerMinute": 50
+      }
+    ],
+    "outputs": [
+      {
+        "itemId": "sulfuric_acid",
+        "amountPerCycle": 5,
+        "amountPerMinute": 50
+      }
+    ]
+  },
+  {
+    "id": "recipe_cooling_system",
+    "name": "Cooling System",
+    "nameJa": "冷却システム",
+    "isAlternate": false,
+    "machineId": "blender",
+    "craftTimeSeconds": 10,
+    "inputs": [
+      {
+        "itemId": "heat_sink",
+        "amountPerCycle": 2,
+        "amountPerMinute": 12
+      },
+      {
+        "itemId": "rubber",
+        "amountPerCycle": 2,
+        "amountPerMinute": 12
+      },
+      {
+        "itemId": "water",
+        "amountPerCycle": 5,
+        "amountPerMinute": 30
+      },
+      {
+        "itemId": "nitrogen_gas",
+        "amountPerCycle": 25,
+        "amountPerMinute": 150
+      }
+    ],
+    "outputs": [
+      {
+        "itemId": "cooling_system",
+        "amountPerCycle": 1,
+        "amountPerMinute": 6
+      }
+    ]
+  },
+  {
+    "id": "recipe_fused_modular_frame",
+    "name": "Fused Modular Frame",
+    "nameJa": "溶融モジュラー・フレーム",
+    "isAlternate": false,
+    "machineId": "blender",
+    "craftTimeSeconds": 40,
+    "inputs": [
+      {
+        "itemId": "heavy_modular_frame",
+        "amountPerCycle": 1,
+        "amountPerMinute": 1.5
+      },
+      {
+        "itemId": "aluminum_casing",
+        "amountPerCycle": 50,
+        "amountPerMinute": 75
+      },
+      {
+        "itemId": "nitric_acid",
+        "amountPerCycle": 25,
+        "amountPerMinute": 37.5
+      }
+    ],
+    "outputs": [
+      {
+        "itemId": "fused_modular_frame",
+        "amountPerCycle": 1,
+        "amountPerMinute": 1.5
+      }
+    ]
+  },
+  {
+    "id": "recipe_battery",
+    "name": "Battery",
+    "nameJa": "バッテリー",
+    "isAlternate": false,
+    "machineId": "blender",
+    "craftTimeSeconds": 3,
+    "inputs": [
+      {
+        "itemId": "sulfuric_acid",
+        "amountPerCycle": 2.5,
+        "amountPerMinute": 50
+      },
+      {
+        "itemId": "alumina_solution",
+        "amountPerCycle": 2,
+        "amountPerMinute": 40
+      },
+      {
+        "itemId": "aluminum_casing",
+        "amountPerCycle": 1,
+        "amountPerMinute": 20
+      }
+    ],
+    "outputs": [
+      {
+        "itemId": "battery",
+        "amountPerCycle": 2,
+        "amountPerMinute": 40
+      },
+      {
+        "itemId": "water",
+        "amountPerCycle": 1.5,
+        "amountPerMinute": 30
+      }
+    ]
+  },
+  {
+    "id": "recipe_nitric_acid",
+    "name": "Nitric Acid",
+    "nameJa": "硝酸",
+    "isAlternate": false,
+    "machineId": "blender",
+    "craftTimeSeconds": 6,
+    "inputs": [
+      {
+        "itemId": "nitrogen_gas",
+        "amountPerCycle": 12,
+        "amountPerMinute": 120
+      },
+      {
+        "itemId": "water",
+        "amountPerCycle": 3,
+        "amountPerMinute": 30
+      },
+      {
+        "itemId": "iron_plate",
+        "amountPerCycle": 1,
+        "amountPerMinute": 10
+      }
+    ],
+    "outputs": [
+      {
+        "itemId": "nitric_acid",
+        "amountPerCycle": 3,
+        "amountPerMinute": 30
+      }
+    ]
+  },
+  {
+    "id": "recipe_wire_alt_caterium",
+    "name": "Caterium Wire",
+    "nameJa": "カテリウムワイヤー",
+    "isAlternate": true,
+    "machineId": "constructor",
+    "craftTimeSeconds": 4,
+    "inputs": [
+      {
+        "itemId": "caterium_ingot",
+        "amountPerCycle": 1,
+        "amountPerMinute": 15
+      }
+    ],
+    "outputs": [
+      {
+        "itemId": "wire",
+        "amountPerCycle": 8,
+        "amountPerMinute": 120
+      }
+    ]
+  },
+  {
+    "id": "recipe_iron_ingot_alt",
+    "name": "Pure Iron Ingot",
+    "nameJa": "純粋鉄のインゴット",
+    "isAlternate": true,
+    "machineId": "refinery",
+    "craftTimeSeconds": 12,
+    "inputs": [
+      {
+        "itemId": "iron_ore",
+        "amountPerCycle": 7,
+        "amountPerMinute": 35
+      },
+      {
+        "itemId": "water",
+        "amountPerCycle": 4,
+        "amountPerMinute": 20
+      }
+    ],
+    "outputs": [
+      {
+        "itemId": "iron_ingot",
+        "amountPerCycle": 13,
+        "amountPerMinute": 65
+      }
+    ]
+  },
+  {
+    "id": "recipe_screw_alt",
+    "name": "Cast Screw",
+    "nameJa": "鋳造ネジ",
+    "isAlternate": true,
+    "machineId": "constructor",
+    "craftTimeSeconds": 24,
+    "inputs": [
+      {
+        "itemId": "iron_ingot",
+        "amountPerCycle": 5,
+        "amountPerMinute": 12.5
+      }
+    ],
+    "outputs": [
+      {
+        "itemId": "screw",
+        "amountPerCycle": 20,
+        "amountPerMinute": 50
+      }
+    ]
+  },
+  {
+    "id": "recipe_steel_ingot_alt",
+    "name": "Solid Steel Ingot",
+    "nameJa": "固体鋼鉄のインゴット",
+    "isAlternate": true,
+    "machineId": "foundry",
+    "craftTimeSeconds": 3,
+    "inputs": [
+      {
+        "itemId": "iron_ingot",
+        "amountPerCycle": 2,
+        "amountPerMinute": 40
+      },
+      {
+        "itemId": "coal",
+        "amountPerCycle": 2,
+        "amountPerMinute": 40
+      }
+    ],
+    "outputs": [
+      {
+        "itemId": "steel_ingot",
+        "amountPerCycle": 3,
+        "amountPerMinute": 60
+      }
+    ]
+  },
+  {
+    "id": "recipe_reinforced_iron_plate_alt",
+    "name": "Bolted Iron Plate",
+    "nameJa": "ボルト留め鉄板",
+    "isAlternate": true,
+    "machineId": "assembler",
+    "craftTimeSeconds": 12,
+    "inputs": [
+      {
+        "itemId": "iron_plate",
+        "amountPerCycle": 18,
+        "amountPerMinute": 90
+      },
+      {
+        "itemId": "screw",
+        "amountPerCycle": 50,
+        "amountPerMinute": 250
+      }
+    ],
+    "outputs": [
+      {
+        "itemId": "reinforced_iron_plate",
+        "amountPerCycle": 3,
+        "amountPerMinute": 15
+      }
+    ]
+  },
+  {
+    "id": "recipe_rotor_alt",
+    "name": "Steel Rotor",
+    "nameJa": "スチールローター",
+    "isAlternate": true,
+    "machineId": "assembler",
+    "craftTimeSeconds": 12,
+    "inputs": [
+      {
+        "itemId": "steel_pipe",
+        "amountPerCycle": 2,
+        "amountPerMinute": 10
+      },
+      {
+        "itemId": "wire",
+        "amountPerCycle": 6,
+        "amountPerMinute": 30
+      }
+    ],
+    "outputs": [
+      {
+        "itemId": "rotor",
+        "amountPerCycle": 1,
+        "amountPerMinute": 5
+      }
+    ]
+  },
+  {
+    "id": "recipe_circuit_board_alt",
+    "name": "Silicon Circuit Board",
+    "nameJa": "シリコン回路基板",
+    "isAlternate": true,
+    "machineId": "assembler",
+    "craftTimeSeconds": 24,
+    "inputs": [
+      {
+        "itemId": "copper_sheet",
+        "amountPerCycle": 11,
+        "amountPerMinute": 27.5
+      },
+      {
+        "itemId": "silica",
+        "amountPerCycle": 11,
+        "amountPerMinute": 27.5
+      }
+    ],
+    "outputs": [
+      {
+        "itemId": "circuit_board",
+        "amountPerCycle": 5,
+        "amountPerMinute": 12.5
+      }
+    ]
+  },
+  {
+    "id": "recipe_computer_alt",
+    "name": "Crystal Computer",
+    "nameJa": "水晶コンピューター",
+    "isAlternate": true,
+    "machineId": "assembler",
+    "craftTimeSeconds": 64,
+    "inputs": [
+      {
+        "itemId": "circuit_board",
+        "amountPerCycle": 8,
+        "amountPerMinute": 7.5
+      },
+      {
+        "itemId": "crystal_oscillator",
+        "amountPerCycle": 3,
+        "amountPerMinute": 2.8125
+      }
+    ],
+    "outputs": [
+      {
+        "itemId": "computer",
+        "amountPerCycle": 3,
+        "amountPerMinute": 2.8125
+      }
+    ]
+  },
+  {
+    "id": "recipe_motor_alt",
+    "name": "Electric Motor",
+    "nameJa": "電動モーター",
+    "isAlternate": true,
+    "machineId": "assembler",
+    "craftTimeSeconds": 16,
+    "inputs": [
+      {
+        "itemId": "electromagnetic_control_rod",
+        "amountPerCycle": 1,
+        "amountPerMinute": 3.75
+      },
+      {
+        "itemId": "rotor",
+        "amountPerCycle": 2,
+        "amountPerMinute": 7.5
+      }
+    ],
+    "outputs": [
+      {
+        "itemId": "motor",
+        "amountPerCycle": 2,
+        "amountPerMinute": 7.5
+      }
+    ]
+  }
+]

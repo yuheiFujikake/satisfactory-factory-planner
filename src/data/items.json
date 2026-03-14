@@ -1,0 +1,772 @@
+[
+  {
+    "id": "iron_ore",
+    "name": "Iron Ore",
+    "nameJa": "鉄鉱石",
+    "category": "ore",
+    "tier": 1,
+    "stackSize": 100,
+    "sinkPoints": 1,
+    "iconUrl": ""
+  },
+  {
+    "id": "copper_ore",
+    "name": "Copper Ore",
+    "nameJa": "銅鉱石",
+    "category": "ore",
+    "tier": 1,
+    "stackSize": 100,
+    "sinkPoints": 3,
+    "iconUrl": ""
+  },
+  {
+    "id": "limestone",
+    "name": "Limestone",
+    "nameJa": "石灰岩",
+    "category": "ore",
+    "tier": 1,
+    "stackSize": 100,
+    "sinkPoints": 2,
+    "iconUrl": ""
+  },
+  {
+    "id": "coal",
+    "name": "Coal",
+    "nameJa": "石炭",
+    "category": "ore",
+    "tier": 2,
+    "stackSize": 100,
+    "sinkPoints": 3,
+    "iconUrl": ""
+  },
+  {
+    "id": "caterium_ore",
+    "name": "Caterium Ore",
+    "nameJa": "カテリウム鉱石",
+    "category": "ore",
+    "tier": 3,
+    "stackSize": 100,
+    "sinkPoints": 7,
+    "iconUrl": ""
+  },
+  {
+    "id": "raw_quartz",
+    "name": "Raw Quartz",
+    "nameJa": "未加工石英",
+    "category": "ore",
+    "tier": 3,
+    "stackSize": 100,
+    "sinkPoints": 15,
+    "iconUrl": ""
+  },
+  {
+    "id": "sulfur",
+    "name": "Sulfur",
+    "nameJa": "硫黄",
+    "category": "ore",
+    "tier": 3,
+    "stackSize": 100,
+    "sinkPoints": 11,
+    "iconUrl": ""
+  },
+  {
+    "id": "bauxite",
+    "name": "Bauxite",
+    "nameJa": "ボーキサイト",
+    "category": "ore",
+    "tier": 5,
+    "stackSize": 100,
+    "sinkPoints": 8,
+    "iconUrl": ""
+  },
+  {
+    "id": "uranium",
+    "name": "Uranium",
+    "nameJa": "ウラン",
+    "category": "ore",
+    "tier": 7,
+    "stackSize": 100,
+    "sinkPoints": 35,
+    "iconUrl": ""
+  },
+  {
+    "id": "crude_oil",
+    "name": "Crude Oil",
+    "nameJa": "原油",
+    "category": "fluid",
+    "tier": 3,
+    "stackSize": 0,
+    "sinkPoints": 0,
+    "iconUrl": ""
+  },
+  {
+    "id": "water",
+    "name": "Water",
+    "nameJa": "水",
+    "category": "fluid",
+    "tier": 1,
+    "stackSize": 0,
+    "sinkPoints": 0,
+    "iconUrl": ""
+  },
+  {
+    "id": "nitrogen_gas",
+    "name": "Nitrogen Gas",
+    "nameJa": "窒素ガス",
+    "category": "fluid",
+    "tier": 6,
+    "stackSize": 0,
+    "sinkPoints": 0,
+    "iconUrl": ""
+  },
+  {
+    "id": "heavy_oil_residue",
+    "name": "Heavy Oil Residue",
+    "nameJa": "廃重油",
+    "category": "fluid",
+    "tier": 3,
+    "stackSize": 0,
+    "sinkPoints": 0,
+    "iconUrl": ""
+  },
+  {
+    "id": "alumina_solution",
+    "name": "Alumina Solution",
+    "nameJa": "アルミナ溶液",
+    "category": "fluid",
+    "tier": 5,
+    "stackSize": 0,
+    "sinkPoints": 0,
+    "iconUrl": ""
+  },
+  {
+    "id": "sulfuric_acid",
+    "name": "Sulfuric Acid",
+    "nameJa": "硫酸",
+    "category": "fluid",
+    "tier": 5,
+    "stackSize": 0,
+    "sinkPoints": 0,
+    "iconUrl": ""
+  },
+  {
+    "id": "nitric_acid",
+    "name": "Nitric Acid",
+    "nameJa": "硝酸",
+    "category": "fluid",
+    "tier": 6,
+    "stackSize": 0,
+    "sinkPoints": 0,
+    "iconUrl": ""
+  },
+  {
+    "id": "fuel",
+    "name": "Fuel",
+    "nameJa": "燃料",
+    "category": "fuel",
+    "tier": 4,
+    "stackSize": 0,
+    "sinkPoints": 0,
+    "iconUrl": ""
+  },
+  {
+    "id": "turbofuel",
+    "name": "Turbofuel",
+    "nameJa": "ターボ燃料",
+    "category": "fuel",
+    "tier": 6,
+    "stackSize": 0,
+    "sinkPoints": 0,
+    "iconUrl": ""
+  },
+  {
+    "id": "liquid_biofuel",
+    "name": "Liquid Biofuel",
+    "nameJa": "液体バイオ燃料",
+    "category": "fuel",
+    "tier": 3,
+    "stackSize": 0,
+    "sinkPoints": 0,
+    "iconUrl": ""
+  },
+  {
+    "id": "iron_ingot",
+    "name": "Iron Ingot",
+    "nameJa": "鉄のインゴット",
+    "category": "ingot",
+    "tier": 1,
+    "stackSize": 100,
+    "sinkPoints": 2,
+    "iconUrl": ""
+  },
+  {
+    "id": "copper_ingot",
+    "name": "Copper Ingot",
+    "nameJa": "銅のインゴット",
+    "category": "ingot",
+    "tier": 1,
+    "stackSize": 100,
+    "sinkPoints": 6,
+    "iconUrl": ""
+  },
+  {
+    "id": "steel_ingot",
+    "name": "Steel Ingot",
+    "nameJa": "鋼鉄のインゴット",
+    "category": "ingot",
+    "tier": 2,
+    "stackSize": 100,
+    "sinkPoints": 8,
+    "iconUrl": ""
+  },
+  {
+    "id": "caterium_ingot",
+    "name": "Caterium Ingot",
+    "nameJa": "カテリウムのインゴット",
+    "category": "ingot",
+    "tier": 3,
+    "stackSize": 100,
+    "sinkPoints": 42,
+    "iconUrl": ""
+  },
+  {
+    "id": "aluminum_ingot",
+    "name": "Aluminum Ingot",
+    "nameJa": "アルミのインゴット",
+    "category": "ingot",
+    "tier": 5,
+    "stackSize": 100,
+    "sinkPoints": 131,
+    "iconUrl": ""
+  },
+  {
+    "id": "aluminum_scrap",
+    "name": "Aluminum Scrap",
+    "nameJa": "アルミのスクラップ",
+    "category": "advanced",
+    "tier": 5,
+    "stackSize": 200,
+    "sinkPoints": 27,
+    "iconUrl": ""
+  },
+  {
+    "id": "iron_plate",
+    "name": "Iron Plate",
+    "nameJa": "鉄板",
+    "category": "standard_part",
+    "tier": 1,
+    "stackSize": 200,
+    "sinkPoints": 6,
+    "iconUrl": ""
+  },
+  {
+    "id": "iron_rod",
+    "name": "Iron Rod",
+    "nameJa": "鉄のロッド",
+    "category": "standard_part",
+    "tier": 1,
+    "stackSize": 200,
+    "sinkPoints": 4,
+    "iconUrl": ""
+  },
+  {
+    "id": "screw",
+    "name": "Screw",
+    "nameJa": "ネジ",
+    "category": "standard_part",
+    "tier": 1,
+    "stackSize": 500,
+    "sinkPoints": 2,
+    "iconUrl": ""
+  },
+  {
+    "id": "reinforced_iron_plate",
+    "name": "Reinforced Iron Plate",
+    "nameJa": "強化鉄板",
+    "category": "standard_part",
+    "tier": 1,
+    "stackSize": 100,
+    "sinkPoints": 120,
+    "iconUrl": ""
+  },
+  {
+    "id": "modular_frame",
+    "name": "Modular Frame",
+    "nameJa": "モジュラー・フレーム",
+    "category": "standard_part",
+    "tier": 2,
+    "stackSize": 50,
+    "sinkPoints": 408,
+    "iconUrl": ""
+  },
+  {
+    "id": "copper_sheet",
+    "name": "Copper Sheet",
+    "nameJa": "銅板",
+    "category": "standard_part",
+    "tier": 2,
+    "stackSize": 200,
+    "sinkPoints": 24,
+    "iconUrl": ""
+  },
+  {
+    "id": "steel_beam",
+    "name": "Steel Beam",
+    "nameJa": "鋼梁",
+    "category": "standard_part",
+    "tier": 2,
+    "stackSize": 200,
+    "sinkPoints": 64,
+    "iconUrl": ""
+  },
+  {
+    "id": "steel_pipe",
+    "name": "Steel Pipe",
+    "nameJa": "鋼管",
+    "category": "standard_part",
+    "tier": 2,
+    "stackSize": 200,
+    "sinkPoints": 24,
+    "iconUrl": ""
+  },
+  {
+    "id": "encased_industrial_beam",
+    "name": "Encased Industrial Beam",
+    "nameJa": "コンクリート被覆型鋼梁",
+    "category": "standard_part",
+    "tier": 3,
+    "stackSize": 100,
+    "sinkPoints": 632,
+    "iconUrl": ""
+  },
+  {
+    "id": "heavy_modular_frame",
+    "name": "Heavy Modular Frame",
+    "nameJa": "ヘビー・モジュラー・フレーム",
+    "category": "standard_part",
+    "tier": 4,
+    "stackSize": 50,
+    "sinkPoints": 11520,
+    "iconUrl": ""
+  },
+  {
+    "id": "alclad_aluminum_sheet",
+    "name": "Alclad Aluminum Sheet",
+    "nameJa": "アルクラッド・アルミシート",
+    "category": "standard_part",
+    "tier": 5,
+    "stackSize": 200,
+    "sinkPoints": 266,
+    "iconUrl": ""
+  },
+  {
+    "id": "aluminum_casing",
+    "name": "Aluminum Casing",
+    "nameJa": "アルミ筐体",
+    "category": "standard_part",
+    "tier": 5,
+    "stackSize": 200,
+    "sinkPoints": 393,
+    "iconUrl": ""
+  },
+  {
+    "id": "wire",
+    "name": "Wire",
+    "nameJa": "ワイヤー",
+    "category": "electronic",
+    "tier": 1,
+    "stackSize": 500,
+    "sinkPoints": 6,
+    "iconUrl": ""
+  },
+  {
+    "id": "cable",
+    "name": "Cable",
+    "nameJa": "ケーブル",
+    "category": "electronic",
+    "tier": 1,
+    "stackSize": 200,
+    "sinkPoints": 24,
+    "iconUrl": ""
+  },
+  {
+    "id": "quickwire",
+    "name": "Quickwire",
+    "nameJa": "クイックワイヤー",
+    "category": "electronic",
+    "tier": 3,
+    "stackSize": 500,
+    "sinkPoints": 17,
+    "iconUrl": ""
+  },
+  {
+    "id": "circuit_board",
+    "name": "Circuit Board",
+    "nameJa": "回路基板",
+    "category": "electronic",
+    "tier": 3,
+    "stackSize": 200,
+    "sinkPoints": 696,
+    "iconUrl": ""
+  },
+  {
+    "id": "ai_limiter",
+    "name": "AI Limiter",
+    "nameJa": "AIリミッター",
+    "category": "electronic",
+    "tier": 4,
+    "stackSize": 100,
+    "sinkPoints": 920,
+    "iconUrl": ""
+  },
+  {
+    "id": "high_speed_connector",
+    "name": "High-Speed Connector",
+    "nameJa": "高速コネクター",
+    "category": "electronic",
+    "tier": 5,
+    "stackSize": 100,
+    "sinkPoints": 3776,
+    "iconUrl": ""
+  },
+  {
+    "id": "concrete",
+    "name": "Concrete",
+    "nameJa": "コンクリート",
+    "category": "mineral",
+    "tier": 1,
+    "stackSize": 500,
+    "sinkPoints": 12,
+    "iconUrl": ""
+  },
+  {
+    "id": "quartz_crystal",
+    "name": "Quartz Crystal",
+    "nameJa": "石英結晶",
+    "category": "mineral",
+    "tier": 3,
+    "stackSize": 200,
+    "sinkPoints": 50,
+    "iconUrl": ""
+  },
+  {
+    "id": "silica",
+    "name": "Silica",
+    "nameJa": "シリカ",
+    "category": "mineral",
+    "tier": 3,
+    "stackSize": 200,
+    "sinkPoints": 20,
+    "iconUrl": ""
+  },
+  {
+    "id": "rotor",
+    "name": "Rotor",
+    "nameJa": "ローター",
+    "category": "industrial",
+    "tier": 1,
+    "stackSize": 100,
+    "sinkPoints": 140,
+    "iconUrl": ""
+  },
+  {
+    "id": "stator",
+    "name": "Stator",
+    "nameJa": "固定子",
+    "category": "industrial",
+    "tier": 3,
+    "stackSize": 100,
+    "sinkPoints": 240,
+    "iconUrl": ""
+  },
+  {
+    "id": "motor",
+    "name": "Motor",
+    "nameJa": "モーター",
+    "category": "industrial",
+    "tier": 3,
+    "stackSize": 50,
+    "sinkPoints": 1520,
+    "iconUrl": ""
+  },
+  {
+    "id": "heat_sink",
+    "name": "Heat Sink",
+    "nameJa": "ヒートシンク",
+    "category": "industrial",
+    "tier": 6,
+    "stackSize": 100,
+    "sinkPoints": 1854,
+    "iconUrl": ""
+  },
+  {
+    "id": "turbo_motor",
+    "name": "Turbo Motor",
+    "nameJa": "ターボ・モーター",
+    "category": "industrial",
+    "tier": 7,
+    "stackSize": 50,
+    "sinkPoints": 153184,
+    "iconUrl": ""
+  },
+  {
+    "id": "battery",
+    "name": "Battery",
+    "nameJa": "バッテリー",
+    "category": "industrial",
+    "tier": 6,
+    "stackSize": 200,
+    "sinkPoints": 465,
+    "iconUrl": ""
+  },
+  {
+    "id": "cooling_system",
+    "name": "Cooling System",
+    "nameJa": "冷却システム",
+    "category": "industrial",
+    "tier": 6,
+    "stackSize": 50,
+    "sinkPoints": 6720,
+    "iconUrl": ""
+  },
+  {
+    "id": "electromagnetic_control_rod",
+    "name": "Electromagnetic Control Rod",
+    "nameJa": "電磁制御ロッド",
+    "category": "industrial",
+    "tier": 5,
+    "stackSize": 100,
+    "sinkPoints": 2560,
+    "iconUrl": ""
+  },
+  {
+    "id": "fused_modular_frame",
+    "name": "Fused Modular Frame",
+    "nameJa": "溶融モジュラー・フレーム",
+    "category": "industrial",
+    "tier": 7,
+    "stackSize": 50,
+    "sinkPoints": 62840,
+    "iconUrl": ""
+  },
+  {
+    "id": "crystal_oscillator",
+    "name": "Crystal Oscillator",
+    "nameJa": "水晶発振器",
+    "category": "communication",
+    "tier": 5,
+    "stackSize": 50,
+    "sinkPoints": 3000,
+    "iconUrl": ""
+  },
+  {
+    "id": "computer",
+    "name": "Computer",
+    "nameJa": "コンピューター",
+    "category": "communication",
+    "tier": 4,
+    "stackSize": 50,
+    "sinkPoints": 17260,
+    "iconUrl": ""
+  },
+  {
+    "id": "supercomputer",
+    "name": "Supercomputer",
+    "nameJa": "スーパーコンピューター",
+    "category": "communication",
+    "tier": 6,
+    "stackSize": 50,
+    "sinkPoints": 99576,
+    "iconUrl": ""
+  },
+  {
+    "id": "radio_control_unit",
+    "name": "Radio Control Unit",
+    "nameJa": "無線制御ユニット",
+    "category": "communication",
+    "tier": 6,
+    "stackSize": 50,
+    "sinkPoints": 19600,
+    "iconUrl": ""
+  },
+  {
+    "id": "plastic",
+    "name": "Plastic",
+    "nameJa": "プラスチック",
+    "category": "petroleum",
+    "tier": 3,
+    "stackSize": 200,
+    "sinkPoints": 75,
+    "iconUrl": ""
+  },
+  {
+    "id": "rubber",
+    "name": "Rubber",
+    "nameJa": "ゴム",
+    "category": "petroleum",
+    "tier": 3,
+    "stackSize": 200,
+    "sinkPoints": 60,
+    "iconUrl": ""
+  },
+  {
+    "id": "polymer_resin",
+    "name": "Polymer Resin",
+    "nameJa": "ポリマー樹脂",
+    "category": "petroleum",
+    "tier": 3,
+    "stackSize": 200,
+    "sinkPoints": 12,
+    "iconUrl": ""
+  },
+  {
+    "id": "smart_plating",
+    "name": "Smart Plating",
+    "nameJa": "スマート･プレート",
+    "category": "space_elevator",
+    "tier": 2,
+    "stackSize": 50,
+    "sinkPoints": 520,
+    "iconUrl": ""
+  },
+  {
+    "id": "versatile_framework",
+    "name": "Versatile Framework",
+    "nameJa": "多目的フレームワーク",
+    "category": "space_elevator",
+    "tier": 3,
+    "stackSize": 50,
+    "sinkPoints": 1176,
+    "iconUrl": ""
+  },
+  {
+    "id": "automated_wiring",
+    "name": "Automated Wiring",
+    "nameJa": "自動ワイヤー",
+    "category": "space_elevator",
+    "tier": 4,
+    "stackSize": 50,
+    "sinkPoints": 2520,
+    "iconUrl": ""
+  },
+  {
+    "id": "modular_engine",
+    "name": "Modular Engine",
+    "nameJa": "モジュラーエンジン",
+    "category": "space_elevator",
+    "tier": 6,
+    "stackSize": 50,
+    "sinkPoints": 9960,
+    "iconUrl": ""
+  },
+  {
+    "id": "adaptive_control_unit",
+    "name": "Adaptive Control Unit",
+    "nameJa": "自律制御ユニット",
+    "category": "space_elevator",
+    "tier": 7,
+    "stackSize": 50,
+    "sinkPoints": 86120,
+    "iconUrl": ""
+  },
+  {
+    "id": "portable_miner",
+    "name": "Portable Miner",
+    "nameJa": "携帯用採掘機",
+    "category": "equipment",
+    "tier": 0,
+    "stackSize": 1,
+    "sinkPoints": 56,
+    "iconUrl": ""
+  },
+  {
+    "id": "xeno_zapper",
+    "name": "Xeno-Zapper",
+    "nameJa": "ゼノ・ザッパー",
+    "category": "equipment",
+    "tier": 1,
+    "stackSize": 1,
+    "sinkPoints": 1880,
+    "iconUrl": ""
+  },
+  {
+    "id": "xeno_basher",
+    "name": "Xeno-Basher",
+    "nameJa": "ゼノ・バッシャー",
+    "category": "equipment",
+    "tier": 3,
+    "stackSize": 1,
+    "sinkPoints": 18800,
+    "iconUrl": ""
+  },
+  {
+    "id": "object_scanner",
+    "name": "Object Scanner",
+    "nameJa": "オブジェクトスキャナー",
+    "category": "equipment",
+    "tier": 1,
+    "stackSize": 1,
+    "sinkPoints": 0,
+    "iconUrl": ""
+  },
+  {
+    "id": "rebar_gun",
+    "name": "Rebar Gun",
+    "nameJa": "鉄筋銃",
+    "category": "equipment",
+    "tier": 3,
+    "stackSize": 1,
+    "sinkPoints": 5765,
+    "iconUrl": ""
+  },
+  {
+    "id": "chainsaw",
+    "name": "Chainsaw",
+    "nameJa": "チェーンソー",
+    "category": "equipment",
+    "tier": 3,
+    "stackSize": 1,
+    "sinkPoints": 2760,
+    "iconUrl": ""
+  },
+  {
+    "id": "hazmat_suit",
+    "name": "Hazmat Suit",
+    "nameJa": "防護服",
+    "category": "equipment",
+    "tier": 5,
+    "stackSize": 1,
+    "sinkPoints": 0,
+    "iconUrl": ""
+  },
+  {
+    "id": "gas_mask",
+    "name": "Gas Mask",
+    "nameJa": "ガスマスク",
+    "category": "equipment",
+    "tier": 5,
+    "stackSize": 1,
+    "sinkPoints": 0,
+    "iconUrl": ""
+  },
+  {
+    "id": "jet_pack",
+    "name": "Jetpack",
+    "nameJa": "ジェットパック",
+    "category": "equipment",
+    "tier": 5,
+    "stackSize": 1,
+    "sinkPoints": 0,
+    "iconUrl": ""
+  },
+  {
+    "id": "parachute",
+    "name": "Parachute",
+    "nameJa": "パラシュート",
+    "category": "equipment",
+    "tier": 2,
+    "stackSize": 50,
+    "sinkPoints": 15,
+    "iconUrl": ""
+  }
+]

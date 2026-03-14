@@ -1,0 +1,66 @@
+[
+  {
+    "id": "smelter",
+    "name": "Smelter",
+    "nameJa": "製錬炉",
+    "category": "smelter",
+    "powerConsumptionMW": 4,
+    "overclock": { "min": 0.01, "max": 2.5, "default": 1.0 }
+  },
+  {
+    "id": "constructor",
+    "name": "Constructor",
+    "nameJa": "製作機",
+    "category": "constructor",
+    "powerConsumptionMW": 4,
+    "overclock": { "min": 0.01, "max": 2.5, "default": 1.0 }
+  },
+  {
+    "id": "assembler",
+    "name": "Assembler",
+    "nameJa": "組立機",
+    "category": "assembler",
+    "powerConsumptionMW": 15,
+    "overclock": { "min": 0.01, "max": 2.5, "default": 1.0 }
+  },
+  {
+    "id": "manufacturer",
+    "name": "Manufacturer",
+    "nameJa": "製造機",
+    "category": "manufacturer",
+    "powerConsumptionMW": 55,
+    "overclock": { "min": 0.01, "max": 2.5, "default": 1.0 }
+  },
+  {
+    "id": "refinery",
+    "name": "Refinery",
+    "nameJa": "精製機",
+    "category": "refinery",
+    "powerConsumptionMW": 30,
+    "overclock": { "min": 0.01, "max": 2.5, "default": 1.0 }
+  },
+  {
+    "id": "blender",
+    "name": "Blender",
+    "nameJa": "混合機",
+    "category": "blender",
+    "powerConsumptionMW": 75,
+    "overclock": { "min": 0.01, "max": 2.5, "default": 1.0 }
+  },
+  {
+    "id": "foundry",
+    "name": "Foundry",
+    "nameJa": "鋳造炉",
+    "category": "smelter",
+    "powerConsumptionMW": 16,
+    "overclock": { "min": 0.01, "max": 2.5, "default": 1.0 }
+  },
+  {
+    "id": "particle_accelerator",
+    "name": "Particle Accelerator",
+    "nameJa": "粒子加速器",
+    "category": "particle_accelerator",
+    "powerConsumptionMW": 500,
+    "overclock": { "min": 0.01, "max": 2.5, "default": 1.0 }
+  }
+]
