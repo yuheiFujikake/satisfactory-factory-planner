@@ -1,7 +1,7 @@
 import { useState, useMemo } from 'react';
 import { useGameDataStore } from '../stores/gameDataStore';
 import { useSettingsStore } from '../stores/settingsStore';
-import type { Item } from '../types/game.types';
+import type { Item, ItemCategory } from '../types/game.types';
 
 export const CATEGORY_INFO: Record<string, { label: string; emoji: string; color: string }> = {
   ore:            { label: '資源',       emoji: '⛏️',  color: '#78909c' },
@@ -21,7 +21,7 @@ export const CATEGORY_INFO: Record<string, { label: string; emoji: string; color
   special:        { label: 'その他',     emoji: '✨',  color: '#bdbdbd' },
 };
 
-const CATEGORY_ORDER = [
+const CATEGORY_ORDER: ItemCategory[] = [
   'ore', 'fluid', 'ingot', 'standard_part', 'electronic', 'industrial',
   'communication', 'petroleum', 'fuel', 'mineral', 'advanced',
   'nuclear', 'space_elevator', 'equipment', 'special',
