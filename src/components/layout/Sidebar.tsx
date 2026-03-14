@@ -1,6 +1,7 @@
 import { NavLink } from 'react-router-dom';
 import { Calculator, FolderOpen, Package, Settings, HelpCircle } from 'lucide-react';
 import { usePlanStore } from '../../stores/planStore';
+import { useIsMobile } from '../../hooks/useIsMobile';
 
 const navItems = [
   { to: '/',         icon: Calculator,  label: '計算機',   exact: true  },
@@ -12,6 +13,48 @@ const navItems = [
 
 export default function Sidebar() {
   const currentPlan = usePlanStore(s => s.currentPlan);
+  const isMobile = useIsMobile();
+
+  if (isMobile) {
+    return (
+      <nav style={{
+        position: 'fixed',
+        bottom: 0,
+        left: 0,
+        right: 0,
+        height: '60px',
+        backgroundColor: '#16213e',
+        borderTop: '1px solid #0f3460',
+        display: 'flex',
+        zIndex: 1000,
+      }}>
+        {navItems.map(item => (
+          <NavLink
+            key={item.to}
+            to={item.to}
+            end={item.exact}
+            style={({ isActive }) => ({
+              flex: 1,
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: '3px',
+              textDecoration: 'none',
+              color: isActive ? '#f5a623' : '#a0a0b0',
+              backgroundColor: isActive ? 'rgba(245,166,35,0.1)' : 'transparent',
+              fontSize: '10px',
+              fontWeight: isActive ? 700 : 400,
+              padding: '6px 0',
+            })}
+          >
+            <item.icon size={20} />
+            <span>{item.label}</span>
+          </NavLink>
+        ))}
+      </nav>
+    );
+  }
 
   return (
     <aside style={{

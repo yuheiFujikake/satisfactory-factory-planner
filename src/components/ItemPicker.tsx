@@ -1,6 +1,7 @@
 import { useState, useMemo } from 'react';
 import { useGameDataStore } from '../stores/gameDataStore';
 import { useSettingsStore } from '../stores/settingsStore';
+import { useIsMobile } from '../hooks/useIsMobile';
 import type { Item, ItemCategory } from '../types/game.types';
 
 export const CATEGORY_INFO: Record<string, { label: string; emoji: string; color: string }> = {
@@ -36,6 +37,8 @@ export default function ItemPicker({ onSelect, onClose }: ItemPickerProps) {
   const items = useGameDataStore(s => s.items);
   const getDefaultRecipe = useGameDataStore(s => s.getDefaultRecipe);
   const language = useSettingsStore(s => s.language);
+
+  const isMobile = useIsMobile();
 
   const [search, setSearch] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
@@ -96,14 +99,15 @@ export default function ItemPicker({ onSelect, onClose }: ItemPickerProps) {
         onClick={e => e.stopPropagation()}
         style={{
           background: '#16213e',
-          border: '1px solid #0f3460',
-          borderRadius: '12px',
-          width: '820px',
-          maxWidth: '95vw',
-          maxHeight: '85vh',
+          border: isMobile ? 'none' : '1px solid #0f3460',
+          borderRadius: isMobile ? '0' : '12px',
+          width: isMobile ? '100%' : '820px',
+          maxWidth: isMobile ? '100%' : '95vw',
+          maxHeight: isMobile ? '100%' : '85vh',
+          height: isMobile ? '100%' : undefined,
           display: 'flex',
           flexDirection: 'column',
-          boxShadow: '0 20px 60px rgba(0,0,0,0.6)',
+          boxShadow: isMobile ? 'none' : '0 20px 60px rgba(0,0,0,0.6)',
         }}
       >
         {/* Header */}
@@ -177,6 +181,7 @@ export default function ItemPicker({ onSelect, onClose }: ItemPickerProps) {
             onAmountChange={setPendingAmount}
             onConfirm={handleConfirmAdd}
             language={language}
+            isMobile={isMobile}
           />
         ) : (
           <>
@@ -324,9 +329,10 @@ interface ConfirmStepProps {
   onAmountChange: (v: string) => void;
   onConfirm: () => void;
   language: string;
+  isMobile: boolean;
 }
 
-function ConfirmStep({ item, amount, onAmountChange, onConfirm, language }: ConfirmStepProps) {
+function ConfirmStep({ item, amount, onAmountChange, onConfirm, language, isMobile }: ConfirmStepProps) {
   const info = CATEGORY_INFO[item.category] || { label: item.category, emoji: '📦', color: '#888' };
   const name = language === 'ja' ? item.nameJa : item.name;
   const altName = language === 'ja' ? item.name : item.nameJa;
@@ -338,7 +344,7 @@ function ConfirmStep({ item, amount, onAmountChange, onConfirm, language }: Conf
       flexDirection: 'column',
       alignItems: 'center',
       justifyContent: 'center',
-      padding: '40px 60px',
+      padding: isMobile ? '24px 20px' : '40px 60px',
       gap: '24px',
     }}>
       {/* Item card */}

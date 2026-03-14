@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useIsMobile } from '../../hooks/useIsMobile';
 
 type Section = 'quickstart' | 'calculator' | 'graph' | 'plans' | 'items' | 'settings';
 
@@ -13,6 +14,59 @@ const SECTIONS: { id: Section; emoji: string; title: string }[] = [
 
 export default function HelpPage() {
   const [active, setActive] = useState<Section>('quickstart');
+  const isMobile = useIsMobile();
+
+  if (isMobile) {
+    return (
+      <div style={{ display: 'flex', flexDirection: 'column', height: 'calc(100vh - 60px)', background: '#1a1a2e', overflow: 'hidden' }}>
+        {/* Mobile: horizontal scrollable tab bar */}
+        <div style={{
+          display: 'flex',
+          overflowX: 'auto',
+          borderBottom: '1px solid #0f3460',
+          background: '#16213e',
+          flexShrink: 0,
+          WebkitOverflowScrolling: 'touch' as React.CSSProperties['WebkitOverflowScrolling'],
+        }}>
+          {SECTIONS.map(s => (
+            <button
+              key={s.id}
+              onClick={() => setActive(s.id)}
+              style={{
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                gap: '3px',
+                padding: '10px 14px',
+                border: 'none',
+                borderBottom: active === s.id ? '2px solid #f5a623' : '2px solid transparent',
+                background: 'transparent',
+                color: active === s.id ? '#f5a623' : '#a0a0b0',
+                cursor: 'pointer',
+                fontSize: '10px',
+                fontWeight: active === s.id ? 700 : 400,
+                whiteSpace: 'nowrap',
+                flexShrink: 0,
+              }}
+            >
+              <span style={{ fontSize: '18px' }}>{s.emoji}</span>
+              <span>{s.title}</span>
+            </button>
+          ))}
+        </div>
+
+        {/* Content */}
+        <div style={{ flex: 1, overflowY: 'auto', padding: '20px 16px' }}>
+          {active === 'quickstart' && <QuickStart />}
+          {active === 'calculator' && <CalculatorGuide />}
+          {active === 'graph' && <GraphGuide />}
+          {active === 'plans' && <PlansGuide />}
+          {active === 'items' && <ItemsGuide />}
+          {active === 'settings' && <SettingsGuide />}
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div style={{ display: 'flex', height: '100vh', overflow: 'hidden', background: '#1a1a2e' }}>
@@ -309,44 +363,86 @@ function GraphGuide() {
       <P>
         計算機画面の「🌲 依存グラフ」タブで表示される、素材の依存関係を視覚化したインタラクティブグラフです。
         どの素材が何の素材を必要とするか、製造の流れを一目で把握できます。
+        原材料（鉱石など）が上段、生産目標が下段に配置されます。
       </P>
 
       <H2>ノードの見方</H2>
       <div style={{ background: '#0f3460', border: '1px solid #1a3a6a', borderRadius: '8px', overflow: 'hidden', margin: '12px 0' }}>
-        <KV label="🔵 青枠・青背景ノード" value='生産目標（TARGET）として設定したアイテム。「TARGET」バッジ付き' />
+        <KV label="🔵 青枠ノード（TARGET）" value="生産目標として設定したアイテム。「TARGET」バッジ付き" />
         <KV label="🟡 黄枠ノード" value="中間素材（製造が必要なアイテム）" />
-        <KV label="🟢 緑枠ノード" value="原材料（Raw Resource）。採掘のみで製造不要" />
-        <KV label="XX /min" value="このノードで必要な 1 分あたりの量" />
+        <KV label="🟢 緑枠ノード（Raw Resource）" value="原材料。採掘のみで製造不要。同じ高さの最上段に揃えて表示" />
+        <KV label="紫バッジ「統合」" value="複数のノードが手動で統合されているノード" />
+        <KV label="XX /min" value="このノードで必要な 1 分あたりの量（統合時は合算値）" />
         <KV label="× 数字" value="必要な製造機の台数（切り上げ整数）" />
-        <KV label="ノード下部の小テキスト" value="使用する製造機の名前" />
+        <KV label="← 素材" value="このアイテムの製造に必要な素材と数量。複数種ある場合はそれぞれ表示" />
+        <KV label="→ 供給先" value="このアイテムの出力先とその供給量。複数の供給先がある場合はそれぞれ表示" />
       </div>
 
-      <H2>グラフの操作</H2>
+      <H2>基本操作</H2>
       <div style={{ background: '#0f3460', border: '1px solid #1a3a6a', borderRadius: '8px', overflow: 'hidden', margin: '12px 0' }}>
-        <KV label="ノードをドラッグ" value="ノードを自由に移動できます。位置はプランごとに自動保存されます" />
-        <KV label="背景をドラッグ" value="グラフ全体をパン（スクロール）します" />
+        <KV label="ノードをドラッグ" value="ノードを移動できます。位置はプランごとに自動保存されます" />
+        <KV label="右クリック / 中クリックでドラッグ" value="グラフ全体をパン（スクロール）します" />
+        <KV label="左クリック + ドラッグ（空白部分）" value="選択ボックスを描いて複数ノードを範囲選択します" />
+        <KV label="Shift + クリック" value="ノードを追加選択します" />
+        <KV label="複数選択後にドラッグ" value="選択したノードをまとめて移動します（位置は全てまとめて保存）" />
         <KV label="マウスホイール / ピンチ" value="ズームイン・ズームアウト" />
-        <KV label="🔄 配置リセット" value="手動で移動したノードをすべて自動レイアウトに戻します" />
-        <KV label="⤢ 最大化" value="グラフを全画面表示に切り替えます（⤓ 縮小で元に戻る）" />
-        <KV label="右下のミニマップ" value="グラフ全体の俯瞰。クリックで任意の位置へジャンプ" />
-        <KV label="左下の ＋ / − ボタン" value="ズームの調整" />
+        <KV label="左下 ＋ / − / 🏠 ボタン" value="ズーム調整・全体表示へフィット" />
       </div>
 
-      <H2>グラフの構造</H2>
+      <H2>右上のコントロールボタン</H2>
+      <div style={{ background: '#0f3460', border: '1px solid #1a3a6a', borderRadius: '8px', overflow: 'hidden', margin: '12px 0' }}>
+        <KV label="📐 スナップ" value="ON にするとノードを 20px グリッドに吸着させます。精密な整列に便利" />
+        <KV label="〰️ 曲線 / ➖ 直線" value="ノード間のエッジ（矢印線）の形状を切り替えます" />
+        <KV label="🔄 配置リセット" value="手動移動したノードをすべて自動レイアウト（dagre）に戻します" />
+        <KV label="⤢ 最大化 / ⤓ 縮小" value="グラフを全画面表示にします。フッターも覆います" />
+      </div>
+
+      <H2>ノードの統合・分割</H2>
       <P>
-        グラフは<b style={{ color: '#e0e0e0' }}>1 対 1 のツリー構造</b>です。
-        同じ素材が複数の親アイテムから必要とされる場合でも、それぞれ独立したノードとして展開されます。
-        DAG（有向非巡回グラフ）のような複数のエッジが 1 つのノードに集約される形式ではありません。
+        同じ素材が複数の場所で必要とされる場合、各ノードを<b style={{ color: '#ce93d8' }}>手動で統合</b>して1つのノードにまとめることができます。
+        統合すると必要量・製造機台数が合算表示されます。統合状態はプランごとに保存されます。
+      </P>
+
+      <div style={{ background: '#0f3460', border: '1px solid #1a3a6a', borderRadius: '8px', overflow: 'hidden', margin: '12px 0' }}>
+        <KV label="「統合」ボタン" value="同じアイテムが複数存在するノードに表示されます。クリックすると統合モードに入ります" />
+        <KV label="統合モード（オレンジバナー）" value="画面上部にバナーが表示され、統合できるノードが「統合可能」バッジ付きでハイライトされます" />
+        <KV label="「← 統合」ボタン" value="ハイライトされたノードに表示されます。クリックで統合先として選択し、ノードを1つに合併します" />
+        <KV label="追加統合" value="統合済みノードにも「統合」ボタンが表示されます。クリックするとさらに別のノードを追加統合できます" />
+        <KV label="「分割」ボタン" value="統合済みノードに表示されます。分割パネルを開きます" />
+      </div>
+
+      <H2>分割パネルの使い方</H2>
+      <P>
+        「分割」ボタンをクリックすると、統合されたノードの内訳（各構成ノードの量・台数）がパネルで表示されます。
       </P>
       <Screen>
-        例: 「鉄のインゴット」が「鉄板」と「鉄のロッド」の両方で必要な場合{'\n'}
-        → 「鉄のインゴット」ノードが 2 つ独立して表示されます{'\n'}
-        → それぞれのノードの「必要量/分」は各親の計算に基づいた値になります
+        分割パネルでできること:{'\n'}
+        ・各構成ノードの「分割」ボタン → そのノードだけ統合グループから切り離す{'\n'}
+        ・「すべて分割」ボタン → 統合グループを完全に解除してツリー構造に戻す{'\n'}
+        ・「閉じる」ボタン → パネルを閉じる（統合状態は維持）
       </Screen>
+
       <Tip>
-        ノードの位置はプランごとに localStorage に保存されます。
-        「🔄 配置リセット」を押すと位置情報が削除され、自動レイアウトに戻ります。
+        統合・分割を行っても、<b style={{ color: '#e0e0e0' }}>統合に関係のないノードの位置は変わりません。</b>
+        統合・分割されたノードのみ自動レイアウトで再配置されます。
       </Tip>
+
+      <H2>グラフの基本構造</H2>
+      <P>
+        初期状態では<b style={{ color: '#e0e0e0' }}>1 対 1 のツリー構造</b>です。
+        同じ素材が複数の親アイテムから必要とされる場合でも、それぞれ独立したノードとして展開されます。
+        「統合」機能を使うと、複数ノードを 1 つに合わせた DAG 風の表示に切り替えられます。
+      </P>
+      <Screen>
+        例: 「鉄のインゴット」が「鉄板」と「強化鉄板」の両方で必要な場合{'\n'}
+        → 初期: 「鉄のインゴット」ノードが 2 つ独立して表示される{'\n'}
+        → 統合後: 1 つの「鉄のインゴット」ノードに合算（合計量・合計台数）
+      </Screen>
+
+      <Note>
+        ノードの位置・統合状態はいずれもプランごとに localStorage に保存されます。
+        「🔄 配置リセット」を押すと位置情報のみが削除され、自動レイアウトに戻ります。統合状態はリセットされません。
+      </Note>
     </div>
   );
 }

@@ -1,8 +1,9 @@
 import { useState } from 'react';
-import { Search, X } from 'lucide-react';
+import { Search, X, ArrowLeft } from 'lucide-react';
 import { useGameDataStore } from '../../stores/gameDataStore';
 import { useSettingsStore } from '../../stores/settingsStore';
 import { useItemSearch } from '../../hooks/useItemSearch';
+import { useIsMobile } from '../../hooks/useIsMobile';
 import type { Item } from '../../types/game.types';
 import ItemIcon from '../../components/ItemIcon';
 import RecipeCard from '../../components/RecipeCard';
@@ -19,6 +20,7 @@ export default function ItemBrowserPage() {
   const language = useSettingsStore(s => s.language);
   const getRecipesForItem = useGameDataStore(s => s.getRecipesForItem);
   const items = useGameDataStore(s => s.items);
+  const isMobile = useIsMobile();
   const [selectedItem, setSelectedItem] = useState<Item | null>(null);
   const [filterCategory, setFilterCategory] = useState<string>('all');
 
@@ -34,14 +36,14 @@ export default function ItemBrowserPage() {
   const selectedRecipes = selectedItem ? getRecipesForItem(selectedItem.id) : [];
 
   return (
-    <div style={{ display: 'flex', height: '100vh', overflow: 'hidden' }}>
-      {/* Left Panel */}
+    <div style={{ display: 'flex', height: isMobile ? 'calc(100vh - 60px)' : '100vh', overflow: 'hidden' }}>
+      {/* Left Panel — hidden on mobile when detail is open */}
       <div style={{
         flex: 1,
-        display: 'flex',
+        display: isMobile && selectedItem ? 'none' : 'flex',
         flexDirection: 'column',
         overflow: 'hidden',
-        borderRight: selectedItem ? '1px solid #0f3460' : 'none',
+        borderRight: selectedItem && !isMobile ? '1px solid #0f3460' : 'none',
       }}>
         {/* Header */}
         <div style={{ padding: '20px 20px 12px', borderBottom: '1px solid #0f3460' }}>
@@ -209,12 +211,33 @@ export default function ItemBrowserPage() {
       {/* Right Detail Panel */}
       {selectedItem && (
         <div style={{
-          width: '380px',
-          minWidth: '380px',
+          width: isMobile ? '100%' : '380px',
+          minWidth: isMobile ? 'unset' : '380px',
           overflow: 'auto',
           padding: '20px',
           background: '#16213e',
         }}>
+          {/* Mobile back button */}
+          {isMobile && (
+            <button
+              onClick={() => setSelectedItem(null)}
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '6px',
+                background: 'transparent',
+                border: '1px solid #0f3460',
+                color: '#a0a0b0',
+                borderRadius: '6px',
+                padding: '6px 12px',
+                fontSize: '13px',
+                cursor: 'pointer',
+                marginBottom: '16px',
+              }}
+            >
+              <ArrowLeft size={14} /> 一覧に戻る
+            </button>
+          )}
           <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '16px' }}>
             <ItemIcon item={selectedItem} size={48} />
             <div>

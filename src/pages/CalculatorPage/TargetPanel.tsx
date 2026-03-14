@@ -6,6 +6,7 @@ import { useGameDataStore } from '../../stores/gameDataStore';
 import { useSettingsStore } from '../../stores/settingsStore';
 import { useUiStore } from '../../stores/uiStore';
 import { useCalculationStore } from '../../stores/calculationStore';
+import { useIsMobile } from '../../hooks/useIsMobile';
 import ItemPicker from '../../components/ItemPicker';
 
 interface TargetPanelProps {
@@ -27,6 +28,8 @@ export default function TargetPanel({ onCalculate }: TargetPanelProps) {
   const language = useSettingsStore(s => s.language);
   const openRecipeSelector = useUiStore(s => s.openRecipeSelector);
   const calculate = useCalculationStore(s => s.calculate);
+
+  const isMobile = useIsMobile();
 
   const [itemPickerOpen, setItemPickerOpen] = useState(false);
   const [newPlanOpen, setNewPlanOpen] = useState(false);
@@ -65,9 +68,9 @@ export default function TargetPanel({ onCalculate }: TargetPanelProps) {
   return (
     <>
       <div style={{
-        width: '320px',
-        minWidth: '320px',
-        borderRight: '1px solid #0f3460',
+        width: isMobile ? '100%' : '320px',
+        minWidth: isMobile ? 'unset' : '320px',
+        borderRight: isMobile ? 'none' : '1px solid #0f3460',
         display: 'flex',
         flexDirection: 'column',
         height: '100%',

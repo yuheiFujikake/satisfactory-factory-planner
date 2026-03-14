@@ -4,6 +4,7 @@ import { useSettingsStore } from '../../stores/settingsStore';
 import { useUiStore } from '../../stores/uiStore';
 import { usePlanStore } from '../../stores/planStore';
 import { formatRate } from '../../utils/math';
+import { useIsMobile } from '../../hooks/useIsMobile';
 import DependencyFlow from '../../components/flow/DependencyFlow';
 
 export default function ResultPanel() {
@@ -17,6 +18,7 @@ export default function ResultPanel() {
   const setActiveTab = useUiStore(s => s.setActiveTab);
   const openRecipeSelector = useUiStore(s => s.openRecipeSelector);
   const currentPlanId = usePlanStore(s => s.currentPlan?.id ?? null);
+  const isMobile = useIsMobile();
 
   const tabStyle = (tab: string) => ({
     padding: '8px 16px',
@@ -58,7 +60,7 @@ export default function ResultPanel() {
       }}>
         <div style={{ fontSize: '48px' }}>⚙️</div>
         <div style={{ fontSize: '16px', color: '#e0e0e0' }}>生産目標を追加して計算を実行</div>
-        <div style={{ fontSize: '13px' }}>左パネルでアイテムと量を設定してください</div>
+        <div style={{ fontSize: '13px' }}>{isMobile ? '「目標設定」タブでアイテムと量を設定してください' : '左パネルでアイテムと量を設定してください'}</div>
       </div>
     );
   }
@@ -67,11 +69,12 @@ export default function ResultPanel() {
     <div style={{ flex: 1, display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
       {/* Summary Bar */}
       <div style={{
-        padding: '12px 16px',
+        padding: '10px 16px',
         borderBottom: '1px solid #0f3460',
         display: 'flex',
-        gap: '24px',
+        gap: '16px',
         alignItems: 'center',
+        flexWrap: 'wrap',
         background: '#16213e',
       }}>
         <div>
@@ -102,22 +105,28 @@ export default function ResultPanel() {
 
       {/* Tab Bar */}
       <div style={{
-        padding: '8px 16px',
+        padding: '6px 8px',
         borderBottom: '1px solid #0f3460',
         display: 'flex',
         gap: '4px',
         background: '#1a1a2e',
       }}>
-        <button style={tabStyle('table')} onClick={() => setActiveTab('table')}>📊 テーブル</button>
-        <button style={tabStyle('machines')} onClick={() => setActiveTab('machines')}>🏭 建物</button>
-        <button style={tabStyle('tree')} onClick={() => setActiveTab('tree')}>🌲 依存グラフ</button>
+        {(['table', 'machines', 'tree'] as const).map((tab, i) => (
+          <button
+            key={tab}
+            style={{ ...tabStyle(tab), flex: isMobile ? 1 : undefined, justifyContent: 'center', display: 'flex', alignItems: 'center' }}
+            onClick={() => setActiveTab(tab)}
+          >
+            {['📊 テーブル', '🏭 建物', '🌲 依存グラフ'][i]}
+          </button>
+        ))}
       </div>
 
       {/* Content */}
       <div style={{ flex: 1, overflow: 'hidden' }}>
         {activeTab === 'table' && (
           <div style={{ height: '100%', overflow: 'auto', padding: '16px' }}>
-            <table style={{ width: '100%', borderCollapse: 'separate', borderSpacing: '0 4px', fontSize: '13px' }}>
+            <table style={{ width: 'max-content', minWidth: '100%', borderCollapse: 'separate', borderSpacing: '0 4px', fontSize: '13px' }}>
               <thead>
                 <tr>
                   {['アイテム', '必要量/分', '建物', '必要台数', '製造量/分', '余剰量/分', 'レシピ'].map(h => (
