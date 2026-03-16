@@ -238,8 +238,8 @@ export function buildFlowGraph(
 
   const g = new dagre.graphlib.Graph();
   g.setDefaultEdgeLabel(() => ({}));
-  // ranksep/nodesep = 50px gap between node edges (edge-to-edge spacing)
-  g.setGraph({ rankdir: 'TB', ranksep: 50, nodesep: 50 });
+  // BT = Bottom-to-Top: root items (sinks) at top, raw resources (sources) at bottom
+  g.setGraph({ rankdir: 'BT', ranksep: 100, nodesep: 100 });
 
   // Node height = base + section height per supply/receive section
   // Section overhead (divider + label): 24px; per row: 15px
@@ -257,24 +257,12 @@ export function buildFlowGraph(
   edges.forEach(e => g.setEdge(e.source, e.target));
   dagre.layout(g);
 
-  // ── Align raw resource nodes to the MINIMUM Y (topmost row) ───────────────
-
-  let rawMinY = Infinity;
-  nodes.forEach(n => {
-    if ((n.data as { isRawResource?: boolean }).isRawResource) {
-      const gNode = g.node(n.id);
-      if (gNode) rawMinY = Math.min(rawMinY, gNode.y);
-    }
-  });
-
   const layoutedNodes = nodes.map(n => {
     const saved = savedPositions?.get(n.id);
     if (saved) return { ...n, position: saved };
     const gNode = g.node(n.id);
     // gNode.x/y are node centres; position is the top-left corner in React Flow
-    const isRaw = (n.data as { isRawResource?: boolean }).isRawResource;
-    const cy = isRaw && rawMinY < Infinity ? rawMinY : gNode.y;
-    return { ...n, position: { x: gNode.x - gNode.width / 2, y: cy - gNode.height / 2 } };
+    return { ...n, position: { x: gNode.x - gNode.width / 2, y: gNode.y - gNode.height / 2 } };
   });
 
   return { nodes: layoutedNodes, edges };

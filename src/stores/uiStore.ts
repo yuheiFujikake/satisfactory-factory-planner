@@ -4,11 +4,11 @@ interface UiStore {
   selectedItemId: string | null;
   recipeSelectorOpen: boolean;
   recipeSelectorItemId: string | null;
-  activeTab: 'tree' | 'table' | 'machines';
+  activeTab: 'tree' | 'table' | 'machines' | 'ores';
   setSelectedItem: (itemId: string | null) => void;
   openRecipeSelector: (itemId: string) => void;
   closeRecipeSelector: () => void;
-  setActiveTab: (tab: 'tree' | 'table' | 'machines') => void;
+  setActiveTab: (tab: 'tree' | 'table' | 'machines' | 'ores') => void;
 }
 
 export const useUiStore = create<UiStore>((set) => ({

@@ -6,6 +6,7 @@ import { usePlanStore } from '../../stores/planStore';
 import { formatRate } from '../../utils/math';
 import { useIsMobile } from '../../hooks/useIsMobile';
 import DependencyFlow from '../../components/flow/DependencyFlow';
+import OreGroupPanel from './OreGroupPanel';
 
 export default function ResultPanel() {
   const result = useCalculationStore(s => s.result);
@@ -32,35 +33,73 @@ export default function ResultPanel() {
     transition: 'all 0.2s',
   });
 
+  // Tab bar (always visible — ores tab works without a calculation result)
+  const tabBar = (
+    <div style={{
+      padding: '6px 8px',
+      borderBottom: '1px solid #0f3460',
+      display: 'flex',
+      gap: '4px',
+      background: '#1a1a2e',
+      flexShrink: 0,
+    }}>
+      {(['table', 'machines', 'tree', 'ores'] as const).map((tab, i) => (
+        <button
+          key={tab}
+          style={{ ...tabStyle(tab), flex: isMobile ? 1 : undefined, justifyContent: 'center', display: 'flex', alignItems: 'center' }}
+          onClick={() => setActiveTab(tab)}
+        >
+          {['📊 テーブル', '🏭 建設物', '🌲 依存グラフ', '⛏️ 製造地'][i]}
+        </button>
+      ))}
+    </div>
+  );
+
+  // ores tab is always accessible; passes calculation roots (empty array if no result yet)
+  if (activeTab === 'ores') {
+    return (
+      <div style={{ flex: 1, display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
+        {tabBar}
+        <OreGroupPanel roots={result?.nodes ?? []} />
+      </div>
+    );
+  }
+
   if (isCalculating) {
     return (
-      <div style={{
-        flex: 1,
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        color: '#f5a623',
-        fontSize: '16px',
-      }}>
-        ⚙️ 計算中...
+      <div style={{ flex: 1, display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
+        {tabBar}
+        <div style={{
+          flex: 1,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          color: '#f5a623',
+          fontSize: '16px',
+        }}>
+          ⚙️ 計算中...
+        </div>
       </div>
     );
   }
 
   if (!result) {
     return (
-      <div style={{
-        flex: 1,
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        justifyContent: 'center',
-        color: '#a0a0b0',
-        gap: '16px',
-      }}>
-        <div style={{ fontSize: '48px' }}>⚙️</div>
-        <div style={{ fontSize: '16px', color: '#e0e0e0' }}>生産目標を追加して計算を実行</div>
-        <div style={{ fontSize: '13px' }}>{isMobile ? '「目標設定」タブでアイテムと量を設定してください' : '左パネルでアイテムと量を設定してください'}</div>
+      <div style={{ flex: 1, display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
+        {tabBar}
+        <div style={{
+          flex: 1,
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'center',
+          color: '#a0a0b0',
+          gap: '16px',
+        }}>
+          <div style={{ fontSize: '48px' }}>⚙️</div>
+          <div style={{ fontSize: '16px', color: '#e0e0e0' }}>生産目標を追加して計算を実行</div>
+          <div style={{ fontSize: '13px' }}>{isMobile ? '「目標設定」タブでアイテムと量を設定してください' : '左パネルでアイテムと量を設定してください'}</div>
+        </div>
       </div>
     );
   }
@@ -103,24 +142,7 @@ export default function ResultPanel() {
         </div>
       </div>
 
-      {/* Tab Bar */}
-      <div style={{
-        padding: '6px 8px',
-        borderBottom: '1px solid #0f3460',
-        display: 'flex',
-        gap: '4px',
-        background: '#1a1a2e',
-      }}>
-        {(['table', 'machines', 'tree'] as const).map((tab, i) => (
-          <button
-            key={tab}
-            style={{ ...tabStyle(tab), flex: isMobile ? 1 : undefined, justifyContent: 'center', display: 'flex', alignItems: 'center' }}
-            onClick={() => setActiveTab(tab)}
-          >
-            {['📊 テーブル', '🏭 建物', '🌲 依存グラフ'][i]}
-          </button>
-        ))}
-      </div>
+      {tabBar}
 
       {/* Content */}
       <div style={{ flex: 1, overflow: 'hidden' }}>
