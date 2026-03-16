@@ -160,10 +160,10 @@ export default function SettingsPage() {
       }}>
         <span style={{ ...labelStyle, color: '#f5a623' }}>アプリ情報</span>
         <div style={{ color: '#a0a0b0', fontSize: '13px', lineHeight: 1.8 }}>
-          <div>Satisfactory Factory Planner v1.0</div>
+          <div>Satisfactory Factory Planner v1.1</div>
           <div>Based on Satisfactory 1.0 game data</div>
-          <div>アイテム数: 70+</div>
-          <div>レシピ数: 50+</div>
+          <div>アイテム数: 127</div>
+          <div>レシピ数: 107 / マシーン: 11 種類</div>
         </div>
       </div>
     </div>

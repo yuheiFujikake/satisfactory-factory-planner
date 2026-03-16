@@ -97,7 +97,7 @@
     "name": "Aluminum Ingot",
     "nameJa": "アルミのインゴット",
     "isAlternate": false,
-    "machineId": "smelter",
+    "machineId": "foundry",
     "craftTimeSeconds": 4,
     "inputs": [
       {
@@ -550,13 +550,13 @@
     "inputs": [
       {
         "itemId": "steel_beam",
-        "amountPerCycle": 4,
-        "amountPerMinute": 24
+        "amountPerCycle": 3,
+        "amountPerMinute": 18
       },
       {
         "itemId": "concrete",
-        "amountPerCycle": 5,
-        "amountPerMinute": 30
+        "amountPerCycle": 6,
+        "amountPerMinute": 36
       }
     ],
     "outputs": [
@@ -732,27 +732,27 @@
   {
     "id": "recipe_electromagnetic_control_rod",
     "name": "Electromagnetic Control Rod",
-    "nameJa": "電磁制御ロッド",
+    "nameJa": "電磁制御棒",
     "isAlternate": false,
     "machineId": "assembler",
-    "craftTimeSeconds": 15,
+    "craftTimeSeconds": 30,
     "inputs": [
       {
         "itemId": "stator",
         "amountPerCycle": 3,
-        "amountPerMinute": 12
+        "amountPerMinute": 6
       },
       {
         "itemId": "ai_limiter",
         "amountPerCycle": 2,
-        "amountPerMinute": 8
+        "amountPerMinute": 4
       }
     ],
     "outputs": [
       {
         "itemId": "electromagnetic_control_rod",
         "amountPerCycle": 2,
-        "amountPerMinute": 8
+        "amountPerMinute": 4
       }
     ]
   },
@@ -771,8 +771,8 @@
       },
       {
         "itemId": "steel_pipe",
-        "amountPerCycle": 15,
-        "amountPerMinute": 30
+        "amountPerCycle": 20,
+        "amountPerMinute": 40
       },
       {
         "itemId": "encased_industrial_beam",
@@ -781,8 +781,8 @@
       },
       {
         "itemId": "screw",
-        "amountPerCycle": 100,
-        "amountPerMinute": 200
+        "amountPerCycle": 120,
+        "amountPerMinute": 240
       }
     ],
     "outputs": [
@@ -803,23 +803,18 @@
     "inputs": [
       {
         "itemId": "circuit_board",
-        "amountPerCycle": 10,
-        "amountPerMinute": 25
+        "amountPerCycle": 4,
+        "amountPerMinute": 10
       },
       {
         "itemId": "cable",
-        "amountPerCycle": 9,
-        "amountPerMinute": 22.5
+        "amountPerCycle": 8,
+        "amountPerMinute": 20
       },
       {
         "itemId": "plastic",
-        "amountPerCycle": 18,
-        "amountPerMinute": 45
-      },
-      {
-        "itemId": "screw",
-        "amountPerCycle": 52,
-        "amountPerMinute": 130
+        "amountPerCycle": 16,
+        "amountPerMinute": 40
       }
     ],
     "outputs": [
@@ -904,8 +899,8 @@
     "inputs": [
       {
         "itemId": "computer",
-        "amountPerCycle": 2,
-        "amountPerMinute": 3.75
+        "amountPerCycle": 4,
+        "amountPerMinute": 7.5
       },
       {
         "itemId": "ai_limiter",
@@ -951,8 +946,8 @@
       },
       {
         "itemId": "computer",
-        "amountPerCycle": 1,
-        "amountPerMinute": 1.25
+        "amountPerCycle": 2,
+        "amountPerMinute": 2.5
       }
     ],
     "outputs": [
@@ -1010,18 +1005,18 @@
     "inputs": [
       {
         "itemId": "automated_wiring",
-        "amountPerCycle": 15,
-        "amountPerMinute": 15
+        "amountPerCycle": 5,
+        "amountPerMinute": 5
       },
       {
         "itemId": "circuit_board",
-        "amountPerCycle": 10,
-        "amountPerMinute": 10
+        "amountPerCycle": 5,
+        "amountPerMinute": 5
       },
       {
         "itemId": "heavy_modular_frame",
-        "amountPerCycle": 2,
-        "amountPerMinute": 2
+        "amountPerCycle": 1,
+        "amountPerMinute": 1
       },
       {
         "itemId": "computer",
@@ -1032,8 +1027,8 @@
     "outputs": [
       {
         "itemId": "adaptive_control_unit",
-        "amountPerCycle": 2,
-        "amountPerMinute": 2
+        "amountPerCycle": 1,
+        "amountPerMinute": 1
       }
     ]
   },
@@ -1074,7 +1069,7 @@
     "name": "Smart Plating",
     "nameJa": "スマート･プレート",
     "isAlternate": false,
-    "machineId": "manufacturer",
+    "machineId": "assembler",
     "craftTimeSeconds": 30,
     "inputs": [
       {
@@ -1084,11 +1079,6 @@
       },
       {
         "itemId": "rotor",
-        "amountPerCycle": 1,
-        "amountPerMinute": 2
-      },
-      {
-        "itemId": "plastic",
         "amountPerCycle": 1,
         "amountPerMinute": 2
       }
@@ -1352,8 +1342,8 @@
     "inputs": [
       {
         "itemId": "sulfuric_acid",
-        "amountPerCycle": 2.5,
-        "amountPerMinute": 50
+        "amountPerCycle": 2,
+        "amountPerMinute": 40
       },
       {
         "itemId": "alumina_solution",
@@ -1369,13 +1359,13 @@
     "outputs": [
       {
         "itemId": "battery",
-        "amountPerCycle": 2,
-        "amountPerMinute": 40
+        "amountPerCycle": 1,
+        "amountPerMinute": 20
       },
       {
         "itemId": "water",
-        "amountPerCycle": 1.5,
-        "amountPerMinute": 30
+        "amountPerCycle": 2,
+        "amountPerMinute": 40
       }
     ]
   },
@@ -1641,6 +1631,1369 @@
         "itemId": "motor",
         "amountPerCycle": 2,
         "amountPerMinute": 7.5
+      }
+    ]
+  },
+  {
+    "id": "recipe_turbofuel",
+    "name": "Turbofuel",
+    "nameJa": "ターボ燃料",
+    "isAlternate": false,
+    "machineId": "refinery",
+    "craftTimeSeconds": 16,
+    "inputs": [
+      {
+        "itemId": "fuel",
+        "amountPerCycle": 6,
+        "amountPerMinute": 22.5
+      },
+      {
+        "itemId": "compacted_coal",
+        "amountPerCycle": 4,
+        "amountPerMinute": 15
+      }
+    ],
+    "outputs": [
+      {
+        "itemId": "turbofuel",
+        "amountPerCycle": 5,
+        "amountPerMinute": 18.75
+      }
+    ]
+  },
+  {
+    "id": "recipe_liquid_biofuel",
+    "name": "Liquid Biofuel",
+    "nameJa": "液体バイオ燃料",
+    "isAlternate": false,
+    "machineId": "refinery",
+    "craftTimeSeconds": 4,
+    "inputs": [
+      {
+        "itemId": "solid_biofuel",
+        "amountPerCycle": 6,
+        "amountPerMinute": 90
+      },
+      {
+        "itemId": "water",
+        "amountPerCycle": 3,
+        "amountPerMinute": 45
+      }
+    ],
+    "outputs": [
+      {
+        "itemId": "liquid_biofuel",
+        "amountPerCycle": 4,
+        "amountPerMinute": 60
+      }
+    ]
+  },
+  {
+    "id": "recipe_petroleum_coke",
+    "name": "Petroleum Coke",
+    "nameJa": "石油コークス",
+    "isAlternate": false,
+    "machineId": "refinery",
+    "craftTimeSeconds": 6,
+    "inputs": [
+      {
+        "itemId": "heavy_oil_residue",
+        "amountPerCycle": 4,
+        "amountPerMinute": 40
+      }
+    ],
+    "outputs": [
+      {
+        "itemId": "petroleum_coke",
+        "amountPerCycle": 12,
+        "amountPerMinute": 120
+      }
+    ]
+  },
+  {
+    "id": "recipe_empty_canister",
+    "name": "Empty Canister",
+    "nameJa": "空の容器",
+    "isAlternate": false,
+    "machineId": "constructor",
+    "craftTimeSeconds": 4,
+    "inputs": [
+      {
+        "itemId": "plastic",
+        "amountPerCycle": 2,
+        "amountPerMinute": 30
+      }
+    ],
+    "outputs": [
+      {
+        "itemId": "empty_canister",
+        "amountPerCycle": 4,
+        "amountPerMinute": 60
+      }
+    ]
+  },
+  {
+    "id": "recipe_empty_fluid_tank",
+    "name": "Empty Fluid Tank",
+    "nameJa": "空の液体タンク",
+    "isAlternate": false,
+    "machineId": "constructor",
+    "craftTimeSeconds": 1,
+    "inputs": [
+      {
+        "itemId": "aluminum_ingot",
+        "amountPerCycle": 1,
+        "amountPerMinute": 60
+      }
+    ],
+    "outputs": [
+      {
+        "itemId": "empty_fluid_tank",
+        "amountPerCycle": 1,
+        "amountPerMinute": 60
+      }
+    ]
+  },
+  {
+    "id": "recipe_pressure_conversion_cube",
+    "name": "Pressure Conversion Cube",
+    "nameJa": "圧力変換キューブ",
+    "isAlternate": false,
+    "machineId": "assembler",
+    "craftTimeSeconds": 60,
+    "inputs": [
+      {
+        "itemId": "fused_modular_frame",
+        "amountPerCycle": 1,
+        "amountPerMinute": 1
+      },
+      {
+        "itemId": "radio_control_unit",
+        "amountPerCycle": 2,
+        "amountPerMinute": 2
+      }
+    ],
+    "outputs": [
+      {
+        "itemId": "pressure_conversion_cube",
+        "amountPerCycle": 1,
+        "amountPerMinute": 1
+      }
+    ]
+  },
+  {
+    "id": "recipe_copper_powder",
+    "name": "Copper Powder",
+    "nameJa": "銅粉",
+    "isAlternate": false,
+    "machineId": "constructor",
+    "craftTimeSeconds": 6,
+    "inputs": [
+      {
+        "itemId": "copper_ingot",
+        "amountPerCycle": 30,
+        "amountPerMinute": 300
+      }
+    ],
+    "outputs": [
+      {
+        "itemId": "copper_powder",
+        "amountPerCycle": 5,
+        "amountPerMinute": 50
+      }
+    ]
+  },
+  {
+    "id": "recipe_biomass_leaves",
+    "name": "Biomass (Leaves)",
+    "nameJa": "バイオマス（葉）",
+    "isAlternate": false,
+    "machineId": "constructor",
+    "craftTimeSeconds": 5,
+    "inputs": [
+      {
+        "itemId": "leaves",
+        "amountPerCycle": 10,
+        "amountPerMinute": 120
+      }
+    ],
+    "outputs": [
+      {
+        "itemId": "biomass",
+        "amountPerCycle": 5,
+        "amountPerMinute": 60
+      }
+    ]
+  },
+  {
+    "id": "recipe_biomass_wood",
+    "name": "Biomass (Wood)",
+    "nameJa": "バイオマス（木）",
+    "isAlternate": false,
+    "machineId": "constructor",
+    "craftTimeSeconds": 4,
+    "inputs": [
+      {
+        "itemId": "wood",
+        "amountPerCycle": 4,
+        "amountPerMinute": 60
+      }
+    ],
+    "outputs": [
+      {
+        "itemId": "biomass",
+        "amountPerCycle": 20,
+        "amountPerMinute": 300
+      }
+    ]
+  },
+  {
+    "id": "recipe_solid_biofuel",
+    "name": "Solid Biofuel",
+    "nameJa": "固体バイオ燃料",
+    "isAlternate": false,
+    "machineId": "constructor",
+    "craftTimeSeconds": 4,
+    "inputs": [
+      {
+        "itemId": "biomass",
+        "amountPerCycle": 8,
+        "amountPerMinute": 120
+      }
+    ],
+    "outputs": [
+      {
+        "itemId": "solid_biofuel",
+        "amountPerCycle": 4,
+        "amountPerMinute": 60
+      }
+    ]
+  },
+  {
+    "id": "recipe_fabric",
+    "name": "Fabric",
+    "nameJa": "布地",
+    "isAlternate": false,
+    "machineId": "assembler",
+    "craftTimeSeconds": 4,
+    "inputs": [
+      {
+        "itemId": "mycelia",
+        "amountPerCycle": 1,
+        "amountPerMinute": 15
+      },
+      {
+        "itemId": "biomass",
+        "amountPerCycle": 5,
+        "amountPerMinute": 75
+      }
+    ],
+    "outputs": [
+      {
+        "itemId": "fabric",
+        "amountPerCycle": 1,
+        "amountPerMinute": 15
+      }
+    ]
+  },
+  {
+    "id": "recipe_black_powder",
+    "name": "Black Powder",
+    "nameJa": "黒色火薬",
+    "isAlternate": false,
+    "machineId": "assembler",
+    "craftTimeSeconds": 4,
+    "inputs": [
+      {
+        "itemId": "coal",
+        "amountPerCycle": 1,
+        "amountPerMinute": 15
+      },
+      {
+        "itemId": "sulfur",
+        "amountPerCycle": 1,
+        "amountPerMinute": 15
+      }
+    ],
+    "outputs": [
+      {
+        "itemId": "black_powder",
+        "amountPerCycle": 2,
+        "amountPerMinute": 30
+      }
+    ]
+  },
+  {
+    "id": "recipe_smokeless_powder",
+    "name": "Smokeless Powder",
+    "nameJa": "無煙火薬",
+    "isAlternate": false,
+    "machineId": "refinery",
+    "craftTimeSeconds": 6,
+    "inputs": [
+      {
+        "itemId": "black_powder",
+        "amountPerCycle": 2,
+        "amountPerMinute": 20
+      },
+      {
+        "itemId": "heavy_oil_residue",
+        "amountPerCycle": 1,
+        "amountPerMinute": 10
+      }
+    ],
+    "outputs": [
+      {
+        "itemId": "smokeless_powder",
+        "amountPerCycle": 2,
+        "amountPerMinute": 20
+      }
+    ]
+  },
+  {
+    "id": "recipe_iron_rebar",
+    "name": "Iron Rebar",
+    "nameJa": "鉄筋",
+    "isAlternate": false,
+    "machineId": "constructor",
+    "craftTimeSeconds": 4,
+    "inputs": [
+      {
+        "itemId": "iron_rod",
+        "amountPerCycle": 1,
+        "amountPerMinute": 15
+      }
+    ],
+    "outputs": [
+      {
+        "itemId": "iron_rebar",
+        "amountPerCycle": 1,
+        "amountPerMinute": 15
+      }
+    ]
+  },
+  {
+    "id": "recipe_reanimated_sam",
+    "name": "Reanimated SAM",
+    "nameJa": "活性SAM",
+    "isAlternate": false,
+    "machineId": "constructor",
+    "craftTimeSeconds": 2,
+    "inputs": [
+      {
+        "itemId": "sam",
+        "amountPerCycle": 4,
+        "amountPerMinute": 120
+      }
+    ],
+    "outputs": [
+      {
+        "itemId": "reanimated_sam",
+        "amountPerCycle": 1,
+        "amountPerMinute": 30
+      }
+    ]
+  },
+  {
+    "id": "recipe_ficsite_ingot_aluminum",
+    "name": "Ficsite Ingot (Aluminium)",
+    "nameJa": "FICSITEのインゴット（アルミ）",
+    "isAlternate": false,
+    "machineId": "converter",
+    "craftTimeSeconds": 2,
+    "inputs": [
+      {
+        "itemId": "reanimated_sam",
+        "amountPerCycle": 2,
+        "amountPerMinute": 60
+      },
+      {
+        "itemId": "aluminum_ingot",
+        "amountPerCycle": 4,
+        "amountPerMinute": 120
+      }
+    ],
+    "outputs": [
+      {
+        "itemId": "ficsite_ingot",
+        "amountPerCycle": 1,
+        "amountPerMinute": 30
+      }
+    ]
+  },
+  {
+    "id": "recipe_ficsite_ingot_caterium",
+    "name": "Ficsite Ingot (Caterium)",
+    "nameJa": "FICSITEのインゴット（カテリウム）",
+    "isAlternate": false,
+    "machineId": "converter",
+    "craftTimeSeconds": 4,
+    "inputs": [
+      {
+        "itemId": "reanimated_sam",
+        "amountPerCycle": 3,
+        "amountPerMinute": 45
+      },
+      {
+        "itemId": "caterium_ingot",
+        "amountPerCycle": 4,
+        "amountPerMinute": 60
+      }
+    ],
+    "outputs": [
+      {
+        "itemId": "ficsite_ingot",
+        "amountPerCycle": 1,
+        "amountPerMinute": 15
+      }
+    ]
+  },
+  {
+    "id": "recipe_ficsite_ingot_iron",
+    "name": "Ficsite Ingot (Iron)",
+    "nameJa": "FICSITEのインゴット（鉄）",
+    "isAlternate": false,
+    "machineId": "converter",
+    "craftTimeSeconds": 6,
+    "inputs": [
+      {
+        "itemId": "reanimated_sam",
+        "amountPerCycle": 4,
+        "amountPerMinute": 40
+      },
+      {
+        "itemId": "iron_ingot",
+        "amountPerCycle": 24,
+        "amountPerMinute": 240
+      }
+    ],
+    "outputs": [
+      {
+        "itemId": "ficsite_ingot",
+        "amountPerCycle": 1,
+        "amountPerMinute": 10
+      }
+    ]
+  },
+  {
+    "id": "recipe_ficsite_trigon",
+    "name": "Ficsite Trigon",
+    "nameJa": "FICSITEの三角板",
+    "isAlternate": false,
+    "machineId": "constructor",
+    "craftTimeSeconds": 6,
+    "inputs": [
+      {
+        "itemId": "ficsite_ingot",
+        "amountPerCycle": 1,
+        "amountPerMinute": 10
+      }
+    ],
+    "outputs": [
+      {
+        "itemId": "ficsite_trigon",
+        "amountPerCycle": 3,
+        "amountPerMinute": 30
+      }
+    ]
+  },
+  {
+    "id": "recipe_sam_fluctuator",
+    "name": "SAM Fluctuator",
+    "nameJa": "SAM変動機",
+    "isAlternate": false,
+    "machineId": "manufacturer",
+    "craftTimeSeconds": 6,
+    "inputs": [
+      {
+        "itemId": "reanimated_sam",
+        "amountPerCycle": 6,
+        "amountPerMinute": 60
+      },
+      {
+        "itemId": "wire",
+        "amountPerCycle": 5,
+        "amountPerMinute": 50
+      },
+      {
+        "itemId": "steel_pipe",
+        "amountPerCycle": 3,
+        "amountPerMinute": 30
+      }
+    ],
+    "outputs": [
+      {
+        "itemId": "sam_fluctuator",
+        "amountPerCycle": 1,
+        "amountPerMinute": 10
+      }
+    ]
+  },
+  {
+    "id": "recipe_dark_matter_residue",
+    "name": "Dark Matter Residue",
+    "nameJa": "ダークマターの残留物",
+    "isAlternate": false,
+    "machineId": "converter",
+    "craftTimeSeconds": 6,
+    "inputs": [
+      {
+        "itemId": "reanimated_sam",
+        "amountPerCycle": 5,
+        "amountPerMinute": 50
+      }
+    ],
+    "outputs": [
+      {
+        "itemId": "dark_matter_residue",
+        "amountPerCycle": 10,
+        "amountPerMinute": 100
+      }
+    ]
+  },
+  {
+    "id": "recipe_diamonds",
+    "name": "Diamonds",
+    "nameJa": "ダイヤモンド",
+    "isAlternate": false,
+    "machineId": "particle_accelerator",
+    "craftTimeSeconds": 2,
+    "inputs": [
+      {
+        "itemId": "coal",
+        "amountPerCycle": 20,
+        "amountPerMinute": 600
+      }
+    ],
+    "outputs": [
+      {
+        "itemId": "diamonds",
+        "amountPerCycle": 1,
+        "amountPerMinute": 30
+      }
+    ]
+  },
+  {
+    "id": "recipe_dark_matter_crystal",
+    "name": "Dark Matter Crystal",
+    "nameJa": "ダークマターの結晶",
+    "isAlternate": false,
+    "machineId": "particle_accelerator",
+    "craftTimeSeconds": 2,
+    "inputs": [
+      {
+        "itemId": "diamonds",
+        "amountPerCycle": 1,
+        "amountPerMinute": 30
+      },
+      {
+        "itemId": "dark_matter_residue",
+        "amountPerCycle": 5,
+        "amountPerMinute": 150
+      }
+    ],
+    "outputs": [
+      {
+        "itemId": "dark_matter_crystal",
+        "amountPerCycle": 1,
+        "amountPerMinute": 30
+      }
+    ]
+  },
+  {
+    "id": "recipe_time_crystal",
+    "name": "Time Crystal",
+    "nameJa": "時の結晶",
+    "isAlternate": false,
+    "machineId": "converter",
+    "craftTimeSeconds": 10,
+    "inputs": [
+      {
+        "itemId": "diamonds",
+        "amountPerCycle": 2,
+        "amountPerMinute": 12
+      }
+    ],
+    "outputs": [
+      {
+        "itemId": "time_crystal",
+        "amountPerCycle": 1,
+        "amountPerMinute": 6
+      }
+    ]
+  },
+  {
+    "id": "recipe_excited_photonic_matter",
+    "name": "Excited Photonic Matter",
+    "nameJa": "励起フォトニック物質",
+    "isAlternate": false,
+    "machineId": "converter",
+    "craftTimeSeconds": 3,
+    "inputs": [],
+    "outputs": [
+      {
+        "itemId": "excited_photonic_matter",
+        "amountPerCycle": 10,
+        "amountPerMinute": 200
+      }
+    ]
+  },
+  {
+    "id": "recipe_superposition_oscillator",
+    "name": "Superposition Oscillator",
+    "nameJa": "重ね合わせ発振器",
+    "isAlternate": false,
+    "machineId": "quantum_encoder",
+    "craftTimeSeconds": 12,
+    "inputs": [
+      {
+        "itemId": "dark_matter_residue",
+        "amountPerCycle": 25,
+        "amountPerMinute": 125
+      },
+      {
+        "itemId": "dark_matter_crystal",
+        "amountPerCycle": 6,
+        "amountPerMinute": 30
+      },
+      {
+        "itemId": "crystal_oscillator",
+        "amountPerCycle": 1,
+        "amountPerMinute": 5
+      },
+      {
+        "itemId": "alclad_aluminum_sheet",
+        "amountPerCycle": 9,
+        "amountPerMinute": 45
+      },
+      {
+        "itemId": "excited_photonic_matter",
+        "amountPerCycle": 25,
+        "amountPerMinute": 125
+      }
+    ],
+    "outputs": [
+      {
+        "itemId": "superposition_oscillator",
+        "amountPerCycle": 1,
+        "amountPerMinute": 5
+      }
+    ]
+  },
+  {
+    "id": "recipe_neural_quantum_processor",
+    "name": "Neural-Quantum Processor",
+    "nameJa": "ニューラル量子プロセッサー",
+    "isAlternate": false,
+    "machineId": "quantum_encoder",
+    "craftTimeSeconds": 20,
+    "inputs": [
+      {
+        "itemId": "dark_matter_residue",
+        "amountPerCycle": 25,
+        "amountPerMinute": 75
+      },
+      {
+        "itemId": "time_crystal",
+        "amountPerCycle": 5,
+        "amountPerMinute": 15
+      },
+      {
+        "itemId": "supercomputer",
+        "amountPerCycle": 1,
+        "amountPerMinute": 3
+      },
+      {
+        "itemId": "ficsite_trigon",
+        "amountPerCycle": 15,
+        "amountPerMinute": 45
+      },
+      {
+        "itemId": "excited_photonic_matter",
+        "amountPerCycle": 25,
+        "amountPerMinute": 75
+      }
+    ],
+    "outputs": [
+      {
+        "itemId": "neural_quantum_processor",
+        "amountPerCycle": 1,
+        "amountPerMinute": 3
+      }
+    ]
+  },
+  {
+    "id": "recipe_alien_power_matrix",
+    "name": "Alien Power Matrix",
+    "nameJa": "異星のパワーマトリックス",
+    "isAlternate": false,
+    "machineId": "quantum_encoder",
+    "craftTimeSeconds": 24,
+    "inputs": [
+      {
+        "itemId": "dark_matter_residue",
+        "amountPerCycle": 24,
+        "amountPerMinute": 60
+      },
+      {
+        "itemId": "sam_fluctuator",
+        "amountPerCycle": 5,
+        "amountPerMinute": 12.5
+      },
+      {
+        "itemId": "power_shard",
+        "amountPerCycle": 3,
+        "amountPerMinute": 7.5
+      },
+      {
+        "itemId": "superposition_oscillator",
+        "amountPerCycle": 3,
+        "amountPerMinute": 7.5
+      },
+      {
+        "itemId": "excited_photonic_matter",
+        "amountPerCycle": 24,
+        "amountPerMinute": 60
+      }
+    ],
+    "outputs": [
+      {
+        "itemId": "alien_power_matrix",
+        "amountPerCycle": 1,
+        "amountPerMinute": 2.5
+      }
+    ]
+  },
+  {
+    "id": "recipe_singularity_cell",
+    "name": "Singularity Cell",
+    "nameJa": "シンギュラリティセル",
+    "isAlternate": false,
+    "machineId": "manufacturer",
+    "craftTimeSeconds": 60,
+    "inputs": [
+      {
+        "itemId": "nuclear_pasta",
+        "amountPerCycle": 1,
+        "amountPerMinute": 1
+      },
+      {
+        "itemId": "dark_matter_crystal",
+        "amountPerCycle": 20,
+        "amountPerMinute": 20
+      },
+      {
+        "itemId": "iron_plate",
+        "amountPerCycle": 100,
+        "amountPerMinute": 100
+      },
+      {
+        "itemId": "concrete",
+        "amountPerCycle": 200,
+        "amountPerMinute": 200
+      }
+    ],
+    "outputs": [
+      {
+        "itemId": "singularity_cell",
+        "amountPerCycle": 10,
+        "amountPerMinute": 10
+      }
+    ]
+  },
+  {
+    "id": "recipe_encased_uranium_cell",
+    "name": "Encased Uranium Cell",
+    "nameJa": "被覆型ウラン・セル",
+    "isAlternate": false,
+    "machineId": "blender",
+    "craftTimeSeconds": 12,
+    "inputs": [
+      {
+        "itemId": "uranium",
+        "amountPerCycle": 10,
+        "amountPerMinute": 50
+      },
+      {
+        "itemId": "concrete",
+        "amountPerCycle": 3,
+        "amountPerMinute": 15
+      },
+      {
+        "itemId": "sulfuric_acid",
+        "amountPerCycle": 8,
+        "amountPerMinute": 40
+      }
+    ],
+    "outputs": [
+      {
+        "itemId": "encased_uranium_cell",
+        "amountPerCycle": 5,
+        "amountPerMinute": 25
+      },
+      {
+        "itemId": "sulfuric_acid",
+        "amountPerCycle": 2,
+        "amountPerMinute": 10
+      }
+    ]
+  },
+  {
+    "id": "recipe_uranium_fuel_rod",
+    "name": "Uranium Fuel Rod",
+    "nameJa": "ウラン燃料棒",
+    "isAlternate": false,
+    "machineId": "manufacturer",
+    "craftTimeSeconds": 150,
+    "inputs": [
+      {
+        "itemId": "encased_uranium_cell",
+        "amountPerCycle": 50,
+        "amountPerMinute": 20
+      },
+      {
+        "itemId": "encased_industrial_beam",
+        "amountPerCycle": 3,
+        "amountPerMinute": 1.2
+      },
+      {
+        "itemId": "electromagnetic_control_rod",
+        "amountPerCycle": 5,
+        "amountPerMinute": 2
+      }
+    ],
+    "outputs": [
+      {
+        "itemId": "uranium_fuel_rod",
+        "amountPerCycle": 1,
+        "amountPerMinute": 0.4
+      }
+    ]
+  },
+  {
+    "id": "recipe_non_fissile_uranium",
+    "name": "Non-fissile Uranium",
+    "nameJa": "非分裂性ウラン",
+    "isAlternate": false,
+    "machineId": "blender",
+    "craftTimeSeconds": 24,
+    "inputs": [
+      {
+        "itemId": "uranium_waste",
+        "amountPerCycle": 15,
+        "amountPerMinute": 37.5
+      },
+      {
+        "itemId": "silica",
+        "amountPerCycle": 10,
+        "amountPerMinute": 25
+      },
+      {
+        "itemId": "nitric_acid",
+        "amountPerCycle": 6,
+        "amountPerMinute": 15
+      },
+      {
+        "itemId": "sulfuric_acid",
+        "amountPerCycle": 6,
+        "amountPerMinute": 15
+      }
+    ],
+    "outputs": [
+      {
+        "itemId": "non_fissile_uranium",
+        "amountPerCycle": 20,
+        "amountPerMinute": 50
+      },
+      {
+        "itemId": "water",
+        "amountPerCycle": 6,
+        "amountPerMinute": 15
+      }
+    ]
+  },
+  {
+    "id": "recipe_plutonium_pellet",
+    "name": "Plutonium Pellet",
+    "nameJa": "プルトニウム・ペレット",
+    "isAlternate": false,
+    "machineId": "particle_accelerator",
+    "craftTimeSeconds": 60,
+    "inputs": [
+      {
+        "itemId": "non_fissile_uranium",
+        "amountPerCycle": 100,
+        "amountPerMinute": 100
+      },
+      {
+        "itemId": "uranium_waste",
+        "amountPerCycle": 25,
+        "amountPerMinute": 25
+      }
+    ],
+    "outputs": [
+      {
+        "itemId": "plutonium_pellet",
+        "amountPerCycle": 30,
+        "amountPerMinute": 30
+      }
+    ]
+  },
+  {
+    "id": "recipe_encased_plutonium_cell",
+    "name": "Encased Plutonium Cell",
+    "nameJa": "被覆型プルトニウム・セル",
+    "isAlternate": false,
+    "machineId": "assembler",
+    "craftTimeSeconds": 12,
+    "inputs": [
+      {
+        "itemId": "plutonium_pellet",
+        "amountPerCycle": 2,
+        "amountPerMinute": 10
+      },
+      {
+        "itemId": "concrete",
+        "amountPerCycle": 4,
+        "amountPerMinute": 20
+      }
+    ],
+    "outputs": [
+      {
+        "itemId": "encased_plutonium_cell",
+        "amountPerCycle": 1,
+        "amountPerMinute": 5
+      }
+    ]
+  },
+  {
+    "id": "recipe_plutonium_fuel_rod",
+    "name": "Plutonium Fuel Rod",
+    "nameJa": "プルトニウム燃料棒",
+    "isAlternate": false,
+    "machineId": "manufacturer",
+    "craftTimeSeconds": 240,
+    "inputs": [
+      {
+        "itemId": "encased_plutonium_cell",
+        "amountPerCycle": 30,
+        "amountPerMinute": 7.5
+      },
+      {
+        "itemId": "steel_beam",
+        "amountPerCycle": 18,
+        "amountPerMinute": 4.5
+      },
+      {
+        "itemId": "electromagnetic_control_rod",
+        "amountPerCycle": 6,
+        "amountPerMinute": 1.5
+      },
+      {
+        "itemId": "heat_sink",
+        "amountPerCycle": 10,
+        "amountPerMinute": 2.5
+      }
+    ],
+    "outputs": [
+      {
+        "itemId": "plutonium_fuel_rod",
+        "amountPerCycle": 1,
+        "amountPerMinute": 0.25
+      }
+    ]
+  },
+  {
+    "id": "recipe_ficsonium",
+    "name": "Ficsonium",
+    "nameJa": "FICSONIUM",
+    "isAlternate": false,
+    "machineId": "particle_accelerator",
+    "craftTimeSeconds": 6,
+    "inputs": [
+      {
+        "itemId": "plutonium_waste",
+        "amountPerCycle": 1,
+        "amountPerMinute": 10
+      },
+      {
+        "itemId": "singularity_cell",
+        "amountPerCycle": 1,
+        "amountPerMinute": 10
+      },
+      {
+        "itemId": "dark_matter_residue",
+        "amountPerCycle": 20,
+        "amountPerMinute": 200
+      }
+    ],
+    "outputs": [
+      {
+        "itemId": "ficsonium",
+        "amountPerCycle": 1,
+        "amountPerMinute": 10
+      }
+    ]
+  },
+  {
+    "id": "recipe_ficsonium_fuel_rod",
+    "name": "Ficsonium Fuel Rod",
+    "nameJa": "FICSONIUM燃料棒",
+    "isAlternate": false,
+    "machineId": "quantum_encoder",
+    "craftTimeSeconds": 24,
+    "inputs": [
+      {
+        "itemId": "dark_matter_residue",
+        "amountPerCycle": 20,
+        "amountPerMinute": 50
+      },
+      {
+        "itemId": "ficsonium",
+        "amountPerCycle": 2,
+        "amountPerMinute": 5
+      },
+      {
+        "itemId": "electromagnetic_control_rod",
+        "amountPerCycle": 2,
+        "amountPerMinute": 5
+      },
+      {
+        "itemId": "ficsite_trigon",
+        "amountPerCycle": 40,
+        "amountPerMinute": 100
+      },
+      {
+        "itemId": "excited_photonic_matter",
+        "amountPerCycle": 20,
+        "amountPerMinute": 50
+      }
+    ],
+    "outputs": [
+      {
+        "itemId": "ficsonium_fuel_rod",
+        "amountPerCycle": 1,
+        "amountPerMinute": 2.5
+      }
+    ]
+  },
+  {
+    "id": "recipe_rocket_fuel",
+    "name": "Rocket Fuel",
+    "nameJa": "ロケット燃料",
+    "isAlternate": false,
+    "machineId": "blender",
+    "craftTimeSeconds": 6,
+    "inputs": [
+      {
+        "itemId": "turbofuel",
+        "amountPerCycle": 6,
+        "amountPerMinute": 60
+      },
+      {
+        "itemId": "nitric_acid",
+        "amountPerCycle": 1,
+        "amountPerMinute": 10
+      }
+    ],
+    "outputs": [
+      {
+        "itemId": "rocket_fuel",
+        "amountPerCycle": 10,
+        "amountPerMinute": 100
+      },
+      {
+        "itemId": "compacted_coal",
+        "amountPerCycle": 1,
+        "amountPerMinute": 10
+      }
+    ]
+  },
+  {
+    "id": "recipe_ionized_fuel",
+    "name": "Ionized Fuel",
+    "nameJa": "イオン燃料",
+    "isAlternate": false,
+    "machineId": "refinery",
+    "craftTimeSeconds": 24,
+    "inputs": [
+      {
+        "itemId": "rocket_fuel",
+        "amountPerCycle": 16,
+        "amountPerMinute": 40
+      },
+      {
+        "itemId": "power_shard",
+        "amountPerCycle": 1,
+        "amountPerMinute": 2.5
+      }
+    ],
+    "outputs": [
+      {
+        "itemId": "ionized_fuel",
+        "amountPerCycle": 16,
+        "amountPerMinute": 40
+      },
+      {
+        "itemId": "compacted_coal",
+        "amountPerCycle": 2,
+        "amountPerMinute": 5
+      }
+    ]
+  },
+  {
+    "id": "recipe_nuclear_pasta",
+    "name": "Nuclear Pasta",
+    "nameJa": "核パスタ",
+    "isAlternate": false,
+    "machineId": "particle_accelerator",
+    "craftTimeSeconds": 120,
+    "inputs": [
+      {
+        "itemId": "copper_powder",
+        "amountPerCycle": 200,
+        "amountPerMinute": 100
+      },
+      {
+        "itemId": "pressure_conversion_cube",
+        "amountPerCycle": 1,
+        "amountPerMinute": 0.5
+      }
+    ],
+    "outputs": [
+      {
+        "itemId": "nuclear_pasta",
+        "amountPerCycle": 1,
+        "amountPerMinute": 0.5
+      }
+    ]
+  },
+  {
+    "id": "recipe_assembly_director_system",
+    "name": "Assembly Director System",
+    "nameJa": "組立指揮システム",
+    "isAlternate": false,
+    "machineId": "assembler",
+    "craftTimeSeconds": 80,
+    "inputs": [
+      {
+        "itemId": "adaptive_control_unit",
+        "amountPerCycle": 2,
+        "amountPerMinute": 1.5
+      },
+      {
+        "itemId": "supercomputer",
+        "amountPerCycle": 1,
+        "amountPerMinute": 0.75
+      }
+    ],
+    "outputs": [
+      {
+        "itemId": "assembly_director_system",
+        "amountPerCycle": 1,
+        "amountPerMinute": 0.75
+      }
+    ]
+  },
+  {
+    "id": "recipe_magnetic_field_generator",
+    "name": "Magnetic Field Generator",
+    "nameJa": "磁界発生装置",
+    "isAlternate": false,
+    "machineId": "manufacturer",
+    "craftTimeSeconds": 120,
+    "inputs": [
+      {
+        "itemId": "versatile_framework",
+        "amountPerCycle": 5,
+        "amountPerMinute": 2.5
+      },
+      {
+        "itemId": "electromagnetic_control_rod",
+        "amountPerCycle": 2,
+        "amountPerMinute": 1
+      }
+    ],
+    "outputs": [
+      {
+        "itemId": "magnetic_field_generator",
+        "amountPerCycle": 2,
+        "amountPerMinute": 1
+      }
+    ]
+  },
+  {
+    "id": "recipe_thermal_propulsion_rocket",
+    "name": "Thermal Propulsion Rocket",
+    "nameJa": "熱推進型ロケット",
+    "isAlternate": false,
+    "machineId": "manufacturer",
+    "craftTimeSeconds": 120,
+    "inputs": [
+      {
+        "itemId": "modular_engine",
+        "amountPerCycle": 5,
+        "amountPerMinute": 2.5
+      },
+      {
+        "itemId": "turbo_motor",
+        "amountPerCycle": 2,
+        "amountPerMinute": 1
+      },
+      {
+        "itemId": "cooling_system",
+        "amountPerCycle": 6,
+        "amountPerMinute": 3
+      },
+      {
+        "itemId": "fused_modular_frame",
+        "amountPerCycle": 2,
+        "amountPerMinute": 1
+      }
+    ],
+    "outputs": [
+      {
+        "itemId": "thermal_propulsion_rocket",
+        "amountPerCycle": 2,
+        "amountPerMinute": 1
+      }
+    ]
+  },
+  {
+    "id": "recipe_biochemical_sculptor",
+    "name": "Biochemical Sculptor",
+    "nameJa": "生化学スカルプター",
+    "isAlternate": false,
+    "machineId": "blender",
+    "craftTimeSeconds": 120,
+    "inputs": [
+      {
+        "itemId": "assembly_director_system",
+        "amountPerCycle": 1,
+        "amountPerMinute": 0.5
+      },
+      {
+        "itemId": "ficsite_trigon",
+        "amountPerCycle": 80,
+        "amountPerMinute": 40
+      },
+      {
+        "itemId": "water",
+        "amountPerCycle": 20,
+        "amountPerMinute": 10
+      }
+    ],
+    "outputs": [
+      {
+        "itemId": "biochemical_sculptor",
+        "amountPerCycle": 4,
+        "amountPerMinute": 2
+      }
+    ]
+  },
+  {
+    "id": "recipe_ai_expansion_server",
+    "name": "AI Expansion Server",
+    "nameJa": "AI拡張サーバー",
+    "isAlternate": false,
+    "machineId": "quantum_encoder",
+    "craftTimeSeconds": 15,
+    "inputs": [
+      {
+        "itemId": "dark_matter_residue",
+        "amountPerCycle": 25,
+        "amountPerMinute": 100
+      },
+      {
+        "itemId": "magnetic_field_generator",
+        "amountPerCycle": 1,
+        "amountPerMinute": 4
+      },
+      {
+        "itemId": "neural_quantum_processor",
+        "amountPerCycle": 1,
+        "amountPerMinute": 4
+      },
+      {
+        "itemId": "superposition_oscillator",
+        "amountPerCycle": 1,
+        "amountPerMinute": 4
+      },
+      {
+        "itemId": "excited_photonic_matter",
+        "amountPerCycle": 25,
+        "amountPerMinute": 100
+      }
+    ],
+    "outputs": [
+      {
+        "itemId": "ai_expansion_server",
+        "amountPerCycle": 1,
+        "amountPerMinute": 4
+      }
+    ]
+  },
+  {
+    "id": "recipe_ballistic_warp_drive",
+    "name": "Ballistic Warp Drive",
+    "nameJa": "弾道ワープドライブ",
+    "isAlternate": false,
+    "machineId": "manufacturer",
+    "craftTimeSeconds": 60,
+    "inputs": [
+      {
+        "itemId": "thermal_propulsion_rocket",
+        "amountPerCycle": 1,
+        "amountPerMinute": 1
+      },
+      {
+        "itemId": "singularity_cell",
+        "amountPerCycle": 5,
+        "amountPerMinute": 5
+      },
+      {
+        "itemId": "superposition_oscillator",
+        "amountPerCycle": 2,
+        "amountPerMinute": 2
+      },
+      {
+        "itemId": "dark_matter_crystal",
+        "amountPerCycle": 40,
+        "amountPerMinute": 40
+      }
+    ],
+    "outputs": [
+      {
+        "itemId": "ballistic_warp_drive",
+        "amountPerCycle": 1,
+        "amountPerMinute": 1
+      }
+    ]
+  },
+  {
+    "id": "recipe_compacted_coal_alt",
+    "name": "Compacted Coal",
+    "nameJa": "圧縮石炭",
+    "isAlternate": true,
+    "machineId": "assembler",
+    "craftTimeSeconds": 12,
+    "inputs": [
+      {
+        "itemId": "coal",
+        "amountPerCycle": 5,
+        "amountPerMinute": 25
+      },
+      {
+        "itemId": "sulfur",
+        "amountPerCycle": 5,
+        "amountPerMinute": 25
+      }
+    ],
+    "outputs": [
+      {
+        "itemId": "compacted_coal",
+        "amountPerCycle": 5,
+        "amountPerMinute": 25
       }
     ]
   }

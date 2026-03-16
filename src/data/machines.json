@@ -62,5 +62,29 @@
     "category": "particle_accelerator",
     "powerConsumptionMW": 500,
     "overclock": { "min": 0.01, "max": 2.5, "default": 1.0 }
+  },
+  {
+    "id": "converter",
+    "name": "Converter",
+    "nameJa": "変換機",
+    "category": "converter",
+    "powerConsumptionMW": 50,
+    "overclock": { "min": 0.01, "max": 2.5, "default": 1.0 }
+  },
+  {
+    "id": "packager",
+    "name": "Packager",
+    "nameJa": "充填機",
+    "category": "packager",
+    "powerConsumptionMW": 10,
+    "overclock": { "min": 0.01, "max": 2.5, "default": 1.0 }
+  },
+  {
+    "id": "quantum_encoder",
+    "name": "Quantum Encoder",
+    "nameJa": "量子エンコーダー",
+    "category": "quantum_encoder",
+    "powerConsumptionMW": 1000,
+    "overclock": { "min": 0.01, "max": 2.5, "default": 1.0 }
   }
 ]

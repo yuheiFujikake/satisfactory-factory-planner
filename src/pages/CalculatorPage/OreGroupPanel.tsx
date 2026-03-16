@@ -34,20 +34,22 @@ interface ItemEntry {
 }
 
 interface IngotGroup {
-  /** Sorted ingot item IDs (unique combination key) */
-  ingotIds: string[];
+  /** Sorted base resource IDs (ingots + raw fluids, unique combination key) */
+  baseIds: string[];
   items: ItemEntry[];
 }
 
 // ── Algorithm ────────────────────────────────────────────────────────────────
 //
 // For each item in the calculation tree:
-//   1. Trace its dependency chain, stopping at ingots (category='ingot').
-//   2. If ANY dependency path reaches a non-ingot raw resource → exclude.
-//   3. Otherwise, the item belongs to the group keyed by its ingot combination.
+//   1. Trace its dependency chain, stopping at ingots (category='ingot')
+//      OR raw fluid resources (category='fluid' AND isRawResource=true).
+//   2. If ANY dependency path reaches a raw resource that is neither an ingot
+//      nor a raw fluid (e.g. ore, mineral) → exclude.
+//   3. Otherwise, the item belongs to the group keyed by its base combination.
 //
-// Items that need e.g. Iron Ingot + Copper Ingot appear under the
-// "Iron + Copper" combined group, not in either single-ingot group.
+// Items that need e.g. Iron Ingot + Water appear under the
+// "Iron Ingot + Water" combined group.
 
 function buildIngotGroups(
   roots: CalculationNode[],
@@ -66,9 +68,9 @@ function buildIngotGroups(
   }
   collectNodes(roots);
 
-  // Step 2: for each item, find which ingots it transitively depends on.
-  //         hasNonIngotBase = true when a path leads to a raw resource that
-  //         is NOT an ingot (ore, fluid, etc.).
+  // Step 2: for each item, find which base resources (ingots + raw fluids) it
+  //         transitively depends on. hasNonIngotBase = true when a path leads
+  //         to a raw resource that is NOT an ingot and NOT a raw fluid (e.g. ore).
   type DepResult = { ingots: Set<string>; hasNonIngotBase: boolean };
   const cache = new Map<string, DepResult>();
 
@@ -79,15 +81,23 @@ function buildIngotGroups(
     const item = items[itemId];
     if (!item) return { ingots: new Set(), hasNonIngotBase: false };
 
-    // An ingot is the "base" for this grouping — stop here
+    // An ingot is a "base" for this grouping — stop here
     if (item.category === 'ingot') {
       const r: DepResult = { ingots: new Set([itemId]), hasNonIngotBase: false };
       cache.set(itemId, r);
       return r;
     }
 
-    // A raw resource that is NOT an ingot (ore, fluid, …) → disqualifying
     const node = nodeMap.get(itemId);
+
+    // A raw fluid (water, crude oil, nitrogen gas, …) is also a "base" — stop here
+    if (item.category === 'fluid' && (!node || node.isRawResource)) {
+      const r: DepResult = { ingots: new Set([itemId]), hasNonIngotBase: false };
+      cache.set(itemId, r);
+      return r;
+    }
+
+    // A raw resource that is NOT an ingot and NOT a raw fluid (ore, mineral) → disqualifying
     if (!node || node.isRawResource) {
       const r: DepResult = { ingots: new Set(), hasNonIngotBase: true };
       cache.set(itemId, r);
@@ -121,21 +131,21 @@ function buildIngotGroups(
     if (node.isRawResource) return;           // skip raw resources
 
     const { ingots, hasNonIngotBase } = cache.get(itemId)!;
-    if (hasNonIngotBase) return;             // needs non-ingot raw material → skip
-    if (ingots.size === 0) return;           // no ingot dependency → skip
+    if (hasNonIngotBase) return;             // needs non-base raw material → skip
+    if (ingots.size === 0) return;           // no base dependency → skip
 
     const key = [...ingots].sort().join(',');
     if (!groupMap.has(key)) {
-      groupMap.set(key, { ingotIds: [...ingots].sort(), items: [] });
+      groupMap.set(key, { baseIds: [...ingots].sort(), items: [] });
     }
     const recipe = node.recipeId ? recipes[node.recipeId] : undefined;
     groupMap.get(key)!.items.push({ itemId, machineId: recipe?.machineId });
   });
 
-  // Step 4: sort groups (fewer ingots first; tie-break by first ingot id)
+  // Step 4: sort groups (fewer bases first; tie-break by first base id)
   const groups = [...groupMap.values()].sort((a, b) => {
-    if (a.ingotIds.length !== b.ingotIds.length) return a.ingotIds.length - b.ingotIds.length;
-    return a.ingotIds[0].localeCompare(b.ingotIds[0]);
+    if (a.baseIds.length !== b.baseIds.length) return a.baseIds.length - b.baseIds.length;
+    return a.baseIds[0].localeCompare(b.baseIds[0]);
   });
 
   // Sort items within each group by category order, then tier
@@ -195,7 +205,7 @@ export default function OreGroupPanel({ roots }: Props) {
         <div style={{ fontSize: '40px' }}>🔩</div>
         <div style={{ fontSize: '15px', color: '#e0e0e0' }}>生産目標を設定して計算を実行</div>
         <div style={{ fontSize: '12px', textAlign: 'center' }}>
-          計算結果のアイテムをインゴットの組み合わせ別に表示します
+          計算結果のアイテムをインゴット・液体原材料の組み合わせ別に表示します
         </div>
       </div>
     );
@@ -207,30 +217,28 @@ export default function OreGroupPanel({ roots }: Props) {
         flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center',
         color: '#a0a0b0', fontSize: '13px',
       }}>
-        インゴットのみで作成できるアイテムが見つかりませんでした
+        インゴット・液体原材料から作成できるアイテムが見つかりませんでした
       </div>
     );
   }
 
   return (
-    <div style={{ height: '100%', overflow: 'auto', padding: '16px' }}>
-      <div style={{
-        display: 'grid',
-        gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))',
-        gap: '12px',
-        alignItems: 'start',
-      }}>
+    <div style={{ height: '100%', overflow: 'auto', padding: '12px 16px' }}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
         {groups.map(group => {
-          const key = group.ingotIds.join(',');
-          const isCollapsed = collapsed.has(key);
+          const key = group.baseIds.join(',');
+          const isOpen = !collapsed.has(key);
 
-          // Build the card title from ingot names
-          const ingotLabel = group.ingotIds.map(id => {
-            const ingot = items[id];
-            return ingot ? getName(ingot) : id;
+          const hasIngot = group.baseIds.some(id => items[id]?.category === 'ingot');
+          const hasFluid = group.baseIds.some(id => items[id]?.category === 'fluid');
+          const accentColor = hasIngot && hasFluid ? '#9b6fe0' : hasFluid ? '#4da6e0' : '#f5a623';
+          const groupIcon  = hasIngot && hasFluid ? '🔩' : hasFluid ? '💧' : '🔩';
+          const groupLabel = group.baseIds.map(id => {
+            const base = items[id];
+            return base ? getName(base) : id;
           }).join(' + ');
 
-          // Sub-group items by category for display
+          // Sub-group items by category
           const byCategory = new Map<string, ItemEntry[]>();
           group.items.forEach(entry => {
             const item = items[entry.itemId];
@@ -244,43 +252,43 @@ export default function OreGroupPanel({ roots }: Props) {
           ];
 
           return (
-            <div
-              key={key}
-              style={{
-                background: '#0f3460',
-                border: '1px solid #1a3a6a',
-                borderRadius: '10px',
-                overflow: 'hidden',
-              }}
-            >
-              {/* ── Card header ── */}
+            <div key={key} style={{ borderRadius: '6px', overflow: 'hidden' }}>
+              {/* ── Accordion header ── */}
               <button
                 onClick={() => toggleCollapse(key)}
                 style={{
-                  width: '100%', display: 'flex', alignItems: 'flex-start',
-                  gap: '10px', padding: '12px 16px',
-                  background: 'transparent', border: 'none', cursor: 'pointer',
-                  borderBottom: isCollapsed ? 'none' : '1px solid rgba(255,255,255,0.08)',
-                  textAlign: 'left',
+                  width: '100%', display: 'flex', alignItems: 'center', gap: '10px',
+                  padding: '9px 14px',
+                  background: isOpen ? 'rgba(255,255,255,0.07)' : 'rgba(255,255,255,0.04)',
+                  border: 'none', cursor: 'pointer', textAlign: 'left',
+                  borderLeft: `3px solid ${accentColor}`,
+                  transition: 'background 0.15s',
                 }}
               >
-                <span style={{ fontSize: '18px', flexShrink: 0, marginTop: '1px' }}>🔩</span>
-                <div style={{ flex: 1, minWidth: 0 }}>
-                  <div style={{ color: '#f5a623', fontWeight: 700, fontSize: '13px', lineHeight: '1.4' }}>
-                    {ingotLabel}
-                  </div>
-                  <div style={{ color: '#a0a0b0', fontSize: '11px', marginTop: '2px' }}>
-                    {group.items.length} アイテム
-                  </div>
-                </div>
-                <span style={{ color: '#a0a0b0', fontSize: '11px', flexShrink: 0, marginTop: '2px' }}>
-                  {isCollapsed ? '▶' : '▼'}
+                <span style={{ fontSize: '15px', flexShrink: 0 }}>{groupIcon}</span>
+                <span style={{ flex: 1, color: accentColor, fontWeight: 700, fontSize: '13px' }}>
+                  {groupLabel}
+                </span>
+                <span style={{
+                  color: '#808090', fontSize: '10px', flexShrink: 0,
+                  background: 'rgba(255,255,255,0.06)',
+                  padding: '1px 7px', borderRadius: '10px', marginRight: '6px',
+                }}>
+                  {group.items.length}
+                </span>
+                <span style={{ color: '#606070', fontSize: '10px', flexShrink: 0 }}>
+                  {isOpen ? '▼' : '▶'}
                 </span>
               </button>
 
-              {/* ── Card body ── */}
-              {!isCollapsed && (
-                <div style={{ padding: '12px 16px', display: 'flex', flexDirection: 'column', gap: '10px' }}>
+              {/* ── Accordion body ── */}
+              {isOpen && (
+                <div style={{
+                  borderLeft: `3px solid ${accentColor}`,
+                  background: 'rgba(255,255,255,0.02)',
+                  padding: '10px 14px 12px 14px',
+                  display: 'flex', flexDirection: 'column', gap: '10px',
+                }}>
                   {sortedCats.map(cat => {
                     const catItems = byCategory.get(cat) ?? [];
                     const catEmoji = categoryEmoji[cat] ?? '📦';
@@ -293,15 +301,15 @@ export default function OreGroupPanel({ roots }: Props) {
                         {/* Category heading */}
                         <div style={{
                           display: 'flex', alignItems: 'center', gap: '4px',
-                          color: '#808090', fontSize: '10px', fontWeight: 700,
+                          color: '#606070', fontSize: '10px', fontWeight: 700,
                           textTransform: 'uppercase', letterSpacing: '0.7px',
                           marginBottom: '5px',
                         }}>
                           <span>{catEmoji}</span>
                           <span>{catLabel}</span>
                         </div>
-                        {/* Item rows */}
-                        <div style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
+                        {/* Item chips */}
+                        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '4px' }}>
                           {catItems.map(entry => {
                             const item = items[entry.itemId];
                             const machine = entry.machineId ? machines[entry.machineId] : undefined;
@@ -313,10 +321,10 @@ export default function OreGroupPanel({ roots }: Props) {
                               <div
                                 key={entry.itemId}
                                 style={{
-                                  display: 'flex', alignItems: 'center',
-                                  justifyContent: 'space-between',
+                                  display: 'inline-flex', alignItems: 'center', gap: '5px',
                                   padding: '3px 8px', borderRadius: '4px',
-                                  background: 'rgba(255,255,255,0.04)',
+                                  background: 'rgba(255,255,255,0.06)',
+                                  border: '1px solid rgba(255,255,255,0.08)',
                                 }}
                               >
                                 <span style={{ color: '#e0e0e0', fontSize: '12px' }}>
@@ -324,10 +332,9 @@ export default function OreGroupPanel({ roots }: Props) {
                                 </span>
                                 {machineName && (
                                   <span style={{
-                                    color: '#808090', fontSize: '10px', flexShrink: 0,
-                                    background: 'rgba(255,255,255,0.06)',
-                                    padding: '1px 6px', borderRadius: '3px',
-                                    marginLeft: '8px',
+                                    color: '#606070', fontSize: '10px',
+                                    borderLeft: '1px solid rgba(255,255,255,0.12)',
+                                    paddingLeft: '5px',
                                   }}>
                                     {machineName}
                                   </span>

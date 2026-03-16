@@ -1,14 +1,16 @@
 import { NavLink } from 'react-router-dom';
-import { Calculator, FolderOpen, Package, Settings, HelpCircle } from 'lucide-react';
+import { Calculator, FolderOpen, Package, Settings, HelpCircle, History } from 'lucide-react';
 import { usePlanStore } from '../../stores/planStore';
 import { useIsMobile } from '../../hooks/useIsMobile';
+import { APP_VERSION } from '../../version';
 
 const navItems = [
-  { to: '/',         icon: Calculator,  label: '計算機',   exact: true  },
-  { to: '/plans',    icon: FolderOpen,  label: 'プラン',   exact: false },
-  { to: '/items',    icon: Package,     label: 'アイテム', exact: false },
-  { to: '/settings', icon: Settings,    label: '設定',     exact: false },
-  { to: '/help',     icon: HelpCircle,  label: '使い方',   exact: false },
+  { to: '/',          icon: Calculator, label: '計算機',   exact: true  },
+  { to: '/plans',     icon: FolderOpen, label: 'プラン',   exact: false },
+  { to: '/items',     icon: Package,    label: 'アイテム', exact: false },
+  { to: '/settings',  icon: Settings,   label: '設定',     exact: false },
+  { to: '/help',      icon: HelpCircle, label: '使い方',   exact: false },
+  { to: '/changelog', icon: History,    label: '更新履歴', exact: false },
 ];
 
 export default function Sidebar() {
@@ -98,8 +100,8 @@ export default function Sidebar() {
         ))}
       </nav>
 
-      <div style={{ padding: '12px 16px', borderTop: '1px solid #0f3460', color: '#a0a0b0', fontSize: '10px', textAlign: 'center' }}>
-        Satisfactory Factory Planner v1.0
+      <div style={{ padding: '12px 16px', borderTop: '1px solid #0f3460', color: '#606070', fontSize: '10px', textAlign: 'center' }}>
+        Satisfactory Factory Planner v{APP_VERSION}
       </div>
     </aside>
   );

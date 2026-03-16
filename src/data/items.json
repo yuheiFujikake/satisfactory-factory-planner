@@ -532,7 +532,7 @@
   {
     "id": "electromagnetic_control_rod",
     "name": "Electromagnetic Control Rod",
-    "nameJa": "電磁制御ロッド",
+    "nameJa": "電磁制御棒",
     "category": "industrial",
     "tier": 5,
     "stackSize": 100,
@@ -612,7 +612,7 @@
   {
     "id": "polymer_resin",
     "name": "Polymer Resin",
-    "nameJa": "ポリマー樹脂",
+    "nameJa": "合成樹脂",
     "category": "petroleum",
     "tier": 3,
     "stackSize": 200,
@@ -672,7 +672,7 @@
   {
     "id": "portable_miner",
     "name": "Portable Miner",
-    "nameJa": "携帯用採掘機",
+    "nameJa": "携帯式採鉱機",
     "category": "equipment",
     "tier": 0,
     "stackSize": 1,
@@ -702,7 +702,7 @@
   {
     "id": "object_scanner",
     "name": "Object Scanner",
-    "nameJa": "オブジェクトスキャナー",
+    "nameJa": "オブジェクト・スキャナー",
     "category": "equipment",
     "tier": 1,
     "stackSize": 1,
@@ -732,7 +732,7 @@
   {
     "id": "hazmat_suit",
     "name": "Hazmat Suit",
-    "nameJa": "防護服",
+    "nameJa": "化学防護服",
     "category": "equipment",
     "tier": 5,
     "stackSize": 1,
@@ -767,6 +767,506 @@
     "tier": 2,
     "stackSize": 50,
     "sinkPoints": 15,
+    "iconUrl": ""
+  },
+  {
+    "id": "sam",
+    "name": "SAM",
+    "nameJa": "SAM",
+    "category": "ore",
+    "tier": 7,
+    "stackSize": 100,
+    "sinkPoints": 0,
+    "iconUrl": ""
+  },
+  {
+    "id": "reanimated_sam",
+    "name": "Reanimated SAM",
+    "nameJa": "活性SAM",
+    "category": "electronic",
+    "tier": 7,
+    "stackSize": 100,
+    "sinkPoints": 0,
+    "iconUrl": ""
+  },
+  {
+    "id": "sam_fluctuator",
+    "name": "SAM Fluctuator",
+    "nameJa": "SAM変動機",
+    "category": "electronic",
+    "tier": 7,
+    "stackSize": 50,
+    "sinkPoints": 0,
+    "iconUrl": ""
+  },
+  {
+    "id": "ficsite_ingot",
+    "name": "Ficsite Ingot",
+    "nameJa": "FICSITEのインゴット",
+    "category": "ingot",
+    "tier": 7,
+    "stackSize": 100,
+    "sinkPoints": 0,
+    "iconUrl": ""
+  },
+  {
+    "id": "ficsite_trigon",
+    "name": "Ficsite Trigon",
+    "nameJa": "FICSITEの三角板",
+    "category": "standard_part",
+    "tier": 7,
+    "stackSize": 200,
+    "sinkPoints": 0,
+    "iconUrl": ""
+  },
+  {
+    "id": "copper_powder",
+    "name": "Copper Powder",
+    "nameJa": "銅粉",
+    "category": "mineral",
+    "tier": 5,
+    "stackSize": 500,
+    "sinkPoints": 56,
+    "iconUrl": ""
+  },
+  {
+    "id": "compacted_coal",
+    "name": "Compacted Coal",
+    "nameJa": "圧縮石炭",
+    "category": "mineral",
+    "tier": 3,
+    "stackSize": 100,
+    "sinkPoints": 28,
+    "iconUrl": ""
+  },
+  {
+    "id": "petroleum_coke",
+    "name": "Petroleum Coke",
+    "nameJa": "石油コークス",
+    "category": "petroleum",
+    "tier": 4,
+    "stackSize": 200,
+    "sinkPoints": 20,
+    "iconUrl": ""
+  },
+  {
+    "id": "rocket_fuel",
+    "name": "Rocket Fuel",
+    "nameJa": "ロケット燃料",
+    "category": "fuel",
+    "tier": 7,
+    "stackSize": 0,
+    "sinkPoints": 0,
+    "iconUrl": ""
+  },
+  {
+    "id": "ionized_fuel",
+    "name": "Ionized Fuel",
+    "nameJa": "イオン燃料",
+    "category": "fuel",
+    "tier": 7,
+    "stackSize": 0,
+    "sinkPoints": 0,
+    "iconUrl": ""
+  },
+  {
+    "id": "encased_uranium_cell",
+    "name": "Encased Uranium Cell",
+    "nameJa": "被覆型ウラン・セル",
+    "category": "nuclear",
+    "tier": 6,
+    "stackSize": 200,
+    "sinkPoints": 1276,
+    "iconUrl": ""
+  },
+  {
+    "id": "uranium_fuel_rod",
+    "name": "Uranium Fuel Rod",
+    "nameJa": "ウラン燃料棒",
+    "category": "nuclear",
+    "tier": 6,
+    "stackSize": 1,
+    "sinkPoints": 44092,
+    "iconUrl": ""
+  },
+  {
+    "id": "uranium_waste",
+    "name": "Uranium Waste",
+    "nameJa": "ウラン廃棄物",
+    "category": "nuclear",
+    "tier": 6,
+    "stackSize": 500,
+    "sinkPoints": 0,
+    "iconUrl": ""
+  },
+  {
+    "id": "non_fissile_uranium",
+    "name": "Non-fissile Uranium",
+    "nameJa": "非分裂性ウラン",
+    "category": "nuclear",
+    "tier": 6,
+    "stackSize": 200,
+    "sinkPoints": 492,
+    "iconUrl": ""
+  },
+  {
+    "id": "plutonium_pellet",
+    "name": "Plutonium Pellet",
+    "nameJa": "プルトニウム・ペレット",
+    "category": "nuclear",
+    "tier": 7,
+    "stackSize": 200,
+    "sinkPoints": 2306,
+    "iconUrl": ""
+  },
+  {
+    "id": "encased_plutonium_cell",
+    "name": "Encased Plutonium Cell",
+    "nameJa": "被覆型プルトニウム・セル",
+    "category": "nuclear",
+    "tier": 7,
+    "stackSize": 50,
+    "sinkPoints": 15101,
+    "iconUrl": ""
+  },
+  {
+    "id": "plutonium_fuel_rod",
+    "name": "Plutonium Fuel Rod",
+    "nameJa": "プルトニウム燃料棒",
+    "category": "nuclear",
+    "tier": 7,
+    "stackSize": 1,
+    "sinkPoints": 153184,
+    "iconUrl": ""
+  },
+  {
+    "id": "plutonium_waste",
+    "name": "Plutonium Waste",
+    "nameJa": "プルトニウム廃棄物",
+    "category": "nuclear",
+    "tier": 7,
+    "stackSize": 500,
+    "sinkPoints": 0,
+    "iconUrl": ""
+  },
+  {
+    "id": "ficsonium",
+    "name": "Ficsonium",
+    "nameJa": "FICSONIUM",
+    "category": "nuclear",
+    "tier": 7,
+    "stackSize": 200,
+    "sinkPoints": 0,
+    "iconUrl": ""
+  },
+  {
+    "id": "ficsonium_fuel_rod",
+    "name": "Ficsonium Fuel Rod",
+    "nameJa": "FICSONIUM燃料棒",
+    "category": "nuclear",
+    "tier": 7,
+    "stackSize": 1,
+    "sinkPoints": 0,
+    "iconUrl": ""
+  },
+  {
+    "id": "diamonds",
+    "name": "Diamonds",
+    "nameJa": "ダイヤモンド",
+    "category": "quantum",
+    "tier": 7,
+    "stackSize": 200,
+    "sinkPoints": 0,
+    "iconUrl": ""
+  },
+  {
+    "id": "time_crystal",
+    "name": "Time Crystal",
+    "nameJa": "時の結晶",
+    "category": "quantum",
+    "tier": 7,
+    "stackSize": 200,
+    "sinkPoints": 0,
+    "iconUrl": ""
+  },
+  {
+    "id": "dark_matter_residue",
+    "name": "Dark Matter Residue",
+    "nameJa": "ダークマターの残留物",
+    "category": "quantum",
+    "tier": 7,
+    "stackSize": 0,
+    "sinkPoints": 0,
+    "iconUrl": ""
+  },
+  {
+    "id": "dark_matter_crystal",
+    "name": "Dark Matter Crystal",
+    "nameJa": "ダークマターの結晶",
+    "category": "quantum",
+    "tier": 7,
+    "stackSize": 200,
+    "sinkPoints": 0,
+    "iconUrl": ""
+  },
+  {
+    "id": "superposition_oscillator",
+    "name": "Superposition Oscillator",
+    "nameJa": "重ね合わせ発振器",
+    "category": "quantum",
+    "tier": 7,
+    "stackSize": 50,
+    "sinkPoints": 0,
+    "iconUrl": ""
+  },
+  {
+    "id": "excited_photonic_matter",
+    "name": "Excited Photonic Matter",
+    "nameJa": "励起フォトニック物質",
+    "category": "quantum",
+    "tier": 7,
+    "stackSize": 0,
+    "sinkPoints": 0,
+    "iconUrl": ""
+  },
+  {
+    "id": "neural_quantum_processor",
+    "name": "Neural-Quantum Processor",
+    "nameJa": "ニューラル量子プロセッサー",
+    "category": "quantum",
+    "tier": 7,
+    "stackSize": 50,
+    "sinkPoints": 0,
+    "iconUrl": ""
+  },
+  {
+    "id": "singularity_cell",
+    "name": "Singularity Cell",
+    "nameJa": "シンギュラリティセル",
+    "category": "quantum",
+    "tier": 7,
+    "stackSize": 200,
+    "sinkPoints": 0,
+    "iconUrl": ""
+  },
+  {
+    "id": "alien_power_matrix",
+    "name": "Alien Power Matrix",
+    "nameJa": "異星のパワーマトリックス",
+    "category": "quantum",
+    "tier": 7,
+    "stackSize": 50,
+    "sinkPoints": 0,
+    "iconUrl": ""
+  },
+  {
+    "id": "power_shard",
+    "name": "Power Shard",
+    "nameJa": "パワー・シャード",
+    "category": "special",
+    "tier": 1,
+    "stackSize": 100,
+    "sinkPoints": 0,
+    "iconUrl": ""
+  },
+  {
+    "id": "empty_canister",
+    "name": "Empty Canister",
+    "nameJa": "空の容器",
+    "category": "packaging",
+    "tier": 2,
+    "stackSize": 100,
+    "sinkPoints": 60,
+    "iconUrl": ""
+  },
+  {
+    "id": "empty_fluid_tank",
+    "name": "Empty Fluid Tank",
+    "nameJa": "空の液体タンク",
+    "category": "packaging",
+    "tier": 5,
+    "stackSize": 50,
+    "sinkPoints": 225,
+    "iconUrl": ""
+  },
+  {
+    "id": "pressure_conversion_cube",
+    "name": "Pressure Conversion Cube",
+    "nameJa": "圧力変換キューブ",
+    "category": "industrial",
+    "tier": 6,
+    "stackSize": 1,
+    "sinkPoints": 1530,
+    "iconUrl": ""
+  },
+  {
+    "id": "assembly_director_system",
+    "name": "Assembly Director System",
+    "nameJa": "組立指揮システム",
+    "category": "space_elevator",
+    "tier": 6,
+    "stackSize": 50,
+    "sinkPoints": 0,
+    "iconUrl": ""
+  },
+  {
+    "id": "magnetic_field_generator",
+    "name": "Magnetic Field Generator",
+    "nameJa": "磁界発生装置",
+    "category": "space_elevator",
+    "tier": 7,
+    "stackSize": 50,
+    "sinkPoints": 0,
+    "iconUrl": ""
+  },
+  {
+    "id": "thermal_propulsion_rocket",
+    "name": "Thermal Propulsion Rocket",
+    "nameJa": "熱推進型ロケット",
+    "category": "space_elevator",
+    "tier": 8,
+    "stackSize": 50,
+    "sinkPoints": 0,
+    "iconUrl": ""
+  },
+  {
+    "id": "nuclear_pasta",
+    "name": "Nuclear Pasta",
+    "nameJa": "核パスタ",
+    "category": "space_elevator",
+    "tier": 8,
+    "stackSize": 50,
+    "sinkPoints": 0,
+    "iconUrl": ""
+  },
+  {
+    "id": "biochemical_sculptor",
+    "name": "Biochemical Sculptor",
+    "nameJa": "生化学スカルプター",
+    "category": "space_elevator",
+    "tier": 8,
+    "stackSize": 50,
+    "sinkPoints": 0,
+    "iconUrl": ""
+  },
+  {
+    "id": "ai_expansion_server",
+    "name": "AI Expansion Server",
+    "nameJa": "AI拡張サーバー",
+    "category": "space_elevator",
+    "tier": 8,
+    "stackSize": 50,
+    "sinkPoints": 0,
+    "iconUrl": ""
+  },
+  {
+    "id": "ballistic_warp_drive",
+    "name": "Ballistic Warp Drive",
+    "nameJa": "弾道ワープドライブ",
+    "category": "space_elevator",
+    "tier": 8,
+    "stackSize": 50,
+    "sinkPoints": 0,
+    "iconUrl": ""
+  },
+  {
+    "id": "biomass",
+    "name": "Biomass",
+    "nameJa": "バイオマス",
+    "category": "biomass",
+    "tier": 1,
+    "stackSize": 200,
+    "sinkPoints": 12,
+    "iconUrl": ""
+  },
+  {
+    "id": "solid_biofuel",
+    "name": "Solid Biofuel",
+    "nameJa": "固体バイオ燃料",
+    "category": "fuel",
+    "tier": 2,
+    "stackSize": 200,
+    "sinkPoints": 48,
+    "iconUrl": ""
+  },
+  {
+    "id": "fabric",
+    "name": "Fabric",
+    "nameJa": "布地",
+    "category": "industrial",
+    "tier": 2,
+    "stackSize": 100,
+    "sinkPoints": 140,
+    "iconUrl": ""
+  },
+  {
+    "id": "leaves",
+    "name": "Leaves",
+    "nameJa": "葉",
+    "category": "biomass",
+    "tier": 1,
+    "stackSize": 500,
+    "sinkPoints": 3,
+    "iconUrl": ""
+  },
+  {
+    "id": "wood",
+    "name": "Wood",
+    "nameJa": "木",
+    "category": "biomass",
+    "tier": 1,
+    "stackSize": 200,
+    "sinkPoints": 1,
+    "iconUrl": ""
+  },
+  {
+    "id": "mycelia",
+    "name": "Mycelia",
+    "nameJa": "菌糸",
+    "category": "biomass",
+    "tier": 1,
+    "stackSize": 200,
+    "sinkPoints": 10,
+    "iconUrl": ""
+  },
+  {
+    "id": "black_powder",
+    "name": "Black Powder",
+    "nameJa": "黒色火薬",
+    "category": "consumable",
+    "tier": 3,
+    "stackSize": 200,
+    "sinkPoints": 14,
+    "iconUrl": ""
+  },
+  {
+    "id": "smokeless_powder",
+    "name": "Smokeless Powder",
+    "nameJa": "無煙火薬",
+    "category": "consumable",
+    "tier": 5,
+    "stackSize": 200,
+    "sinkPoints": 58,
+    "iconUrl": ""
+  },
+  {
+    "id": "iron_rebar",
+    "name": "Iron Rebar",
+    "nameJa": "鉄筋",
+    "category": "ammo",
+    "tier": 2,
+    "stackSize": 100,
+    "sinkPoints": 15,
+    "iconUrl": ""
+  },
+  {
+    "id": "packaged_rocket_fuel",
+    "name": "Packaged Rocket Fuel",
+    "nameJa": "包装済みロケット燃料",
+    "category": "packaging",
+    "tier": 7,
+    "stackSize": 100,
+    "sinkPoints": 0,
     "iconUrl": ""
   }
 ]
