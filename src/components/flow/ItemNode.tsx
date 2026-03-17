@@ -6,6 +6,7 @@ import { useSettingsStore } from '../../stores/settingsStore';
 import { formatRate } from '../../utils/math';
 import type { SupplyLink } from '../../domain/graphBuilder';
 
+/** ItemNode のデータ型 */
 interface ItemNodeData {
   itemId: string;
   requiredPerMinute: number;
@@ -20,7 +21,9 @@ interface ItemNodeData {
   isMergeCandidate?: boolean;
   mergeGroupId?: string;
   isCollapsed?: boolean;
+  /** このノードへの入力元リンク（受け取る素材） */
   suppliedTo: SupplyLink[];
+  /** このノードからの出力先リンク（供給する素材） */
   receivedFrom: SupplyLink[];
   onStartMerge?: () => void;
   onCompleteMerge?: () => void;
@@ -28,6 +31,7 @@ interface ItemNodeData {
   [key: string]: unknown;
 }
 
+/** カテゴリ → 絵文字のマッピング */
 const categoryEmoji: Record<string, string> = {
   ore: '⛏️', fluid: '💧', ingot: '🔩', standard_part: '🔧', electronic: '⚡',
   industrial: '⚙️', communication: '💻', petroleum: '🧴', fuel: '🔥',
@@ -35,6 +39,13 @@ const categoryEmoji: Record<string, string> = {
   equipment: '🛡️', special: '✨',
 };
 
+/**
+ * 依存グラフ上でアイテムの生産情報を表示するノードコンポーネント。
+ *
+ * アイテム名・生産量・マシン名・台数・入出力リンクを表示する。
+ * 統合・統合候補・折りたたみ状態に応じてビジュアルを変化させる。
+ * `React.memo` でラップして不要な再レンダリングを防ぐ。
+ */
 const ItemNode = memo(({ data, selected }: NodeProps) => {
   const nodeData = data as ItemNodeData;
   const items = useGameDataStore(s => s.items);
@@ -46,6 +57,7 @@ const ItemNode = memo(({ data, selected }: NodeProps) => {
   const recipe = nodeData.recipeId ? recipes[nodeData.recipeId] : undefined;
   const machine = recipe ? machines[recipe.machineId] : undefined;
 
+  /** アイテム ID から表示名を取得する */
   const getName = (id: string) => {
     const it = items[id];
     return it ? (language === 'ja' ? it.nameJa : it.name) : id;
@@ -65,7 +77,7 @@ const ItemNode = memo(({ data, selected }: NodeProps) => {
   const suppliedTo: SupplyLink[] = nodeData.suppliedTo ?? [];
   const receivedFrom: SupplyLink[] = nodeData.receivedFrom ?? [];
 
-  // Base colors by node type
+  // ノード種別ごとのベースカラー
   const bgColor = isMergeCandidate
     ? '#1a2e3a'
     : isRoot ? '#0d2444' : isRaw ? '#1a3a1a' : '#0f3460';
@@ -74,7 +86,7 @@ const ItemNode = memo(({ data, selected }: NodeProps) => {
     : isRoot ? '#64b5f6' : isRaw ? '#4caf50' : '#1a4a8a';
   const nameColor = isRoot ? '#64b5f6' : isRaw ? '#4caf50' : '#f5a623';
 
-  // Selection overrides base border/glow
+  // 選択状態はベースのボーダー・グローを上書きする
   const borderColor = selected ? '#00e5ff' : baseColor;
   const boxShadow = selected
     ? '0 0 0 2px rgba(0,229,255,0.4), 0 0 20px rgba(0,229,255,0.25)'
@@ -115,7 +127,7 @@ const ItemNode = memo(({ data, selected }: NodeProps) => {
         style={{ background: borderColor, width: '8px', height: '8px' }}
       />
 
-      {/* ── Item name section ── */}
+      {/* ── アイテム名セクション ── */}
       <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '5px' }}>
         <span style={{ fontSize: '16px', flexShrink: 0 }}>{emoji}</span>
         <span style={{
@@ -126,7 +138,7 @@ const ItemNode = memo(({ data, selected }: NodeProps) => {
         </span>
       </div>
 
-      {/* ── Label section ── */}
+      {/* ── ラベルセクション（統合・統合可能・折りたたみ中） ── */}
       {(isMerged || canMerge || isMergeCandidate || isCollapsed) && (
         <div style={{ display: 'flex', gap: '4px', marginBottom: '5px', flexWrap: 'wrap' }}>
           {isMerged && (
@@ -153,7 +165,7 @@ const ItemNode = memo(({ data, selected }: NodeProps) => {
         </div>
       )}
 
-      {/* ── Production section ── */}
+      {/* ── 生産量セクション ── */}
       <div style={{
         background: isRoot ? 'rgba(100,181,246,0.15)' : 'rgba(245,166,35,0.12)',
         border: `1px solid ${isRoot ? 'rgba(100,181,246,0.3)' : 'rgba(245,166,35,0.25)'}`,
@@ -161,10 +173,10 @@ const ItemNode = memo(({ data, selected }: NodeProps) => {
         color: isRoot ? '#64b5f6' : '#f5a623',
         fontSize: '12px', fontWeight: 600, textAlign: 'center',
       }}>
-        {formatRate(nodeData.requiredPerMinute)}/min
+        {formatRate(nodeData.requiredPerMinute)}/分
       </div>
 
-      {/* ── Machine section ── */}
+      {/* ── マシンセクション ── */}
       {!isRaw && machineName && (
         <>
           <div style={divider} />
@@ -189,10 +201,10 @@ const ItemNode = memo(({ data, selected }: NodeProps) => {
         </>
       )}
       {isRaw && (
-        <div style={{ color: '#4caf50', fontSize: '10px', marginTop: '2px' }}>Raw Resource</div>
+        <div style={{ color: '#4caf50', fontSize: '10px', marginTop: '2px' }}>採掘資源</div>
       )}
 
-      {/* ── INPUT section ── */}
+      {/* ── 入力セクション ── */}
       {receivedFrom.length > 0 && (
         <>
           <div style={divider} />
@@ -201,7 +213,7 @@ const ItemNode = memo(({ data, selected }: NodeProps) => {
               color: '#6ea8d8', fontWeight: 700, fontSize: '9px',
               letterSpacing: '0.6px', marginBottom: '3px',
             }}>
-              INPUT
+              入力
             </div>
             {receivedFrom.map(r => (
               <div key={r.nodeId} style={rowStyle}>
@@ -209,7 +221,7 @@ const ItemNode = memo(({ data, selected }: NodeProps) => {
                   {getName(r.itemId)}
                 </span>
                 <span style={{ color: '#6ea8d8', fontWeight: 600, marginLeft: '4px', flexShrink: 0 }}>
-                  {formatRate(r.amount)}/min
+                  {formatRate(r.amount)}/分
                 </span>
               </div>
             ))}
@@ -217,7 +229,7 @@ const ItemNode = memo(({ data, selected }: NodeProps) => {
         </>
       )}
 
-      {/* ── OUTPUT section ── */}
+      {/* ── 出力セクション ── */}
       {suppliedTo.length > 0 && (
         <>
           <div style={divider} />
@@ -226,7 +238,7 @@ const ItemNode = memo(({ data, selected }: NodeProps) => {
               color: '#a8c86e', fontWeight: 700, fontSize: '9px',
               letterSpacing: '0.6px', marginBottom: '3px',
             }}>
-              OUTPUT
+              出力
             </div>
             {suppliedTo.map(s => (
               <div key={s.nodeId} style={rowStyle}>
@@ -234,7 +246,7 @@ const ItemNode = memo(({ data, selected }: NodeProps) => {
                   {getName(s.itemId)}
                 </span>
                 <span style={{ color: '#a8c86e', fontWeight: 600, marginLeft: '4px', flexShrink: 0 }}>
-                  {formatRate(s.amount)}/min
+                  {formatRate(s.amount)}/分
                 </span>
               </div>
             ))}

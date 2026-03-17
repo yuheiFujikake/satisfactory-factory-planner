@@ -24,10 +24,12 @@ import { formatRate } from '../../utils/math';
 
 const nodeTypes: NodeTypes = { itemNode: ItemNode };
 
+/** ノード位置保存の localStorage キープレフィックス */
 const POSITIONS_PREFIX = 'sfp:pos:';
-const MERGEGROUPS_PREFIX = 'sfp:mg2:'; // new key avoids conflict with old string[][] format
+/** マージグループ保存の localStorage キープレフィックス（旧 string[][] 形式との衝突を避けるため新キー） */
+const MERGEGROUPS_PREFIX = 'sfp:mg2:';
 
-// ── Helpers ──────────────────────────────────────────────────────────────────
+// ── ヘルパー関数 ──────────────────────────────────────────────────────────────
 
 function genId(): string {
   return Math.random().toString(36).slice(2, 9);
@@ -61,9 +63,9 @@ function saveMergeGroups(planId: string, groups: MergeGroupConfig[]) {
 
 // ── mergeWithDescendants ─────────────────────────────────────────────────────
 //
-// When merging parentA with parentB, automatically merge their child nodes that
-// share the same itemId — and recurse down the entire dependency subtree.
-// Split does NOT use this function, so splits never cascade.
+// parentA と parentB を統合する際、同じ itemId を持つ子ノードも自動的に統合し、
+// 依存サブツリー全体に対して再帰的に処理する。
+// 分割（Split）はこの関数を使用しないため、分割はカスケードしない。
 
 function mergeWithDescendants(
   srcId: string,
@@ -88,7 +90,7 @@ function mergeWithDescendants(
     return node ? (node.data as { itemId: string }).itemId : null;
   };
 
-  // children of node = edges where e.target === nodeId (ingredient → consumer)
+  // ノードの子 = edge.target === nodeId のエッジ（素材 → 消費者の方向）
   const getChildren = (nodeId: string): string[] =>
     currentEdges.filter(e => e.target === nodeId).map(e => e.source);
 
@@ -110,7 +112,7 @@ function mergeWithDescendants(
     workGroups.splice(0, workGroups.length, ...filtered);
     workGroups.push({ id: keepId, members: combined });
 
-    // Recursively merge children with matching itemIds
+    // 同じ itemId を持つ子ノードを再帰的に統合する
     const childrenA = getChildren(aId);
     const childrenB = getChildren(bId);
 
@@ -134,8 +136,8 @@ function mergeWithDescendants(
 
 // ── getDescendants ───────────────────────────────────────────────────────────
 //
-// Returns all descendant node IDs of a given node by traversing edges downward
-// (edge.target = consumer, edge.source = ingredient → children are sources).
+// 指定ノードの全子孫ノード ID を返す。
+// エッジを下方向（edge.target = 消費者、edge.source = 素材）に辿る。
 
 function getDescendants(nodeId: string, edges: Edge[]): string[] {
   const result: string[] = [];
@@ -154,7 +156,7 @@ function getDescendants(nodeId: string, edges: Edge[]): string[] {
   return result;
 }
 
-// ── Types ────────────────────────────────────────────────────────────────────
+// ── 型定義 ────────────────────────────────────────────────────────────────────
 
 interface DependencyFlowProps {
   roots: CalculationNode[];
@@ -178,7 +180,7 @@ interface NodeOpsData {
   onOpenSplit?: () => void;
 }
 
-// ── Styles ───────────────────────────────────────────────────────────────────
+// ── スタイル定数 ──────────────────────────────────────────────────────────────
 
 const btn: React.CSSProperties = {
   background: '#16213e', border: '1px solid #0f3460', color: '#a0a0b0',
@@ -192,8 +194,14 @@ const btnActive: React.CSSProperties = {
 const EMPTY_NODES: Node[] = [];
 const EMPTY_EDGES: Edge[] = [];
 
-// ── Component ────────────────────────────────────────────────────────────────
+// ── コンポーネント ────────────────────────────────────────────────────────────
 
+/**
+ * 依存グラフを ReactFlow で描画するコンポーネント。
+ *
+ * ノードのドラッグ・統合・分割・折りたたみ・PNG/SVG/JSON エクスポートをサポートする。
+ * ノード位置とマージグループ設定は localStorage に永続化される。
+ */
 export default function DependencyFlow({ roots, planId }: DependencyFlowProps) {
   const items = useGameDataStore(s => s.items);
   const language = useSettingsStore(s => s.language);
@@ -212,7 +220,7 @@ export default function DependencyFlow({ roots, planId }: DependencyFlowProps) {
 
   const containerRef = useRef<HTMLDivElement>(null);
 
-  // Refs for stable closure access
+  // クロージャ内で最新値を安定して参照するための Ref
   const edgeTypeRef = useRef(edgeType);
   edgeTypeRef.current = edgeType;
   const mergeModeRef = useRef(mergeMode);
@@ -225,11 +233,10 @@ export default function DependencyFlow({ roots, planId }: DependencyFlowProps) {
   edgesRef.current = edges;
   const collapsedNodesRef = useRef<Set<string>>(new Set());
   collapsedNodesRef.current = collapsedNodes;
-  // Stores the parent node's position at the moment it was collapsed.
-  // Used to compute the movement delta when expanding.
+  // 折りたたみ時の親ノード位置を記録する。展開時に移動量（デルタ）を計算するために使用する。
   const collapsePositionsRef = useRef<Map<string, { x: number; y: number }>>(new Map());
 
-  // Reload when planId changes
+  // planId が変わったとき（プラン切り替え時）に状態をリセットする
   useEffect(() => {
     setMergeGroups(loadMergeGroups(planId));
     setMergeMode(null);
@@ -238,9 +245,9 @@ export default function DependencyFlow({ roots, planId }: DependencyFlowProps) {
     setCollapsedNodes(new Set());
   }, [planId]);
 
-  // ── Position persistence ──────────────────────────────────────────────────
+  // ── ノード位置の永続化 ────────────────────────────────────────────────────────
 
-  /** Snapshot all current node positions to localStorage before a merge/split. */
+  /** 統合・分割前に現在の全ノード位置を localStorage にスナップショットする */
   const snapshotPositions = useCallback(() => {
     if (!planId) return;
     const saved = loadPositions(planId);
@@ -248,7 +255,7 @@ export default function DependencyFlow({ roots, planId }: DependencyFlowProps) {
     savePositions(planId, saved);
   }, [planId]);
 
-  // ── Merge/split callbacks ─────────────────────────────────────────────────
+  // ── 統合・分割コールバック ─────────────────────────────────────────────────
 
   const handleStartMerge = useCallback((nodeId: string, itemId: string) => {
     setMergeMode({ sourceId: nodeId, sourceItemId: itemId });
@@ -264,9 +271,8 @@ export default function DependencyFlow({ roots, planId }: DependencyFlowProps) {
     snapshotPositions();
 
     setMergeGroups(prev => {
-      // mergeWithDescendants cascades the merge down the entire subtree:
-      // when parent nodes are merged, their children with matching itemIds
-      // are also merged automatically (and so on recursively).
+      // mergeWithDescendants はサブツリー全体に統合をカスケードする：
+      // 親ノードを統合すると、同じ itemId を持つ子ノードも自動的に統合される（再帰的に）。
       const newGroups = mergeWithDescendants(
         sourceId,
         targetId,
@@ -294,8 +300,8 @@ export default function DependencyFlow({ roots, planId }: DependencyFlowProps) {
   }, []);
 
   /**
-   * Remove one path-based member from a merge group.
-   * `groupNodeId` is the graph node id like "mg:abc".
+   * マージグループから特定のパスメンバーを除外する。
+   * `groupNodeId` は "mg:abc" 形式のグラフノード ID。
    */
   const handleSplitMember = useCallback((groupNodeId: string, pathIdToRemove: string) => {
     snapshotPositions();
@@ -305,14 +311,14 @@ export default function DependencyFlow({ roots, planId }: DependencyFlowProps) {
       const idx = groups.findIndex(g => g.id === stableId);
       if (idx === -1) return prev;
       groups[idx].members = groups[idx].members.filter(m => m !== pathIdToRemove);
-      // Keep group only if 2+ members remain
+      // メンバーが2件以上残る場合のみグループを保持する
       const filtered = groups.filter(g => g.members.length >= 2);
       if (planId) saveMergeGroups(planId, filtered);
       return filtered;
     });
   }, [planId, snapshotPositions]);
 
-  /** Dissolve an entire merge group back to individual nodes. */
+  /** マージグループ全体を解除して個別ノードに戻す */
   const handleSplitAll = useCallback((groupNodeId: string) => {
     snapshotPositions();
     const stableId = groupNodeId.slice(3);
@@ -324,7 +330,7 @@ export default function DependencyFlow({ roots, planId }: DependencyFlowProps) {
     setSplitTarget(null);
   }, [planId, snapshotPositions]);
 
-  // ── Graph rebuild ─────────────────────────────────────────────────────────
+  // ── グラフ再構築 ──────────────────────────────────────────────────────────
 
   const rebuildGraph = useCallback((
     savedPositions?: Map<string, { x: number; y: number }>,
@@ -351,7 +357,7 @@ export default function DependencyFlow({ roots, planId }: DependencyFlowProps) {
       edgeType: edgeTypeRef.current,
     });
 
-    // Apply collapsed state to new graph
+    // 新グラフに折りたたみ状態を適用する
     const collapsed = collapsedNodesRef.current;
     if (collapsed.size > 0) {
       const hiddenIds = new Set<string>();
@@ -371,22 +377,22 @@ export default function DependencyFlow({ roots, planId }: DependencyFlowProps) {
     }
   }, [roots, planId, handleStartMerge, handleCompleteMerge, handleOpenSplit]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  // Rebuild when roots, planId, or mergeGroups change
+  // roots・planId・mergeGroups が変化したときにグラフを再構築する
   useEffect(() => {
     rebuildGraph(undefined, mergeGroups, mergeModeRef.current);
   }, [roots, planId, mergeGroups]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  // Rebuild when merge mode changes (re-highlights isMergeCandidate)
+  // マージモードが変化したときに再構築（isMergeCandidate のハイライトを更新）
   useEffect(() => {
     rebuildGraph(undefined, undefined, mergeMode);
   }, [mergeMode]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  // Update edge type only (no full rebuild)
+  // エッジ形状のみ更新（グラフ全体の再構築なし）
   useEffect(() => {
     setEdges(es => es.map(e => ({ ...e, type: edgeType })));
   }, [edgeType, setEdges]);
 
-  // Apply collapsed visibility when user toggles collapse (without full rebuild)
+  // 折りたたみトグル時に表示/非表示を更新する（グラフ全体の再構築なし）
   useEffect(() => {
     const collapsed = collapsedNodes;
     const currentEdges = edgesRef.current;
@@ -403,7 +409,7 @@ export default function DependencyFlow({ roots, planId }: DependencyFlowProps) {
     })));
   }, [collapsedNodes, setNodes, setEdges]);
 
-  // Save positions for all dragged nodes (handles multi-select)
+  // ドラッグ終了時に全選択ノードの位置を保存する（マルチ選択に対応）
   const onNodeDragStop = useCallback(
     (_event: React.MouseEvent, _node: Node, draggedNodes: Node[]) => {
       if (!planId) return;
@@ -419,13 +425,13 @@ export default function DependencyFlow({ roots, planId }: DependencyFlowProps) {
     rebuildGraph(new Map());
   }, [rebuildGraph, planId]);
 
-  // ── Collapse / expand ─────────────────────────────────────────────────────
+  // ── 折りたたみ / 展開 ──────────────────────────────────────────────────────
 
   const handleToggleCollapse = useCallback((nodeId: string) => {
     const isCurrentlyCollapsed = collapsedNodesRef.current.has(nodeId);
 
     if (isCurrentlyCollapsed) {
-      // Expanding: shift descendants by the delta the parent moved while collapsed
+      // 展開: 折りたたみ中に親が移動した分のデルタを子孫ノードに適用する
       const collapsePos = collapsePositionsRef.current.get(nodeId);
       const currentNode = nodesRef.current.find(n => n.id === nodeId);
 
@@ -436,13 +442,13 @@ export default function DependencyFlow({ roots, planId }: DependencyFlowProps) {
         if (dx !== 0 || dy !== 0) {
           const descendants = getDescendants(nodeId, edgesRef.current);
 
-          // Update React Flow node positions
+          // ReactFlow ノードの位置を更新する
           setNodes(prev => prev.map(n => {
             if (!descendants.includes(n.id)) return n;
             return { ...n, position: { x: n.position.x + dx, y: n.position.y + dy } };
           }));
 
-          // Persist updated positions to localStorage
+          // 更新した位置を localStorage に永続化する
           if (planId) {
             const saved = loadPositions(planId);
             descendants.forEach(descId => {
@@ -462,22 +468,22 @@ export default function DependencyFlow({ roots, planId }: DependencyFlowProps) {
       collapsePositionsRef.current.delete(nodeId);
       setCollapsedNodes(prev => { const next = new Set(prev); next.delete(nodeId); return next; });
     } else {
-      // Collapsing: record current parent position
+      // 折りたたみ: 現在の親ノード位置を記録する
       const currentNode = nodesRef.current.find(n => n.id === nodeId);
       if (currentNode) collapsePositionsRef.current.set(nodeId, { ...currentNode.position });
       setCollapsedNodes(prev => { const next = new Set(prev); next.add(nodeId); return next; });
     }
   }, [planId, setNodes]);
 
-  // ── Node click → operations panel ────────────────────────────────────────
+  // ── ノードクリック → オペレーションパネル ──────────────────────────────────
 
   const handleNodeClick = useCallback((_event: React.MouseEvent, node: Node) => {
-    // Shift+click = multi-select; suppress ops panel
+    // Shift+クリック = 複数選択; オペレーションパネルは表示しない
     if (_event.shiftKey) {
       setSelectedNodeId(null);
       return;
     }
-    // Alt+click = select node and all its descendants
+    // Alt+クリック = ノードとその全子孫を選択する
     if (_event.altKey) {
       const descendantIds = getDescendants(node.id, edgesRef.current);
       const allIds = new Set([node.id, ...descendantIds]);
@@ -492,7 +498,7 @@ export default function DependencyFlow({ roots, planId }: DependencyFlowProps) {
     setSelectedNodeId(node.id);
   }, [setNodes]);
 
-  // Close ops panel when multiple nodes become selected (e.g. via Shift+drag)
+  // 複数ノードが選択状態になった場合（Shift+ドラッグなど）はオペレーションパネルを閉じる
   useEffect(() => {
     const count = nodes.filter(n => n.selected).length;
     if (count > 1) setSelectedNodeId(null);
@@ -503,7 +509,7 @@ export default function DependencyFlow({ roots, planId }: DependencyFlowProps) {
     setShowExportMenu(false);
   }, []);
 
-  // ── Export ────────────────────────────────────────────────────────────────
+  // ── エクスポート ──────────────────────────────────────────────────────────
 
   const handleExport = useCallback(async (format: 'png' | 'jpeg' | 'svg' | 'json') => {
     setShowExportMenu(false);
@@ -567,7 +573,7 @@ export default function DependencyFlow({ roots, planId }: DependencyFlowProps) {
       a.download = `factory-graph.${format}`;
       a.click();
     } catch (err) {
-      console.error('Export failed:', err);
+      console.error('エクスポートに失敗しました:', err);
     }
   }, []);
 

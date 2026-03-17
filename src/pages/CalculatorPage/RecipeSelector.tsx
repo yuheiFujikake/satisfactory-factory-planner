@@ -3,7 +3,15 @@ import { useUiStore } from '../../stores/uiStore';
 import { usePlanStore } from '../../stores/planStore';
 import { useSettingsStore } from '../../stores/settingsStore';
 import RecipeCard from '../../components/RecipeCard';
+import { trackEvent } from '../../lib/analytics';
 
+/**
+ * レシピ選択モーダルコンポーネント。
+ *
+ * `uiStore.recipeSelectorOpen` が `true` のときに表示され、
+ * 対象アイテムのレシピ一覧を選択できる。
+ * レシピを選択すると `planStore.setRecipeOverride` に反映され、GA4 イベントを送信する。
+ */
 export default function RecipeSelector() {
   const recipeSelectorOpen = useUiStore(s => s.recipeSelectorOpen);
   const recipeSelectorItemId = useUiStore(s => s.recipeSelectorItemId);
@@ -21,8 +29,13 @@ export default function RecipeSelector() {
   const currentOverride = currentPlan?.recipeOverrides[recipeSelectorItemId];
   const itemName = item ? (language === 'ja' ? item.nameJa : item.name) : recipeSelectorItemId;
 
+  /**
+   * レシピを選択してオーバーライドに設定する。
+   * @param recipeId - 選択したレシピ ID
+   */
   const handleSelect = (recipeId: string) => {
     setRecipeOverride(recipeSelectorItemId, recipeId);
+    trackEvent('recipe_change', { item_id: recipeSelectorItemId, recipe_id: recipeId });
     closeRecipeSelector();
   };
 
@@ -55,7 +68,7 @@ export default function RecipeSelector() {
           boxShadow: '0 20px 60px rgba(0,0,0,0.5)',
         }}
       >
-        {/* Header */}
+        {/* ヘッダー */}
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
           <div>
             <h2 style={{ color: '#f5a623', fontSize: '18px', fontWeight: 700, margin: 0 }}>
@@ -81,7 +94,7 @@ export default function RecipeSelector() {
           </button>
         </div>
 
-        {/* Recipe List */}
+        {/* レシピ一覧 */}
         <div style={{ overflow: 'auto', display: 'flex', flexDirection: 'column', gap: '8px' }}>
           {recipes.length === 0 ? (
             <div style={{ color: '#a0a0b0', textAlign: 'center', padding: '32px' }}>

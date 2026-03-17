@@ -1,10 +1,14 @@
 import type { Item } from '../types/game.types';
 
+/** ItemIcon のプロパティ */
 interface ItemIconProps {
+  /** 表示するアイテム */
   item: Item;
+  /** アイコンのサイズ（px、デフォルト: 32） */
   size?: number;
 }
 
+/** カテゴリ → 絵文字のマッピング */
 const categoryEmoji: Record<string, string> = {
   ore: '⛏️',
   ingot: '🔶',
@@ -15,6 +19,7 @@ const categoryEmoji: Record<string, string> = {
   special: '✨',
 };
 
+/** カテゴリ → 背景色のマッピング */
 const categoryColor: Record<string, string> = {
   ore: '#8B7355',
   ingot: '#f5a623',
@@ -25,6 +30,12 @@ const categoryColor: Record<string, string> = {
   special: '#fff176',
 };
 
+/**
+ * アイテムのカテゴリに応じた絵文字アイコンを表示するコンポーネント。
+ *
+ * @param item - 表示するアイテム
+ * @param size - アイコンサイズ（px）
+ */
 export default function ItemIcon({ item, size = 32 }: ItemIconProps) {
   const emoji = categoryEmoji[item.category] || '📦';
   const color = categoryColor[item.category] || '#a0a0b0';

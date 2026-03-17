@@ -15,6 +15,13 @@ const CATEGORY_ORDER = [
   'nuclear', 'space_elevator', 'equipment', 'special',
 ];
 
+/**
+ * アイテムブラウザページコンポーネント。
+ *
+ * カテゴリフィルタ・テキスト検索でアイテムを絞り込み、
+ * カードをクリックすると右側の詳細パネルにレシピ情報を表示する。
+ * モバイルでは詳細パネルが全画面表示となり、戻るボタンで一覧に戻れる。
+ */
 export default function ItemBrowserPage() {
   const { query, setQuery, filteredItems } = useItemSearch();
   const language = useSettingsStore(s => s.language);
@@ -24,7 +31,7 @@ export default function ItemBrowserPage() {
   const [selectedItem, setSelectedItem] = useState<Item | null>(null);
   const [filterCategory, setFilterCategory] = useState<string>('all');
 
-  // Build category list from actual items, preserving order
+  // 実際のアイテムからカテゴリ一覧を構築（定義順を維持）
   const presentCategories = CATEGORY_ORDER.filter(cat =>
     Object.values(items).some(item => item.category === cat)
   );
@@ -37,7 +44,7 @@ export default function ItemBrowserPage() {
 
   return (
     <div style={{ display: 'flex', height: isMobile ? 'calc(100vh - 60px)' : '100vh', overflow: 'hidden' }}>
-      {/* Left Panel — hidden on mobile when detail is open */}
+      {/* 左パネル — モバイルで詳細表示中は非表示 */}
       <div style={{
         flex: 1,
         display: isMobile && selectedItem ? 'none' : 'flex',
@@ -45,13 +52,13 @@ export default function ItemBrowserPage() {
         overflow: 'hidden',
         borderRight: selectedItem && !isMobile ? '1px solid #0f3460' : 'none',
       }}>
-        {/* Header */}
+        {/* ヘッダー */}
         <div style={{ padding: '20px 20px 12px', borderBottom: '1px solid #0f3460' }}>
           <h1 style={{ color: '#f5a623', fontSize: '22px', fontWeight: 700, margin: '0 0 12px' }}>
             📦 アイテムブラウザ
           </h1>
 
-          {/* Search */}
+          {/* 検索バー */}
           <div style={{ position: 'relative', marginBottom: '12px' }}>
             <Search size={16} style={{
               position: 'absolute',
@@ -96,7 +103,7 @@ export default function ItemBrowserPage() {
             )}
           </div>
 
-          {/* Category Filter */}
+          {/* カテゴリフィルタ */}
           <div style={{ display: 'flex', gap: '5px', flexWrap: 'wrap' }}>
             <button
               onClick={() => setFilterCategory('all')}
@@ -143,7 +150,7 @@ export default function ItemBrowserPage() {
           </div>
         </div>
 
-        {/* Item Grid */}
+        {/* アイテムグリッド */}
         <div style={{ flex: 1, overflow: 'auto', padding: '16px' }}>
           <div style={{
             display: 'grid',
@@ -208,7 +215,7 @@ export default function ItemBrowserPage() {
         </div>
       </div>
 
-      {/* Right Detail Panel */}
+      {/* 右側: 詳細パネル */}
       {selectedItem && (
         <div style={{
           width: isMobile ? '100%' : '380px',
@@ -217,7 +224,7 @@ export default function ItemBrowserPage() {
           padding: '20px',
           background: '#16213e',
         }}>
-          {/* Mobile back button */}
+          {/* モバイル用: 戻るボタン */}
           {isMobile && (
             <button
               onClick={() => setSelectedItem(null)}
@@ -250,7 +257,7 @@ export default function ItemBrowserPage() {
             </div>
           </div>
 
-          {/* Stats */}
+          {/* ステータス情報 */}
           <div style={{
             display: 'grid',
             gridTemplateColumns: '1fr 1fr',
@@ -275,7 +282,7 @@ export default function ItemBrowserPage() {
             ))}
           </div>
 
-          {/* Recipes */}
+          {/* レシピ一覧 */}
           <div>
             <div style={{
               color: '#a0a0b0',

@@ -2,56 +2,86 @@ import type { Node, Edge } from '@xyflow/react';
 import type { CalculationNode } from '../types/calculation.types';
 import dagre from 'dagre';
 
-// ── Public types ──────────────────────────────────────────────────────────────
+// ── 公開型定義 ──────────────────────────────────────────────────────────────
 
 /**
- * A merge group with a stable ID (not index-based).
- * The graph node ID for this group is `mg:${id}`.
+ * 複数の依存ノードをひとつにまとめる「マージグループ」の設定。
+ * グループの React Flow ノード ID は `mg:${id}` 形式。
  */
 export interface MergeGroupConfig {
-  id: string;      // stable short ID (random alphanumeric), never changes
-  members: string[]; // path-based node IDs belonging to this group
+  /** グループの安定 ID（ランダム英数字）。再マージ・分割後も変わらない */
+  id: string;
+  /** このグループに属するパスベースノード ID の一覧 */
+  members: string[];
 }
 
+/**
+ * マージグループに属する元ノードの情報。
+ * グループノードの tooltip や分割処理で使用する。
+ */
 export interface MergeGroupMember {
-  nodeId: string;   // original path-based node ID
+  /** 元のパスベースノード ID */
+  nodeId: string;
   itemId: string;
+  /** このメンバーの必要量（/分） */
   amount: number;
+  /** このメンバーの必要台数（小数） */
   machineCountExact: number;
 }
 
+/**
+ * あるノードが別のノードにアイテムを供給している関係を表す。
+ * ノードデータの `suppliedTo` / `receivedFrom` リストに格納される。
+ */
 export interface SupplyLink {
   itemId: string;
+  /** 供給先（または供給元）のノード ID */
   nodeId: string;
+  /** 供給量（/分） */
   amount: number;
 }
 
-// ── Graph options ─────────────────────────────────────────────────────────────
+// ── グラフ構築オプション ──────────────────────────────────────────────────
 
+/**
+ * `buildFlowGraph` に渡すオプション。
+ * すべてのプロパティはオプショナル。
+ */
 interface GraphOptions {
+  /** ノード ID → 保存済み座標。指定されたノードは dagre レイアウトを上書きする */
   savedPositions?: Map<string, { x: number; y: number }>;
+  /** 有効なマージグループ一覧 */
   mergeGroups?: MergeGroupConfig[];
+  /** 「マージ開始」ボタン押下時のコールバック */
   onStartMerge?: (nodeId: string, itemId: string) => void;
+  /** マージ先ノード確定時のコールバック */
   onCompleteMerge?: (targetId: string) => void;
+  /** 分割ダイアログを開くコールバック */
   onOpenSplit?: (groupId: string) => void;
-  // Merge-select mode: highlight compatible targets
+  /** マージ選択モード: このノード ID と同じアイテムのノードをハイライトする */
   mergeModeSourceId?: string;
+  /** マージ選択モード: ハイライト対象の itemId */
   mergeModeSourceItemId?: string;
+  /** エッジの形状（デフォルト: 'smoothstep'） */
   edgeType?: 'smoothstep' | 'straight';
 }
 
-// ── Main graph builder ────────────────────────────────────────────────────────
+// ── メイン関数 ──────────────────────────────────────────────────────────────
 
 /**
- * Build a React Flow graph from the calculation tree.
+ * 計算ツリーから React Flow のノード・エッジ配列を構築する。
  *
- * Key design:
- * - Merge groups use stable `mg:${group.id}` node IDs — never index-based.
- *   This means repeated merges/splits never re-number existing groups, so
- *   child node IDs (e.g. `mg:abc/iron-ore`) remain stable across operations.
- * - Supply/demand links are computed post-traversal.
- * - Raw resource nodes are aligned to the minimum Y (topmost row).
- * - Saved positions override dagre layout per node.
+ * 設計のポイント:
+ * - マージグループは安定 ID `mg:${group.id}` を使用する。
+ *   インデックスベースの ID ではないため、再マージ・分割後も
+ *   子ノード ID（例: `mg:abc/iron-ore`）が変わらない。
+ * - 供給/需要リンクはツリー走査後にポスト処理で算出する。
+ * - 原材料ノードは最下段（Y 最大）に配置される。
+ * - 保存済み座標が存在するノードは dagre レイアウトを上書きする。
+ *
+ * @param roots - 計算ツリーのルートノード配列
+ * @param options - グラフ構築オプション
+ * @returns React Flow に渡す `{ nodes, edges }`
  */
 export function buildFlowGraph(
   roots: CalculationNode[],
@@ -70,12 +100,15 @@ export function buildFlowGraph(
 
   const nodes: Node[] = [];
   const edges: Edge[] = [];
-  const nodeIndexMap = new Map<string, number>();  // nodeId → index in nodes[]
-  const edgeSet = new Set<string>();               // deduplication key set
-  const edgeAmounts = new Map<string, number>();   // edgeId → accumulated amount
+  /** ノード ID → nodes[] 内のインデックス（高速ルックアップ用） */
+  const nodeIndexMap = new Map<string, number>();
+  /** エッジの重複排除キーセット */
+  const edgeSet = new Set<string>();
+  /** エッジ ID → 累積送量（同一エッジへの加算に使用） */
+  const edgeAmounts = new Map<string, number>();
 
-  // Build merge-group lookup: path-based nodeId → stable group node ID `mg:${id}`
-  const pathToGroupNodeId = new Map<string, string>(); // path-based → "mg:abc"
+  // パスベースノード ID → グループノード ID `mg:${id}` の逆引きマップを構築
+  const pathToGroupNodeId = new Map<string, string>();
   const groupNodeIdToMembers = new Map<string, MergeGroupMember[]>();
   mergeGroups.forEach(group => {
     const groupNodeId = `mg:${group.id}`;
@@ -83,19 +116,27 @@ export function buildFlowGraph(
     groupNodeIdToMembers.set(groupNodeId, []);
   });
 
-  // ── Traversal ────────────────────────────────────────────────────────────
+  // ── ツリー走査 ──────────────────────────────────────────────────────────
 
+  /**
+   * ツリーを DFS で走査し、React Flow ノード・エッジを生成する。
+   *
+   * @param node - 現在処理中の計算ノード
+   * @param parentId - 親ノードの ID（ルートの場合は null）
+   * @param rootIndex - ルートインデックス（パスベース ID 生成用）
+   * @returns 生成・使用したノード ID
+   */
   function traverse(
     node: CalculationNode,
     parentId: string | null,
     rootIndex: number
   ): string {
-    // Compute the "natural" path-based ID for this node
+    // パスベース ID を構築（例: `r0/automated-wiring/cable`）
     const baseNodeId = parentId
       ? `${parentId}/${node.itemId}`
       : `r${rootIndex}/${node.itemId}`;
 
-    // If this path is in a merge group, use the stable group node ID instead
+    // マージグループに属する場合は安定グループ ID を使用
     const groupNodeId = pathToGroupNodeId.get(baseNodeId);
     const nodeId = groupNodeId ?? baseNodeId;
     const isMerged = !!groupNodeId;
@@ -111,7 +152,7 @@ export function buildFlowGraph(
 
     const existingIdx = nodeIndexMap.get(nodeId);
     if (existingIdx !== undefined) {
-      // Already created (merged node hit again) — accumulate quantities only
+      // マージ済みノードへの再到達 → 数量のみ加算して子を再走査
       const d = nodes[existingIdx].data as Record<string, unknown>;
       d.requiredPerMinute = (d.requiredPerMinute as number) + node.requiredPerMinute;
       d.machineCountExact = (d.machineCountExact as number) + node.machineCountExact;
@@ -124,7 +165,7 @@ export function buildFlowGraph(
       return nodeId;
     }
 
-    // isMergeCandidate: same item type as the merge source, but not the source itself
+    // マージ候補判定: マージ選択モード中で同一アイテム・かつソース自身でないノード
     const isMergeCandidate =
       mergeModeSourceItemId !== undefined &&
       node.itemId === mergeModeSourceItemId &&
@@ -134,7 +175,7 @@ export function buildFlowGraph(
     nodes.push({
       id: nodeId,
       type: 'itemNode',
-      position: { x: 0, y: 0 },
+      position: { x: 0, y: 0 },  // レイアウトはポスト処理で上書き
       data: {
         itemId: node.itemId,
         requiredPerMinute: node.requiredPerMinute,
@@ -145,7 +186,7 @@ export function buildFlowGraph(
         overclockRate: node.overclockRate,
         isRoot: parentId === null,
         isMerged,
-        canMerge: false, // recomputed post-traversal
+        canMerge: false,  // ポスト処理で再計算
         isMergeCandidate,
         mergeGroupId: groupNodeId,
         suppliedTo: [] as SupplyLink[],
@@ -164,9 +205,17 @@ export function buildFlowGraph(
     return nodeId;
   }
 
+  /**
+   * エッジを追加する。同一エッジへの再追加は量の加算で処理する。
+   *
+   * @param source - 素材供給元のノード ID
+   * @param target - 素材消費先のノード ID
+   * @param amount - 供給量（/分）
+   */
   function addEdge(source: string, target: string, amount: number) {
     const edgeId = `e:${source}=>${target}`;
     if (edgeSet.has(edgeId)) {
+      // 既存エッジへの加算（マージ時など）
       edgeAmounts.set(edgeId, (edgeAmounts.get(edgeId) ?? 0) + amount);
     } else {
       edgeSet.add(edgeId);
@@ -184,9 +233,8 @@ export function buildFlowGraph(
 
   roots.forEach((root, i) => traverse(root, null, i));
 
-  // ── Post-traversal: canMerge (based on actual graph nodes) ───────────────
-  // A node canMerge if another node with the same itemId exists in the graph.
-  // This allows merged nodes to absorb additional occurrences.
+  // ── ポスト処理 1: canMerge フラグの計算 ───────────────────────────────────
+  // 同一 itemId を持つノードが複数存在する場合に canMerge = true を立てる
 
   const nodesByItemId = new Map<string, string[]>();
   nodes.forEach(n => {
@@ -201,11 +249,12 @@ export function buildFlowGraph(
     (n.data as Record<string, unknown>).canMerge = siblings.length > 0;
   });
 
-  // ── Post-traversal: supply/demand links ──────────────────────────────────
+  // ── ポスト処理 2: 供給/需要リンクの算出 ──────────────────────────────────
 
   const suppliedTo = new Map<string, SupplyLink[]>();
   const receivedFrom = new Map<string, SupplyLink[]>();
 
+  /** ノード ID から itemId を取得するヘルパー */
   const getItemId = (nodeId: string): string => {
     const idx = nodeIndexMap.get(nodeId);
     return idx !== undefined ? (nodes[idx].data as { itemId: string }).itemId : '';
@@ -223,7 +272,7 @@ export function buildFlowGraph(
     receivedFrom.get(e.target)!.push({ itemId: sourceItemId, nodeId: e.source, amount });
   });
 
-  // ── Post-traversal: embed all computed data into node data ────────────────
+  // ── ポスト処理 3: 算出データをノードデータに埋め込む ─────────────────────
 
   nodes.forEach(n => {
     const d = n.data as Record<string, unknown>;
@@ -234,15 +283,15 @@ export function buildFlowGraph(
     }
   });
 
-  // ── Dagre layout ──────────────────────────────────────────────────────────
+  // ── Dagre レイアウト ─────────────────────────────────────────────────────
+  // rankdir = 'BT'（ボトムアップ）: 目標アイテム（シンク）が上、原材料（ソース）が下
 
   const g = new dagre.graphlib.Graph();
   g.setDefaultEdgeLabel(() => ({}));
-  // BT = Bottom-to-Top: root items (sinks) at top, raw resources (sources) at bottom
   g.setGraph({ rankdir: 'BT', ranksep: 100, nodesep: 100 });
 
-  // Node height = base + section height per supply/receive section
-  // Section overhead (divider + label): 24px; per row: 15px
+  // ノード高さ = ベース高 + 供給/受信セクションの高さ
+  // セクションオーバーヘッド（区切り線 + ラベル）: 24px、行ごと: 15px
   const SECTION_OVERHEAD = 24;
   const ROW_HEIGHT = 15;
   const sectionH = (count: number) =>
@@ -258,10 +307,11 @@ export function buildFlowGraph(
   dagre.layout(g);
 
   const layoutedNodes = nodes.map(n => {
+    // 保存済み座標があればそちらを優先
     const saved = savedPositions?.get(n.id);
     if (saved) return { ...n, position: saved };
     const gNode = g.node(n.id);
-    // gNode.x/y are node centres; position is the top-left corner in React Flow
+    // dagre の x/y はノード中心座標なので、左上隅に変換する
     return { ...n, position: { x: gNode.x - gNode.width / 2, y: gNode.y - gNode.height / 2 } };
   });
 

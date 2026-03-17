@@ -4,6 +4,7 @@ import { useSettingsStore } from '../stores/settingsStore';
 import { useIsMobile } from '../hooks/useIsMobile';
 import type { Item, ItemCategory } from '../types/game.types';
 
+/** カテゴリごとの表示ラベル・絵文字・カラー定義 */
 export const CATEGORY_INFO: Record<string, { label: string; emoji: string; color: string }> = {
   ore:            { label: '資源',       emoji: '⛏️',  color: '#78909c' },
   fluid:          { label: '流体',       emoji: '💧',  color: '#29b6f6' },
@@ -22,17 +23,31 @@ export const CATEGORY_INFO: Record<string, { label: string; emoji: string; color
   special:        { label: 'その他',     emoji: '✨',  color: '#bdbdbd' },
 };
 
+/** カテゴリタブの表示順 */
 const CATEGORY_ORDER: ItemCategory[] = [
   'ore', 'fluid', 'ingot', 'standard_part', 'electronic', 'industrial',
   'communication', 'petroleum', 'fuel', 'mineral', 'advanced',
   'nuclear', 'space_elevator', 'equipment', 'special',
 ];
 
+/** ItemPicker のプロパティ */
 interface ItemPickerProps {
+  /**
+   * アイテムと量が確定したときのコールバック。
+   * @param itemId - 選択されたアイテム ID
+   * @param amount - 入力された生産量（毎分）
+   */
   onSelect: (itemId: string, amount: number) => void;
+  /** モーダルを閉じるコールバック */
   onClose: () => void;
 }
 
+/**
+ * アイテム選択モーダルコンポーネント。
+ *
+ * カテゴリフィルタ・テキスト検索でアイテムを絞り込み、
+ * アイテム選択後に生産量を入力して確定する2ステップUI。
+ */
 export default function ItemPicker({ onSelect, onClose }: ItemPickerProps) {
   const items = useGameDataStore(s => s.items);
   const getDefaultRecipe = useGameDataStore(s => s.getDefaultRecipe);
@@ -47,6 +62,7 @@ export default function ItemPicker({ onSelect, onClose }: ItemPickerProps) {
 
   const allItems = useMemo(() => Object.values(items), [items]);
 
+  /** 検索クエリとカテゴリでフィルタリングしたアイテム一覧 */
   const filtered = useMemo(() => {
     let list = allItems;
     if (selectedCategory) list = list.filter(i => i.category === selectedCategory);
@@ -61,12 +77,16 @@ export default function ItemPicker({ onSelect, onClose }: ItemPickerProps) {
     return list;
   }, [allItems, search, selectedCategory]);
 
+  /** 実際にデータが存在するカテゴリの一覧（表示順に整列） */
   const presentCategories = useMemo(() => {
     const cats = new Set(allItems.map(i => i.category));
     return CATEGORY_ORDER.filter(c => cats.has(c));
   }, [allItems]);
 
-  // When selecting an item, compute default amount from recipe
+  /**
+   * アイテムを選択したときに、デフォルトレシピから初期生産量を設定する。
+   * @param item - 選択されたアイテム
+   */
   const handleSelectItem = (item: Item) => {
     const recipe = getDefaultRecipe(item.id);
     const output = recipe?.outputs.find(o => o.itemId === item.id);
@@ -75,6 +95,7 @@ export default function ItemPicker({ onSelect, onClose }: ItemPickerProps) {
     setPendingAmount(String(defaultRate));
   };
 
+  /** 生産量を確定してアイテムを追加する */
   const handleConfirmAdd = () => {
     if (!pendingItem) return;
     const amount = parseFloat(pendingAmount) || 30;
@@ -110,7 +131,7 @@ export default function ItemPicker({ onSelect, onClose }: ItemPickerProps) {
           boxShadow: isMobile ? 'none' : '0 20px 60px rgba(0,0,0,0.6)',
         }}
       >
-        {/* Header */}
+        {/* ヘッダー */}
         <div style={{
           padding: '14px 20px',
           borderBottom: '1px solid #0f3460',
@@ -173,7 +194,7 @@ export default function ItemPicker({ onSelect, onClose }: ItemPickerProps) {
           >✕</button>
         </div>
 
-        {/* ── STEP 2: Confirmation view ── */}
+        {/* ── STEP 2: 確認ビュー ── */}
         {pendingItem ? (
           <ConfirmStep
             item={pendingItem}
@@ -185,7 +206,7 @@ export default function ItemPicker({ onSelect, onClose }: ItemPickerProps) {
           />
         ) : (
           <>
-            {/* Category tabs */}
+            {/* カテゴリタブ */}
             <div style={{
               display: 'flex',
               gap: '4px',
@@ -235,7 +256,7 @@ export default function ItemPicker({ onSelect, onClose }: ItemPickerProps) {
               })}
             </div>
 
-            {/* Item grid */}
+            {/* アイテムグリッド */}
             <div style={{
               flex: 1,
               overflow: 'auto',
@@ -322,16 +343,29 @@ export default function ItemPicker({ onSelect, onClose }: ItemPickerProps) {
   );
 }
 
-// ── Confirmation step component ──
+// ── 確認ステップコンポーネント ──────────────────────────────────────────────────
+
+/** ConfirmStep のプロパティ */
 interface ConfirmStepProps {
+  /** 選択されたアイテム */
   item: Item;
+  /** 入力中の生産量文字列 */
   amount: string;
+  /** 生産量変更コールバック */
   onAmountChange: (v: string) => void;
+  /** 追加確定コールバック */
   onConfirm: () => void;
+  /** 表示言語 */
   language: string;
+  /** モバイル表示かどうか */
   isMobile: boolean;
 }
 
+/**
+ * アイテム追加の確認ステップ（STEP 2）。
+ *
+ * 選択アイテムの詳細を表示し、生産量を入力して追加を確定する。
+ */
 function ConfirmStep({ item, amount, onAmountChange, onConfirm, language, isMobile }: ConfirmStepProps) {
   const info = CATEGORY_INFO[item.category] || { label: item.category, emoji: '📦', color: '#888' };
   const name = language === 'ja' ? item.nameJa : item.name;
@@ -347,7 +381,7 @@ function ConfirmStep({ item, amount, onAmountChange, onConfirm, language, isMobi
       padding: isMobile ? '24px 20px' : '40px 60px',
       gap: '24px',
     }}>
-      {/* Item card */}
+      {/* アイテムカード */}
       <div style={{
         background: `${info.color}15`,
         border: `2px solid ${info.color}`,
@@ -395,7 +429,7 @@ function ConfirmStep({ item, amount, onAmountChange, onConfirm, language, isMobi
         </div>
       </div>
 
-      {/* Amount input */}
+      {/* 数量入力 */}
       <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px' }}>
         <label style={{ color: '#a0a0b0', fontSize: '13px' }}>
           1分間あたりの生産量を設定
@@ -427,7 +461,7 @@ function ConfirmStep({ item, amount, onAmountChange, onConfirm, language, isMobi
         </div>
       </div>
 
-      {/* Confirm button */}
+      {/* 確定ボタン */}
       <button
         onClick={onConfirm}
         style={{

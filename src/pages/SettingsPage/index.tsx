@@ -1,5 +1,11 @@
 import { useSettingsStore } from '../../stores/settingsStore';
 
+/**
+ * 設定ページコンポーネント。
+ *
+ * 言語・テーマ・デフォルトOC率・代替レシピ表示の各設定を
+ * `settingsStore.updateSettings` を通じて変更・保存する。
+ */
 export default function SettingsPage() {
   const language = useSettingsStore(s => s.language);
   const theme = useSettingsStore(s => s.theme);
@@ -7,6 +13,7 @@ export default function SettingsPage() {
   const showAlternateRecipes = useSettingsStore(s => s.showAlternateRecipes);
   const updateSettings = useSettingsStore(s => s.updateSettings);
 
+  /** 各設定セクションの共通スタイル */
   const sectionStyle = {
     background: '#16213e',
     border: '1px solid #0f3460',
@@ -15,6 +22,7 @@ export default function SettingsPage() {
     marginBottom: '16px',
   };
 
+  /** 設定項目のラベルスタイル */
   const labelStyle = {
     color: '#e0e0e0',
     fontSize: '14px',
@@ -23,6 +31,7 @@ export default function SettingsPage() {
     display: 'block',
   };
 
+  /** 設定項目のサブラベル（説明文）スタイル */
   const subLabelStyle = {
     color: '#a0a0b0',
     fontSize: '12px',
@@ -30,6 +39,7 @@ export default function SettingsPage() {
     display: 'block',
   };
 
+  /** ボタングループの選択状態に応じたスタイルを返す */
   const btnGroupStyle = (active: boolean) => ({
     padding: '8px 16px',
     borderRadius: '6px',
@@ -48,7 +58,7 @@ export default function SettingsPage() {
         ⚙️ 設定
       </h1>
 
-      {/* Language */}
+      {/* 言語 */}
       <div style={sectionStyle}>
         <span style={labelStyle}>言語 / Language</span>
         <span style={subLabelStyle}>アイテム名の表示言語を選択します</span>
@@ -62,7 +72,7 @@ export default function SettingsPage() {
         </div>
       </div>
 
-      {/* Theme */}
+      {/* テーマ */}
       <div style={sectionStyle}>
         <span style={labelStyle}>テーマ</span>
         <span style={subLabelStyle}>現在はダークテーマのみサポートされています</span>
@@ -79,7 +89,7 @@ export default function SettingsPage() {
         </div>
       </div>
 
-      {/* Default Overclock */}
+      {/* デフォルトOC率 */}
       <div style={sectionStyle}>
         <span style={labelStyle}>デフォルトオーバークロック</span>
         <span style={subLabelStyle}>新しい計算に使用するデフォルトのオーバークロック率</span>
@@ -118,7 +128,7 @@ export default function SettingsPage() {
         </div>
       </div>
 
-      {/* Alternate Recipes */}
+      {/* 代替レシピ表示 */}
       <div style={sectionStyle}>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
           <div>
@@ -152,7 +162,7 @@ export default function SettingsPage() {
         </div>
       </div>
 
-      {/* Info */}
+      {/* アプリ情報 */}
       <div style={{
         ...sectionStyle,
         background: 'rgba(245, 166, 35, 0.05)',
@@ -160,8 +170,8 @@ export default function SettingsPage() {
       }}>
         <span style={{ ...labelStyle, color: '#f5a623' }}>アプリ情報</span>
         <div style={{ color: '#a0a0b0', fontSize: '13px', lineHeight: 1.8 }}>
-          <div>Satisfactory Factory Planner v1.1</div>
-          <div>Based on Satisfactory 1.0 game data</div>
+          <div>Satisfactory Factory Planner v1.2</div>
+          <div>Satisfactory 1.0 ゲームデータ使用</div>
           <div>アイテム数: 127</div>
           <div>レシピ数: 107 / マシーン: 11 種類</div>
         </div>

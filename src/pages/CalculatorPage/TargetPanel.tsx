@@ -8,11 +8,20 @@ import { useUiStore } from '../../stores/uiStore';
 import { useCalculationStore } from '../../stores/calculationStore';
 import { useIsMobile } from '../../hooks/useIsMobile';
 import ItemPicker from '../../components/ItemPicker';
+import { trackEvent } from '../../lib/analytics';
 
+/** TargetPanel のプロパティ */
 interface TargetPanelProps {
+  /** 計算実行後に呼ばれるコールバック（モバイルでのパネル切り替えなどに使用） */
   onCalculate?: () => void;
 }
 
+/**
+ * 生産目標の入力パネルコンポーネント。
+ *
+ * プランの作成・切り替え・目標アイテムの追加・削除・量の変更、
+ * および計算実行ボタンを提供する。
+ */
 export default function TargetPanel({ onCalculate }: TargetPanelProps) {
   const currentPlan = usePlanStore(s => s.currentPlan);
   const addTarget = usePlanStore(s => s.addTarget);
@@ -37,24 +46,30 @@ export default function TargetPanel({ onCalculate }: TargetPanelProps) {
   const [newPlanName, setNewPlanName] = useState('');
   const [editingPlanName, setEditingPlanName] = useState(false);
 
+  /** アイテムピッカーで選択されたアイテムを生産目標に追加する */
   const handleAddTarget = (itemId: string, amount: number) => {
     addTarget(itemId, amount);
   };
 
+  /** 新規プランを作成する */
   const handleCreatePlan = () => {
     const name = newPlanName.trim() || `プラン ${savedPlans.length + 1}`;
     createPlan(name);
+    trackEvent('plan_create');
     setNewPlanName('');
     setNewPlanOpen(false);
   };
 
+  /** 計算を実行する */
   const handleCalculate = () => {
     if (currentPlan) {
+      trackEvent('calculate', { target_count: currentPlan.targets.length });
       calculate(currentPlan, gameData);
       onCalculate?.();
     }
   };
 
+  /** 計算実行ボタンが有効かどうか（プランがあり目標が1件以上） */
   const canCalculate = !!(currentPlan && currentPlan.targets.length > 0);
 
   const cardStyle = {
@@ -75,9 +90,9 @@ export default function TargetPanel({ onCalculate }: TargetPanelProps) {
         flexDirection: 'column',
         height: '100%',
       }}>
-        {/* Plan Header */}
+        {/* プランヘッダー */}
         <div style={{ padding: '14px 16px', borderBottom: '1px solid #0f3460' }}>
-          {/* "ACTIVE PLAN" label row with "+" button */}
+          {/* 「現在のプラン」ラベルと「+」ボタン */}
           <div style={{
             display: 'flex',
             alignItems: 'center',
@@ -91,10 +106,10 @@ export default function TargetPanel({ onCalculate }: TargetPanelProps) {
               letterSpacing: '0.5px',
               flex: 1,
             }}>
-              Active Plan
+              現在のプラン
             </span>
 
-            {/* Load saved plans */}
+            {/* 保存済みプランの読み込み */}
             {savedPlans.length > 0 && (
               <div style={{ position: 'relative' }}>
                 <button
@@ -150,7 +165,7 @@ export default function TargetPanel({ onCalculate }: TargetPanelProps) {
               </div>
             )}
 
-            {/* New plan "+" button */}
+            {/* 新規プラン「+」ボタン */}
             <div style={{ position: 'relative' }}>
               <button
                 onClick={() => setNewPlanOpen(o => !o)}
@@ -226,7 +241,7 @@ export default function TargetPanel({ onCalculate }: TargetPanelProps) {
             </div>
           </div>
 
-          {/* Current plan name */}
+          {/* 現在のプラン名（クリックで編集） */}
           {currentPlan ? (
             editingPlanName ? (
               <input
@@ -274,7 +289,7 @@ export default function TargetPanel({ onCalculate }: TargetPanelProps) {
           )}
         </div>
 
-        {/* Target List */}
+        {/* 生産目標一覧 */}
         <div style={{ flex: 1, overflow: 'auto', padding: '12px' }}>
           <div style={{
             color: '#a0a0b0',
@@ -368,10 +383,10 @@ export default function TargetPanel({ onCalculate }: TargetPanelProps) {
           })}
         </div>
 
-        {/* Bottom: Add Item + Calculate */}
+        {/* 下部：アイテム追加・計算実行ボタン */}
         {currentPlan && (
           <div style={{ padding: '12px', borderTop: '1px solid #0f3460', display: 'flex', flexDirection: 'column', gap: '8px' }}>
-            {/* Add Item button */}
+            {/* アイテム追加ボタン */}
             <button
               onClick={() => setItemPickerOpen(true)}
               style={{
@@ -394,7 +409,7 @@ export default function TargetPanel({ onCalculate }: TargetPanelProps) {
               <Plus size={14} /> アイテムを追加
             </button>
 
-            {/* Calculate button */}
+            {/* 計算実行ボタン */}
             <button
               onClick={handleCalculate}
               disabled={!canCalculate}
@@ -422,7 +437,7 @@ export default function TargetPanel({ onCalculate }: TargetPanelProps) {
         )}
       </div>
 
-      {/* Item Picker Modal */}
+      {/* アイテムピッカーモーダル */}
       {itemPickerOpen && (
         <ItemPicker
           onSelect={handleAddTarget}

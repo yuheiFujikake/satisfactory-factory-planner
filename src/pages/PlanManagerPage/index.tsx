@@ -2,6 +2,12 @@ import { useState } from 'react';
 import { Plus, Trash2, Download, Upload, FolderOpen } from 'lucide-react';
 import { usePlanManager } from '../../hooks/usePlanManager';
 
+/**
+ * プラン管理ページコンポーネント。
+ *
+ * 保存済みプランの一覧表示・新規作成・エクスポート・インポート・削除を行う。
+ * アクティブなプランには「アクティブ」バッジを表示し、エクスポートはアクティブプランのみ対応。
+ */
 export default function PlanManagerPage() {
   const {
     currentPlan,
@@ -15,6 +21,10 @@ export default function PlanManagerPage() {
   const [newPlanName, setNewPlanName] = useState('');
   const [showCreateForm, setShowCreateForm] = useState(false);
 
+  /**
+   * 新規プランを作成してフォームをリセットする。
+   * プラン名が空の場合は「プラン N」（N は現在のプラン数 +1）をデフォルト名とする。
+   */
   const handleCreate = () => {
     const name = newPlanName.trim() || `プラン ${savedPlans.length + 1}`;
     createPlan(name);
@@ -24,7 +34,7 @@ export default function PlanManagerPage() {
 
   return (
     <div style={{ padding: '24px', maxWidth: '900px', margin: '0 auto' }}>
-      {/* Header */}
+      {/* ヘッダー */}
       <div style={{ marginBottom: '24px' }}>
         <h1 style={{ color: '#f5a623', fontSize: '24px', fontWeight: 700, margin: '0 0 8px' }}>
           📋 プラン管理
@@ -34,7 +44,7 @@ export default function PlanManagerPage() {
         </p>
       </div>
 
-      {/* Actions */}
+      {/* アクションボタン */}
       <div style={{ display: 'flex', gap: '12px', marginBottom: '24px', flexWrap: 'wrap' }}>
         <button
           onClick={() => setShowCreateForm(o => !o)}
@@ -94,7 +104,7 @@ export default function PlanManagerPage() {
         )}
       </div>
 
-      {/* Create Form */}
+      {/* 新規作成フォーム */}
       {showCreateForm && (
         <div style={{
           background: '#16213e',
@@ -155,7 +165,7 @@ export default function PlanManagerPage() {
         </div>
       )}
 
-      {/* Plan List */}
+      {/* プラン一覧 */}
       {savedPlans.length === 0 ? (
         <div style={{
           background: '#16213e',

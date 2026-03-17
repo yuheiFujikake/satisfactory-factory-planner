@@ -2,17 +2,24 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { APP_VERSION, WHATS_NEW } from '../version';
 
+/** ウェルカム表示済みフラグの localStorage キー */
 const KEY_WELCOME = 'sfp-welcome-shown';
+/** 最後に確認したバージョンの localStorage キー */
 const KEY_VERSION = 'sfp-last-seen-version';
 
+/** 表示するモーダルの種別 */
 type ModalType = 'welcome' | 'whats-new' | null;
 
-// ── Shared modal shell ────────────────────────────────────────────────────────
+// ── 共有モーダルシェル ────────────────────────────────────────────────────────
 
+/** ModalShell のプロパティ */
 interface ShellProps {
   children: React.ReactNode;
 }
 
+/**
+ * モーダルの共通外枠（オーバーレイ + カード）を提供するコンポーネント。
+ */
 function ModalShell({ children }: ShellProps) {
   return (
     <div style={{
@@ -35,13 +42,17 @@ function ModalShell({ children }: ShellProps) {
   );
 }
 
-// ── Suppress checkbox ─────────────────────────────────────────────────────────
+// ── 次回から表示しないチェックボックス ────────────────────────────────────────
 
+/** SuppressCheckbox のプロパティ */
 interface SuppressProps {
   checked: boolean;
   onChange: (v: boolean) => void;
 }
 
+/**
+ * 「次回から表示しない」チェックボックスコンポーネント。
+ */
 function SuppressCheckbox({ checked, onChange }: SuppressProps) {
   return (
     <label style={{
@@ -59,18 +70,25 @@ function SuppressCheckbox({ checked, onChange }: SuppressProps) {
   );
 }
 
-// ── Welcome modal ─────────────────────────────────────────────────────────────
+// ── ウェルカムモーダル ─────────────────────────────────────────────────────────
 
+/** WelcomeModal のプロパティ */
 interface WelcomeProps {
+  /** 閉じるときのコールバック（suppress: 次回非表示フラグ） */
   onClose: (suppress: boolean) => void;
 }
 
+/**
+ * 初回起動時に表示されるウェルカムモーダル。
+ *
+ * アプリの使い方を3ステップで案内する。
+ */
 function WelcomeModal({ onClose }: WelcomeProps) {
   const [suppress, setSuppress] = useState(true);
 
   return (
     <ModalShell>
-      {/* Header */}
+      {/* ヘッダー */}
       <div style={{ padding: '24px 24px 0', textAlign: 'center' }}>
         <div style={{ fontSize: '40px', marginBottom: '12px' }}>👋</div>
         <h2 style={{ color: '#f5a623', fontSize: '20px', fontWeight: 700, margin: '0 0 8px' }}>
@@ -81,7 +99,7 @@ function WelcomeModal({ onClose }: WelcomeProps) {
         </p>
       </div>
 
-      {/* Steps */}
+      {/* 使い方ステップ */}
       <div style={{ padding: '20px 24px', display: 'flex', flexDirection: 'column', gap: '12px' }}>
         {[
           { n: 1, title: 'プランを作成', desc: '左パネルの「＋」ボタンでプランを作成します' },
@@ -103,7 +121,7 @@ function WelcomeModal({ onClose }: WelcomeProps) {
         ))}
       </div>
 
-      {/* Help link */}
+      {/* ヘルプリンク */}
       <div style={{
         margin: '0 24px 16px',
         padding: '10px 14px',
@@ -123,7 +141,7 @@ function WelcomeModal({ onClose }: WelcomeProps) {
         {' '}でいつでも確認できます。
       </div>
 
-      {/* Footer */}
+      {/* フッター */}
       <div style={{
         padding: '14px 24px',
         borderTop: '1px solid rgba(255,255,255,0.07)',
@@ -146,18 +164,25 @@ function WelcomeModal({ onClose }: WelcomeProps) {
   );
 }
 
-// ── What's New modal ──────────────────────────────────────────────────────────
+// ── 更新情報モーダル ──────────────────────────────────────────────────────────
 
+/** WhatsNewModal のプロパティ */
 interface WhatsNewProps {
+  /** 閉じるときのコールバック（suppress: 次回非表示フラグ） */
   onClose: (suppress: boolean) => void;
 }
 
+/**
+ * バージョンアップ時に表示される更新情報モーダル。
+ *
+ * 最新バージョンのハイライトを一覧表示する。
+ */
 function WhatsNewModal({ onClose }: WhatsNewProps) {
   const [suppress, setSuppress] = useState(true);
 
   return (
     <ModalShell>
-      {/* Header */}
+      {/* ヘッダー */}
       <div style={{ padding: '22px 24px 16px', borderBottom: '1px solid rgba(255,255,255,0.07)' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
           <span style={{ fontSize: '22px' }}>🆕</span>
@@ -170,7 +195,7 @@ function WhatsNewModal({ onClose }: WhatsNewProps) {
         </div>
       </div>
 
-      {/* Highlights */}
+      {/* ハイライト一覧 */}
       <div style={{ padding: '16px 24px', display: 'flex', flexDirection: 'column', gap: '8px' }}>
         {WHATS_NEW.highlights.map((h, i) => (
           <div key={i} style={{
@@ -184,7 +209,7 @@ function WhatsNewModal({ onClose }: WhatsNewProps) {
         ))}
       </div>
 
-      {/* Changelog link */}
+      {/* 更新履歴リンク */}
       <div style={{ padding: '0 24px 16px', textAlign: 'right' }}>
         <Link
           to="/changelog"
@@ -195,7 +220,7 @@ function WhatsNewModal({ onClose }: WhatsNewProps) {
         </Link>
       </div>
 
-      {/* Footer */}
+      {/* フッター */}
       <div style={{
         padding: '14px 24px',
         borderTop: '1px solid rgba(255,255,255,0.07)',
@@ -218,8 +243,15 @@ function WhatsNewModal({ onClose }: WhatsNewProps) {
   );
 }
 
-// ── Controller ────────────────────────────────────────────────────────────────
+// ── コントローラー ────────────────────────────────────────────────────────────
 
+/**
+ * ウェルカムモーダルと更新情報モーダルを制御するコントローラーコンポーネント。
+ *
+ * - 初回起動（`sfp-welcome-shown` 未設定）→ ウェルカムモーダルを表示
+ * - バージョンアップ（`sfp-last-seen-version` が現在と異なる）→ 更新情報モーダルを表示
+ * - それ以外 → 何も表示しない
+ */
 export default function WelcomeModals() {
   const [modal, setModal] = useState<ModalType>(null);
 
@@ -234,6 +266,7 @@ export default function WelcomeModals() {
     }
   }, []);
 
+  /** ウェルカムモーダルを閉じる */
   const handleCloseWelcome = (suppress: boolean) => {
     if (suppress) {
       localStorage.setItem(KEY_WELCOME, 'true');
@@ -242,6 +275,7 @@ export default function WelcomeModals() {
     setModal(null);
   };
 
+  /** 更新情報モーダルを閉じる */
   const handleCloseWhatsNew = (suppress: boolean) => {
     if (suppress) {
       localStorage.setItem(KEY_VERSION, APP_VERSION);
