@@ -1,11 +1,13 @@
 import { useMemo, useState } from 'react';
 import { useGameDataStore } from '../../stores/gameDataStore';
 import { useSettingsStore } from '../../stores/settingsStore';
+import { formatRate, calcProductionStats } from '../../utils/math';
 import type { Item, Recipe } from '../../types/game.types';
 import type { CalculationNode } from '../../types/calculation.types';
 
-// ── Constants ────────────────────────────────────────────────────────────────
+// ── 定数 ──────────────────────────────────────────────────────────────────────
 
+/** カテゴリ → 絵文字のマッピング */
 const categoryEmoji: Record<string, string> = {
   ore: '⛏️', fluid: '💧', ingot: '🔩', standard_part: '🔧', electronic: '⚡',
   industrial: '⚙️', communication: '💻', petroleum: '🧴', fuel: '🔥',
@@ -13,12 +15,14 @@ const categoryEmoji: Record<string, string> = {
   equipment: '🛡️', special: '✨',
 };
 
+/** グループ内アイテムのカテゴリ表示順 */
 const categoryOrder = [
   'mineral', 'standard_part', 'electronic', 'industrial', 'communication',
   'petroleum', 'fuel', 'advanced', 'nuclear', 'space_elevator',
   'equipment', 'fluid', 'special',
 ];
 
+/** カテゴリ → 日本語ラベルのマッピング */
 const categoryLabelJa: Record<string, string> = {
   mineral: '鉱物', standard_part: '標準パーツ', electronic: '電子部品',
   industrial: '工業部品', communication: '通信機器', petroleum: '石油製品',
@@ -26,31 +30,43 @@ const categoryLabelJa: Record<string, string> = {
   space_elevator: '宇宙エレベーター', equipment: '装備', fluid: '液体', special: 'その他',
 };
 
-// ── Types ────────────────────────────────────────────────────────────────────
+// ── 型定義 ────────────────────────────────────────────────────────────────────
 
+/** グループ内の各アイテムエントリ */
 interface ItemEntry {
   itemId: string;
   machineId: string | undefined;
+  machineCount: number;
+  machineCountExact: number;
+  requiredPerMinute: number;
 }
 
+/** インゴット（または raw 流体）の組み合わせ別グループ */
 interface IngotGroup {
-  /** Sorted base resource IDs (ingots + raw fluids, unique combination key) */
+  /** ソート済みのベースリソース ID 一覧（インゴット + raw 流体、グループキー） */
   baseIds: string[];
   items: ItemEntry[];
 }
 
-// ── Algorithm ────────────────────────────────────────────────────────────────
+// ── アルゴリズム ──────────────────────────────────────────────────────────────
 //
-// For each item in the calculation tree:
-//   1. Trace its dependency chain, stopping at ingots (category='ingot')
-//      OR raw fluid resources (category='fluid' AND isRawResource=true).
-//   2. If ANY dependency path reaches a raw resource that is neither an ingot
-//      nor a raw fluid (e.g. ore, mineral) → exclude.
-//   3. Otherwise, the item belongs to the group keyed by its base combination.
+// 計算ツリーの各アイテムに対して:
+//   1. 依存チェーンを辿り、インゴット（category='ingot'）または
+//      raw 流体（category='fluid' かつ isRawResource=true）で停止する。
+//   2. どこかの依存パスがインゴットでも raw 流体でもない raw リソース
+//      （鉱石・鉱物など）に到達した場合 → そのアイテムを除外する。
+//   3. それ以外は、ベースの組み合わせをキーとするグループに属する。
 //
-// Items that need e.g. Iron Ingot + Water appear under the
-// "Iron Ingot + Water" combined group.
+// 例: 鉄インゴット + 水 を必要とするアイテムは「鉄インゴット + 水」グループに表示される。
 
+/**
+ * 計算ツリーからインゴット・raw 流体ベース別のグループを構築する。
+ *
+ * @param roots - 計算ツリーのルートノード配列
+ * @param items - アイテム辞書
+ * @param recipes - レシピ辞書
+ * @returns インゴット組み合わせ別にグループ化されたアイテム配列
+ */
 function buildIngotGroups(
   roots: CalculationNode[],
   items: Record<string, Item>,
@@ -58,7 +74,7 @@ function buildIngotGroups(
 ): IngotGroup[] {
   if (roots.length === 0) return [];
 
-  // Step 1: flatten tree → nodeMap (first occurrence wins for dedup)
+  // Step 1: ツリーをフラット化して nodeMap を構築（重複時は最初の出現を優先）
   const nodeMap = new Map<string, CalculationNode>();
   function collectNodes(nodes: CalculationNode[]) {
     nodes.forEach(n => {
@@ -68,9 +84,9 @@ function buildIngotGroups(
   }
   collectNodes(roots);
 
-  // Step 2: for each item, find which base resources (ingots + raw fluids) it
-  //         transitively depends on. hasNonIngotBase = true when a path leads
-  //         to a raw resource that is NOT an ingot and NOT a raw fluid (e.g. ore).
+  // Step 2: 各アイテムが推移的に依存するベースリソース（インゴット + raw 流体）を求める。
+  //         hasNonIngotBase = true の場合、インゴットでも raw 流体でもない
+  //         raw リソース（鉱石など）に到達したことを示す。
   type DepResult = { ingots: Set<string>; hasNonIngotBase: boolean };
   const cache = new Map<string, DepResult>();
 
@@ -81,7 +97,7 @@ function buildIngotGroups(
     const item = items[itemId];
     if (!item) return { ingots: new Set(), hasNonIngotBase: false };
 
-    // An ingot is a "base" for this grouping — stop here
+    // インゴットはこのグループ分けの「ベース」— ここで再帰を停止する
     if (item.category === 'ingot') {
       const r: DepResult = { ingots: new Set([itemId]), hasNonIngotBase: false };
       cache.set(itemId, r);
@@ -90,14 +106,14 @@ function buildIngotGroups(
 
     const node = nodeMap.get(itemId);
 
-    // A raw fluid (water, crude oil, nitrogen gas, …) is also a "base" — stop here
+    // raw 流体（水・原油・窒素ガスなど）も「ベース」— ここで再帰を停止する
     if (item.category === 'fluid' && (!node || node.isRawResource)) {
       const r: DepResult = { ingots: new Set([itemId]), hasNonIngotBase: false };
       cache.set(itemId, r);
       return r;
     }
 
-    // A raw resource that is NOT an ingot and NOT a raw fluid (ore, mineral) → disqualifying
+    // インゴットでも raw 流体でもない raw リソース（鉱石・鉱物）は除外対象
     if (!node || node.isRawResource) {
       const r: DepResult = { ingots: new Set(), hasNonIngotBase: true };
       cache.set(itemId, r);
@@ -121,34 +137,40 @@ function buildIngotGroups(
 
   nodeMap.forEach((_, id) => getIngotDeps(id, new Set()));
 
-  // Step 3: group items by their ingot combination
+  // Step 3: アイテムをインゴットの組み合わせ別にグループ化する
   const groupMap = new Map<string, IngotGroup>();
 
   nodeMap.forEach((node, itemId) => {
     const item = items[itemId];
     if (!item) return;
-    if (item.category === 'ingot') return;   // ingots are group headers
-    if (node.isRawResource) return;           // skip raw resources
+    if (item.category === 'ingot') return;   // インゴット自体はグループヘッダーとして扱う
+    if (node.isRawResource) return;           // raw リソースはスキップ
 
     const { ingots, hasNonIngotBase } = cache.get(itemId)!;
-    if (hasNonIngotBase) return;             // needs non-base raw material → skip
-    if (ingots.size === 0) return;           // no base dependency → skip
+    if (hasNonIngotBase) return;             // ベース以外の raw 素材が必要 → スキップ
+    if (ingots.size === 0) return;           // ベース依存なし → スキップ
 
     const key = [...ingots].sort().join(',');
     if (!groupMap.has(key)) {
       groupMap.set(key, { baseIds: [...ingots].sort(), items: [] });
     }
     const recipe = node.recipeId ? recipes[node.recipeId] : undefined;
-    groupMap.get(key)!.items.push({ itemId, machineId: recipe?.machineId });
+    groupMap.get(key)!.items.push({
+      itemId,
+      machineId: recipe?.machineId,
+      machineCount: node.machineCount,
+      machineCountExact: node.machineCountExact,
+      requiredPerMinute: node.requiredPerMinute,
+    });
   });
 
-  // Step 4: sort groups (fewer bases first; tie-break by first base id)
+  // Step 4: ベース数が少ない順でグループをソート（同数の場合は先頭ベース ID で比較）
   const groups = [...groupMap.values()].sort((a, b) => {
     if (a.baseIds.length !== b.baseIds.length) return a.baseIds.length - b.baseIds.length;
     return a.baseIds[0].localeCompare(b.baseIds[0]);
   });
 
-  // Sort items within each group by category order, then tier
+  // グループ内のアイテムをカテゴリ順 → ティア順でソート
   groups.forEach(g => {
     g.items.sort((a, b) => {
       const ia = items[a.itemId];
@@ -165,12 +187,20 @@ function buildIngotGroups(
   return groups;
 }
 
-// ── Component ────────────────────────────────────────────────────────────────
+// ── コンポーネント ────────────────────────────────────────────────────────────
 
+/** OreGroupPanel のプロパティ */
 interface Props {
+  /** 計算ツリーのルートノード配列 */
   roots: CalculationNode[];
 }
 
+/**
+ * 計算結果をインゴット・液体原材料の組み合わせ別に表示するパネル。
+ *
+ * 各グループをアコーディオン形式で折りたたみ可能に表示し、
+ * アイテムごとに設置台数・必要量・生産量・余剰量を表示する。
+ */
 export default function OreGroupPanel({ roots }: Props) {
   const items    = useGameDataStore(s => s.items);
   const recipes  = useGameDataStore(s => s.recipes);
@@ -184,6 +214,7 @@ export default function OreGroupPanel({ roots }: Props) {
     [roots, items, recipes],
   );
 
+  /** アコーディオンの開閉をトグルする */
   const toggleCollapse = (key: string) => {
     setCollapsed(prev => {
       const next = new Set(prev);
@@ -192,9 +223,10 @@ export default function OreGroupPanel({ roots }: Props) {
     });
   };
 
+  /** 言語設定に応じてアイテム名を返す */
   const getName = (item: Item) => language === 'ja' ? item.nameJa : item.name;
 
-  // ── Empty state ──────────────────────────────────────────────────────────
+  // ── 空状態 ────────────────────────────────────────────────────────────────
   if (roots.length === 0) {
     return (
       <div style={{
@@ -238,7 +270,7 @@ export default function OreGroupPanel({ roots }: Props) {
             return base ? getName(base) : id;
           }).join(' + ');
 
-          // Sub-group items by category
+          // カテゴリ別にアイテムをサブグループ化する
           const byCategory = new Map<string, ItemEntry[]>();
           group.items.forEach(entry => {
             const item = items[entry.itemId];
@@ -253,7 +285,7 @@ export default function OreGroupPanel({ roots }: Props) {
 
           return (
             <div key={key} style={{ borderRadius: '6px', overflow: 'hidden' }}>
-              {/* ── Accordion header ── */}
+              {/* ── アコーディオンヘッダー ── */}
               <button
                 onClick={() => toggleCollapse(key)}
                 style={{
@@ -281,7 +313,7 @@ export default function OreGroupPanel({ roots }: Props) {
                 </span>
               </button>
 
-              {/* ── Accordion body ── */}
+              {/* ── アコーディオンボディ ── */}
               {isOpen && (
                 <div style={{
                   borderLeft: `3px solid ${accentColor}`,
@@ -298,7 +330,7 @@ export default function OreGroupPanel({ roots }: Props) {
 
                     return (
                       <div key={cat}>
-                        {/* Category heading */}
+                        {/* カテゴリ見出し */}
                         <div style={{
                           display: 'flex', alignItems: 'center', gap: '4px',
                           color: '#606070', fontSize: '10px', fontWeight: 700,
@@ -308,8 +340,8 @@ export default function OreGroupPanel({ roots }: Props) {
                           <span>{catEmoji}</span>
                           <span>{catLabel}</span>
                         </div>
-                        {/* Item chips */}
-                        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '4px' }}>
+                        {/* アイテムカード */}
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
                           {catItems.map(entry => {
                             const item = items[entry.itemId];
                             const machine = entry.machineId ? machines[entry.machineId] : undefined;
@@ -317,28 +349,74 @@ export default function OreGroupPanel({ roots }: Props) {
                             const machineName = machine
                               ? (language === 'ja' ? machine.nameJa : machine.name)
                               : '';
+
+                            // 生産量/分・余剰量/分（calcProductionStats に委譲）
+                            // totalPerMinute = requiredPerMinute（単一ノード基準）
+                            const { productionPerMin: calcProd, surplusPerMin: calcSurplus } =
+                              calcProductionStats(entry.requiredPerMinute, entry.machineCountExact, entry.requiredPerMinute, false);
+                            const productionPerMin = calcProd ?? entry.requiredPerMinute;
+                            const surplusPerMin    = calcSurplus ?? 0;
+
                             return (
                               <div
                                 key={entry.itemId}
                                 style={{
-                                  display: 'inline-flex', alignItems: 'center', gap: '5px',
-                                  padding: '3px 8px', borderRadius: '4px',
-                                  background: 'rgba(255,255,255,0.06)',
+                                  display: 'flex', alignItems: 'center', flexWrap: 'wrap', gap: '6px',
+                                  padding: '6px 10px', borderRadius: '6px',
+                                  background: 'rgba(255,255,255,0.05)',
                                   border: '1px solid rgba(255,255,255,0.08)',
                                 }}
                               >
-                                <span style={{ color: '#e0e0e0', fontSize: '12px' }}>
+                                {/* アイテム名 */}
+                                <span style={{ color: '#e0e0e0', fontSize: '12px', fontWeight: 600, minWidth: '120px' }}>
                                   {getName(item)}
                                 </span>
+
+                                {/* マシン名 */}
                                 {machineName && (
-                                  <span style={{
-                                    color: '#606070', fontSize: '10px',
-                                    borderLeft: '1px solid rgba(255,255,255,0.12)',
-                                    paddingLeft: '5px',
-                                  }}>
+                                  <span style={{ color: '#808090', fontSize: '11px' }}>
                                     {machineName}
                                   </span>
                                 )}
+
+                                <div style={{ display: 'flex', gap: '8px', marginLeft: 'auto', alignItems: 'center', flexWrap: 'wrap' }}>
+                                  {/* 設置台数 */}
+                                  <div style={{ textAlign: 'center' }}>
+                                    <div style={{ color: '#f5a623', fontWeight: 700, fontSize: '13px' }}>
+                                      {entry.machineCount}
+                                    </div>
+                                    <div style={{ color: '#606070', fontSize: '9px' }}>設置台数</div>
+                                  </div>
+
+                                  <div style={{ width: '1px', height: '28px', background: 'rgba(255,255,255,0.1)' }} />
+
+                                  {/* 必要量 */}
+                                  <div style={{ textAlign: 'center' }}>
+                                    <div style={{ color: '#64b5f6', fontWeight: 700, fontSize: '13px' }}>
+                                      {formatRate(entry.requiredPerMinute)}
+                                    </div>
+                                    <div style={{ color: '#606070', fontSize: '9px' }}>必要量/分</div>
+                                  </div>
+
+                                  {/* 生産量 */}
+                                  <div style={{ textAlign: 'center' }}>
+                                    <div style={{ color: '#ce93d8', fontWeight: 700, fontSize: '13px' }}>
+                                      {formatRate(productionPerMin)}
+                                    </div>
+                                    <div style={{ color: '#606070', fontSize: '9px' }}>生産量/分</div>
+                                  </div>
+
+                                  {/* 余剰量 */}
+                                  <div style={{ textAlign: 'center' }}>
+                                    <div style={{
+                                      fontWeight: 700, fontSize: '13px',
+                                      color: surplusPerMin > 0.001 ? '#4caf50' : '#a0a0b0',
+                                    }}>
+                                      {surplusPerMin > 0.001 ? '+' : ''}{formatRate(surplusPerMin)}
+                                    </div>
+                                    <div style={{ color: '#606070', fontSize: '9px' }}>余剰量/分</div>
+                                  </div>
+                                </div>
                               </div>
                             );
                           })}

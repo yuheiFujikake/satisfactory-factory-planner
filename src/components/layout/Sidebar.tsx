@@ -4,6 +4,7 @@ import { usePlanStore } from '../../stores/planStore';
 import { useIsMobile } from '../../hooks/useIsMobile';
 import { APP_VERSION } from '../../version';
 
+/** ナビゲーションアイテムの定義一覧 */
 const navItems = [
   { to: '/',          icon: Calculator, label: '計算機',   exact: true  },
   { to: '/plans',     icon: FolderOpen, label: 'プラン',   exact: false },
@@ -13,6 +14,12 @@ const navItems = [
   { to: '/changelog', icon: History,    label: '更新履歴', exact: false },
 ];
 
+/**
+ * アプリのナビゲーションサイドバーコンポーネント。
+ *
+ * - デスクトップ: 左側の縦型サイドバー
+ * - モバイル: 画面下部のボトムナビゲーション
+ */
 export default function Sidebar() {
   const currentPlan = usePlanStore(s => s.currentPlan);
   const isMobile = useIsMobile();
@@ -64,6 +71,7 @@ export default function Sidebar() {
       backgroundColor: '#16213e', borderRight: '1px solid #0f3460',
       display: 'flex', flexDirection: 'column', height: '100vh', position: 'sticky', top: 0,
     }}>
+      {/* ロゴ・アプリ名 */}
       <div style={{ padding: '20px 16px', borderBottom: '1px solid #0f3460' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
           <span style={{ fontSize: '24px' }}>⚙️</span>
@@ -74,14 +82,16 @@ export default function Sidebar() {
         </div>
       </div>
 
+      {/* 現在のプラン名（プランがある場合のみ表示） */}
       {currentPlan && (
         <div style={{ padding: '12px 16px', borderBottom: '1px solid #0f3460', backgroundColor: '#0f3460' }}>
-          <div style={{ color: '#a0a0b0', fontSize: '10px', marginBottom: '4px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Current Plan</div>
+          <div style={{ color: '#a0a0b0', fontSize: '10px', marginBottom: '4px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>現在のプラン</div>
           <div style={{ color: '#f5a623', fontSize: '13px', fontWeight: 600, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{currentPlan.name}</div>
-          <div style={{ color: '#a0a0b0', fontSize: '11px', marginTop: '2px' }}>{currentPlan.targets.length} targets</div>
+          <div style={{ color: '#a0a0b0', fontSize: '11px', marginTop: '2px' }}>{currentPlan.targets.length} 目標</div>
         </div>
       )}
 
+      {/* ナビゲーションリンク */}
       <nav style={{ flex: 1, padding: '12px 8px' }}>
         {navItems.map(item => (
           <NavLink key={item.to} to={item.to} end={item.exact}
@@ -100,6 +110,7 @@ export default function Sidebar() {
         ))}
       </nav>
 
+      {/* バージョン表示 */}
       <div style={{ padding: '12px 16px', borderTop: '1px solid #0f3460', color: '#606070', fontSize: '10px', textAlign: 'center' }}>
         Satisfactory Factory Planner v{APP_VERSION}
       </div>

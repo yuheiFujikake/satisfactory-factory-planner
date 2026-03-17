@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useIsMobile } from '../../hooks/useIsMobile';
 
+/** ヘルプページのセクション識別子 */
 type Section = 'quickstart' | 'calculator' | 'graph' | 'plans' | 'items' | 'settings';
 
 const SECTIONS: { id: Section; emoji: string; title: string }[] = [
@@ -12,6 +13,12 @@ const SECTIONS: { id: Section; emoji: string; title: string }[] = [
   { id: 'settings',    emoji: '🔧', title: '設定' },
 ];
 
+/**
+ * 使い方ガイドページコンポーネント。
+ *
+ * 左サイドバーの目次（デスクトップ）または横スクロールタブ（モバイル）で
+ * セクションを切り替えながら各機能の説明を閲覧できる。
+ */
 export default function HelpPage() {
   const [active, setActive] = useState<Section>('quickstart');
   const isMobile = useIsMobile();
@@ -19,7 +26,7 @@ export default function HelpPage() {
   if (isMobile) {
     return (
       <div style={{ display: 'flex', flexDirection: 'column', height: 'calc(100vh - 60px)', background: '#1a1a2e', overflow: 'hidden' }}>
-        {/* Mobile: horizontal scrollable tab bar */}
+        {/* モバイル: 横スクロール可能なタブバー */}
         <div style={{
           display: 'flex',
           overflowX: 'auto',
@@ -55,7 +62,7 @@ export default function HelpPage() {
           ))}
         </div>
 
-        {/* Content */}
+        {/* コンテンツ */}
         <div style={{ flex: 1, overflowY: 'auto', padding: '20px 16px' }}>
           {active === 'quickstart' && <QuickStart />}
           {active === 'calculator' && <CalculatorGuide />}
@@ -70,7 +77,7 @@ export default function HelpPage() {
 
   return (
     <div style={{ display: 'flex', height: '100vh', overflow: 'hidden', background: '#1a1a2e' }}>
-      {/* Left TOC */}
+      {/* 左サイドバー: 目次 */}
       <div style={{
         width: '220px',
         minWidth: '220px',
@@ -110,7 +117,7 @@ export default function HelpPage() {
         ))}
       </div>
 
-      {/* Content */}
+      {/* コンテンツ */}
       <div style={{ flex: 1, overflowY: 'auto', padding: '32px 48px' }}>
         {active === 'quickstart' && <QuickStart />}
         {active === 'calculator' && <CalculatorGuide />}
@@ -123,26 +130,30 @@ export default function HelpPage() {
   );
 }
 
-// ─── Shared Styles ───────────────────────────────────────────────────────────
+// ─── 共有スタイルコンポーネント ───────────────────────────────────────────────
 
+/** ヘルプページ用の大見出しコンポーネント */
 const H1 = ({ children }: { children: React.ReactNode }) => (
   <h1 style={{ color: '#f5a623', fontSize: '26px', fontWeight: 700, margin: '0 0 8px' }}>
     {children}
   </h1>
 );
 
+/** ヘルプページ用の中見出しコンポーネント（下線区切り付き） */
 const H2 = ({ children }: { children: React.ReactNode }) => (
   <h2 style={{ color: '#e0e0e0', fontSize: '17px', fontWeight: 700, margin: '32px 0 12px', borderBottom: '1px solid #0f3460', paddingBottom: '8px' }}>
     {children}
   </h2>
 );
 
+/** ヘルプページ用の本文段落コンポーネント */
 const P = ({ children }: { children: React.ReactNode }) => (
   <p style={{ color: '#c0c0cc', fontSize: '14px', lineHeight: 1.75, margin: '0 0 12px' }}>
     {children}
   </p>
 );
 
+/** ヘルプページ用のヒントブロックコンポーネント（オレンジ左ボーダー） */
 const Tip = ({ children }: { children: React.ReactNode }) => (
   <div style={{
     background: 'rgba(245,166,35,0.08)',
@@ -159,6 +170,7 @@ const Tip = ({ children }: { children: React.ReactNode }) => (
   </div>
 );
 
+/** ヘルプページ用の補足情報ブロックコンポーネント（ブルー左ボーダー） */
 const Note = ({ children }: { children: React.ReactNode }) => (
   <div style={{
     background: 'rgba(100,181,246,0.08)',
@@ -175,6 +187,7 @@ const Note = ({ children }: { children: React.ReactNode }) => (
   </div>
 );
 
+/** ヘルプページ用の警告ブロックコンポーネント（赤左ボーダー） */
 const Warn = ({ children }: { children: React.ReactNode }) => (
   <div style={{
     background: 'rgba(244,67,54,0.08)',
@@ -191,6 +204,7 @@ const Warn = ({ children }: { children: React.ReactNode }) => (
   </div>
 );
 
+/** ヘルプページ用の手順ステップコンポーネント（番号バッジ + タイトル + 説明） */
 const Step = ({ n, title, children }: { n: number; title: string; children: React.ReactNode }) => (
   <div style={{ display: 'flex', gap: '16px', marginBottom: '20px' }}>
     <div style={{
@@ -214,6 +228,7 @@ const Step = ({ n, title, children }: { n: number; title: string; children: Reac
   </div>
 );
 
+/** ヘルプページ用のキー・バリュー行コンポーネント（機能名 + 説明の一覧表示に使用） */
 const KV = ({ label, value }: { label: string; value: string }) => (
   <div style={{ display: 'flex', gap: '12px', padding: '8px 12px', borderBottom: '1px solid #0f3460' }}>
     <div style={{ color: '#f5a623', fontSize: '13px', fontWeight: 600, minWidth: '160px' }}>{label}</div>
@@ -221,6 +236,7 @@ const KV = ({ label, value }: { label: string; value: string }) => (
   </div>
 );
 
+/** ヘルプページ用の疑似ターミナル表示コンポーネント（操作手順などをモノスペースで表示） */
 const Screen = ({ children }: { children: React.ReactNode }) => (
   <div style={{
     background: '#0f3460',
@@ -235,8 +251,9 @@ const Screen = ({ children }: { children: React.ReactNode }) => (
   }}>{children}</div>
 );
 
-// ─── Sections ────────────────────────────────────────────────────────────────
+// ─── セクションコンポーネント ─────────────────────────────────────────────────
 
+/** クイックスタートセクション: 基本的な 5 ステップの使い方を説明する */
 function QuickStart() {
   return (
     <div>
@@ -289,6 +306,7 @@ function QuickStart() {
   );
 }
 
+/** 計算機画面セクション: 左右パネルの各操作説明 */
 function CalculatorGuide() {
   return (
     <div>
@@ -297,7 +315,7 @@ function CalculatorGuide() {
 
       <H2>左パネル — 目標設定</H2>
       <div style={{ background: '#0f3460', border: '1px solid #1a3a6a', borderRadius: '8px', overflow: 'hidden', margin: '12px 0' }}>
-        <KV label="ACTIVE PLAN" value="現在編集中のプラン名。クリックすると直接編集できます" />
+        <KV label="現在のプラン" value="現在編集中のプラン名。クリックすると直接編集できます" />
         <KV label="＋ ボタン（右上）" value="新しいプランを作成します。名前を入力して Enter または「作成」" />
         <KV label="📂 ボタン" value="保存済みのプラン一覧を表示し、切り替えられます" />
         <KV label="生産目標リスト" value="追加したアイテムと 1 分あたりの生産量を一覧表示します" />
@@ -373,6 +391,7 @@ function CalculatorGuide() {
   );
 }
 
+/** 依存グラフセクション: ノード操作・統合・分割の説明 */
 function GraphGuide() {
   return (
     <div>
@@ -464,6 +483,7 @@ function GraphGuide() {
   );
 }
 
+/** プラン管理セクション: 保存・エクスポート・インポートの説明 */
 function PlansGuide() {
   return (
     <div>
@@ -518,6 +538,7 @@ function PlansGuide() {
   );
 }
 
+/** アイテムブラウザセクション: カテゴリ一覧・検索・詳細パネルの説明 */
 function ItemsGuide() {
   return (
     <div>
@@ -575,6 +596,7 @@ function ItemsGuide() {
   );
 }
 
+/** 設定セクション: 各設定項目とオーバークロック計算式の説明 */
 function SettingsGuide() {
   return (
     <div>
@@ -604,7 +626,7 @@ function SettingsGuide() {
 
       <H2>アプリ情報</H2>
       <div style={{ background: '#0f3460', border: '1px solid #1a3a6a', borderRadius: '8px', overflow: 'hidden', margin: '12px 0' }}>
-        <KV label="バージョン" value="Satisfactory Factory Planner v1.1" />
+        <KV label="バージョン" value="Satisfactory Factory Planner v1.2" />
         <KV label="対応バージョン" value="Satisfactory 1.0 のゲームデータに基づいています" />
         <KV label="データ数" value="アイテム 127、レシピ 107、マシーン 11 種類" />
         <KV label="保存方式" value="ブラウザの localStorage（サーバー不要・オフライン動作）" />

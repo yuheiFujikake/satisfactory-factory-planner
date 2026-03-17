@@ -1,17 +1,36 @@
 import { APP_VERSION } from '../../version';
 
+/** 更新履歴の 1 バージョン分のデータ */
 interface ChangeEntry {
+  /** バージョン番号文字列（例: "1.1"） */
   version: string;
+  /** リリース日（YYYY-MM-DD 形式） */
   date: string;
+  /** 最新バージョンかどうか */
   isLatest?: boolean;
+  /** セクション（見出し + 変更項目リスト）の配列 */
   sections: { heading: string; items: string[] }[];
 }
 
 const CHANGELOG: ChangeEntry[] = [
   {
-    version: '1.1',
+    version: '1.2',
     date: '2026-03-17',
     isLatest: true,
+    sections: [
+      {
+        heading: 'ドキュメント・品質改善',
+        items: [
+          '📖 使い方ページを全面改訂 — 各機能の説明と UI ラベルを最新状態に完全同期',
+          '🌐 UI テキストを日本語に統一 — 設定ページのアプリ情報など英語混じりの文言を修正',
+          '🛠️ 全ソースファイルに日本語 TSDoc コメントを整備 — 開発者向け可読性を大幅に向上',
+        ],
+      },
+    ],
+  },
+  {
+    version: '1.1',
+    date: '2026-03-17',
     sections: [
       {
         heading: '新機能',
@@ -68,12 +87,18 @@ const CHANGELOG: ChangeEntry[] = [
   },
 ];
 
+/**
+ * 更新履歴ページコンポーネント。
+ *
+ * `CHANGELOG` 定数をバージョン降順で表示し、各バージョンの変更内容を
+ * セクション別にリスト表示する。最新バージョンには「最新」バッジを付与する。
+ */
 export default function ChangelogPage() {
   return (
     <div style={{ height: '100%', overflow: 'auto', background: '#1a1a2e' }}>
       <div style={{ maxWidth: '720px', margin: '0 auto', padding: '32px 24px' }}>
 
-        {/* Header */}
+        {/* ヘッダー */}
         <div style={{ marginBottom: '32px' }}>
           <h1 style={{ color: '#f5a623', fontSize: '24px', fontWeight: 700, margin: '0 0 6px' }}>
             📋 更新履歴
@@ -83,11 +108,11 @@ export default function ChangelogPage() {
           </p>
         </div>
 
-        {/* Entries */}
+        {/* エントリー一覧 */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: '28px' }}>
           {CHANGELOG.map(entry => (
             <div key={entry.version}>
-              {/* Version heading */}
+              {/* バージョン見出し */}
               <div style={{
                 display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '16px',
               }}>
@@ -112,7 +137,7 @@ export default function ChangelogPage() {
                 <span style={{ color: '#606070', fontSize: '12px' }}>{entry.date}</span>
               </div>
 
-              {/* Sections */}
+              {/* セクション */}
               <div style={{
                 background: '#0f3460', border: '1px solid #1a3a6a',
                 borderRadius: '10px', overflow: 'hidden',

@@ -3,12 +3,21 @@ import { useGameDataStore } from '../stores/gameDataStore';
 import { useSettingsStore } from '../stores/settingsStore';
 import { formatRate } from '../utils/math';
 
+/** RecipeCard のプロパティ */
 interface RecipeCardProps {
+  /** 表示するレシピ */
   recipe: Recipe;
+  /** 選択状態かどうか */
   selected?: boolean;
+  /** クリックハンドラ */
   onClick?: () => void;
 }
 
+/**
+ * レシピの詳細（入力・出力アイテム・使用マシン・製造時間）を表示するカードコンポーネント。
+ *
+ * `selected` が `true` の場合はハイライト表示される。
+ */
 export default function RecipeCard({ recipe, selected, onClick }: RecipeCardProps) {
   const items = useGameDataStore(s => s.items);
   const machines = useGameDataStore(s => s.machines);
@@ -52,31 +61,31 @@ export default function RecipeCard({ recipe, selected, onClick }: RecipeCardProp
         🏭 {machineName} • ⏱️ {recipe.craftTimeSeconds}s
       </div>
 
-      {/* Inputs */}
+      {/* 入力素材 */}
       <div style={{ marginBottom: '6px' }}>
-        <div style={{ fontSize: '10px', color: '#a0a0b0', marginBottom: '4px' }}>INPUT</div>
+        <div style={{ fontSize: '10px', color: '#a0a0b0', marginBottom: '4px' }}>入力</div>
         {recipe.inputs.map(input => {
           const item = items[input.itemId];
           const name = item ? (language === 'ja' ? item.nameJa : item.name) : input.itemId;
           return (
             <div key={input.itemId} style={{ display: 'flex', justifyContent: 'space-between', fontSize: '12px', color: '#e0e0e0', marginBottom: '2px' }}>
               <span>{name}</span>
-              <span style={{ color: '#ff9800' }}>{formatRate(input.amountPerMinute)}/min</span>
+              <span style={{ color: '#ff9800' }}>{formatRate(input.amountPerMinute)}/分</span>
             </div>
           );
         })}
       </div>
 
-      {/* Outputs */}
+      {/* 出力素材 */}
       <div>
-        <div style={{ fontSize: '10px', color: '#a0a0b0', marginBottom: '4px' }}>OUTPUT</div>
+        <div style={{ fontSize: '10px', color: '#a0a0b0', marginBottom: '4px' }}>出力</div>
         {recipe.outputs.map(output => {
           const item = items[output.itemId];
           const name = item ? (language === 'ja' ? item.nameJa : item.name) : output.itemId;
           return (
             <div key={output.itemId} style={{ display: 'flex', justifyContent: 'space-between', fontSize: '12px', color: '#e0e0e0', marginBottom: '2px' }}>
               <span>{name}</span>
-              <span style={{ color: '#4caf50' }}>{formatRate(output.amountPerMinute)}/min</span>
+              <span style={{ color: '#4caf50' }}>{formatRate(output.amountPerMinute)}/分</span>
             </div>
           );
         })}
