@@ -1,6 +1,7 @@
 import { useMemo, useState } from 'react';
 import { useGameDataStore } from '../../stores/gameDataStore';
 import { useSettingsStore } from '../../stores/settingsStore';
+import { formatRate } from '../../utils/math';
 import type { Item, Recipe } from '../../types/game.types';
 import type { CalculationNode } from '../../types/calculation.types';
 
@@ -31,6 +32,9 @@ const categoryLabelJa: Record<string, string> = {
 interface ItemEntry {
   itemId: string;
   machineId: string | undefined;
+  machineCount: number;
+  machineCountExact: number;
+  requiredPerMinute: number;
 }
 
 interface IngotGroup {
@@ -139,7 +143,13 @@ function buildIngotGroups(
       groupMap.set(key, { baseIds: [...ingots].sort(), items: [] });
     }
     const recipe = node.recipeId ? recipes[node.recipeId] : undefined;
-    groupMap.get(key)!.items.push({ itemId, machineId: recipe?.machineId });
+    groupMap.get(key)!.items.push({
+      itemId,
+      machineId: recipe?.machineId,
+      machineCount: node.machineCount,
+      machineCountExact: node.machineCountExact,
+      requiredPerMinute: node.requiredPerMinute,
+    });
   });
 
   // Step 4: sort groups (fewer bases first; tie-break by first base id)
@@ -308,8 +318,8 @@ export default function OreGroupPanel({ roots }: Props) {
                           <span>{catEmoji}</span>
                           <span>{catLabel}</span>
                         </div>
-                        {/* Item chips */}
-                        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '4px' }}>
+                        {/* Item cards */}
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
                           {catItems.map(entry => {
                             const item = items[entry.itemId];
                             const machine = entry.machineId ? machines[entry.machineId] : undefined;
@@ -317,28 +327,73 @@ export default function OreGroupPanel({ roots }: Props) {
                             const machineName = machine
                               ? (language === 'ja' ? machine.nameJa : machine.name)
                               : '';
+
+                            // 生産量/分 = machineCount × (requiredPerMinute / machineCountExact)
+                            const productionPerMin = entry.machineCountExact > 0
+                              ? entry.machineCount * (entry.requiredPerMinute / entry.machineCountExact)
+                              : entry.requiredPerMinute;
+                            const surplusPerMin = productionPerMin - entry.requiredPerMinute;
+
                             return (
                               <div
                                 key={entry.itemId}
                                 style={{
-                                  display: 'inline-flex', alignItems: 'center', gap: '5px',
-                                  padding: '3px 8px', borderRadius: '4px',
-                                  background: 'rgba(255,255,255,0.06)',
+                                  display: 'flex', alignItems: 'center', flexWrap: 'wrap', gap: '6px',
+                                  padding: '6px 10px', borderRadius: '6px',
+                                  background: 'rgba(255,255,255,0.05)',
                                   border: '1px solid rgba(255,255,255,0.08)',
                                 }}
                               >
-                                <span style={{ color: '#e0e0e0', fontSize: '12px' }}>
+                                {/* Item name */}
+                                <span style={{ color: '#e0e0e0', fontSize: '12px', fontWeight: 600, minWidth: '120px' }}>
                                   {getName(item)}
                                 </span>
+
+                                {/* Machine name */}
                                 {machineName && (
-                                  <span style={{
-                                    color: '#606070', fontSize: '10px',
-                                    borderLeft: '1px solid rgba(255,255,255,0.12)',
-                                    paddingLeft: '5px',
-                                  }}>
+                                  <span style={{ color: '#808090', fontSize: '11px' }}>
                                     {machineName}
                                   </span>
                                 )}
+
+                                <div style={{ display: 'flex', gap: '8px', marginLeft: 'auto', alignItems: 'center', flexWrap: 'wrap' }}>
+                                  {/* 設置台数 */}
+                                  <div style={{ textAlign: 'center' }}>
+                                    <div style={{ color: '#f5a623', fontWeight: 700, fontSize: '13px' }}>
+                                      {entry.machineCount}
+                                    </div>
+                                    <div style={{ color: '#606070', fontSize: '9px' }}>設置台数</div>
+                                  </div>
+
+                                  <div style={{ width: '1px', height: '28px', background: 'rgba(255,255,255,0.1)' }} />
+
+                                  {/* 必要量 */}
+                                  <div style={{ textAlign: 'center' }}>
+                                    <div style={{ color: '#64b5f6', fontWeight: 700, fontSize: '13px' }}>
+                                      {formatRate(entry.requiredPerMinute)}
+                                    </div>
+                                    <div style={{ color: '#606070', fontSize: '9px' }}>必要量/分</div>
+                                  </div>
+
+                                  {/* 生産量 */}
+                                  <div style={{ textAlign: 'center' }}>
+                                    <div style={{ color: '#ce93d8', fontWeight: 700, fontSize: '13px' }}>
+                                      {formatRate(productionPerMin)}
+                                    </div>
+                                    <div style={{ color: '#606070', fontSize: '9px' }}>生産量/分</div>
+                                  </div>
+
+                                  {/* 余剰量 */}
+                                  <div style={{ textAlign: 'center' }}>
+                                    <div style={{
+                                      fontWeight: 700, fontSize: '13px',
+                                      color: surplusPerMin > 0.001 ? '#4caf50' : '#a0a0b0',
+                                    }}>
+                                      {surplusPerMin > 0.001 ? '+' : ''}{formatRate(surplusPerMin)}
+                                    </div>
+                                    <div style={{ color: '#606070', fontSize: '9px' }}>余剰量/分</div>
+                                  </div>
+                                </div>
                               </div>
                             );
                           })}
