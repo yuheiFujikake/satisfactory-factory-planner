@@ -57,7 +57,7 @@ export default function ResultPanel() {
   const setActiveTab  = useUiStore(s => s.setActiveTab);
   const openRecipeSelector = useUiStore(s => s.openRecipeSelector);
   const currentPlanId = usePlanStore(s => s.currentPlan?.id ?? null);
-  const targets       = usePlanStore(s => s.currentPlan?.targets ?? []);
+  const targets       = usePlanStore(s => s.currentPlan?.targets) ?? [];
   const isMobile      = useIsMobile();
 
   // トータル/プロダクト切り替え（生産目標が複数のときのみトグルを表示）
