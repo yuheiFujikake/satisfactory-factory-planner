@@ -12,7 +12,7 @@ import {
   useUpdateNodeInternals,
   MarkerType,
 } from '@xyflow/react';
-import type { NodeTypes, Node, NodeDragHandler, Edge } from '@xyflow/react';
+import type { NodeTypes, Node, Edge } from '@xyflow/react';
 import '@xyflow/react/dist/style.css';
 import type { CalculationNode } from '../../types/calculation.types';
 import { buildProductionLineGraph } from '../../domain/productionLineBuilder';
@@ -301,8 +301,8 @@ interface Props {
 
 export default function ProductionLineFlow({ roots, planId }: Props) {
   const [splitItems, setSplitItems] = useState<Set<string>>(() => loadSplitItems(planId));
-  const [nodes, setNodes, onNodesChange] = useNodesState([]);
-  const [edges, setEdges, onEdgesChange] = useEdgesState([]);
+  const [nodes, setNodes, onNodesChange] = useNodesState([] as Node[]);
+  const [edges, setEdges, onEdgesChange] = useEdgesState([] as Edge[]);
   const [snapToGrid, setSnapToGrid] = useState(true);
   const [showSurplus, setShowSurplus] = useState(true);
   const [isFullscreen, setIsFullscreen] = useState(false);
@@ -352,7 +352,7 @@ export default function ProductionLineFlow({ roots, planId }: Props) {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [roots, splitItems, planId]);
 
-  const onNodeDragStop: NodeDragHandler = useCallback((_event, _node, draggedNodes: Node[]) => {
+  const onNodeDragStop = useCallback((_event: React.MouseEvent, _node: Node, draggedNodes: Node[]) => {
     if (!planId) return;
     const draggedMap = new Map(draggedNodes.map(n => [n.id, n.position]));
     const allCurrent = nodesRef.current.map(n =>

@@ -34,8 +34,11 @@ const categoryEmoji: Record<string, string> = {
 };
 
 const categoryColor: Record<string, string> = {
-  ore: '#8B7355', ingot: '#f5a623', part: '#64b5f6',
+  ore: '#a0896a', ingot: '#f5a623', part: '#64b5f6',
   component: '#ce93d8', fluid: '#4fc3f7', equipment: '#81c784', special: '#fff176',
+  standard_part: '#64b5f6', electronic: '#ffd54f', industrial: '#90caf9',
+  communication: '#4dd0e1', petroleum: '#c5e1a5', fuel: '#ffb74d',
+  mineral: '#bcaaa4', advanced: '#b39ddb', nuclear: '#a5d6a7', space_elevator: '#80d8ff',
 };
 const categoryBg: Record<string, string> = {
   ore: '#1e1a10', ingot: '#1e1500', part: '#0a1520',
@@ -63,7 +66,7 @@ const LineItemNode = memo(({ data, selected }: NodeProps) => {
   const isChildHighlight = d.isChildHighlight ?? false;
   const isUnrelated = d.isUnrelated ?? false;
 
-  const catColor = item ? (categoryColor[item.category] || '#1a4a8a') : '#1a4a8a';
+  const catColor = item ? (categoryColor[item.category] || '#c0c8d8') : '#c0c8d8';
   const catBg = item ? (categoryBg[item.category] || '#0f3460') : '#0f3460';
 
   const bgColor = selected ? '#0a1a2a' : isChildHighlight ? '#1e1200' : isUnrelated ? '#111118' : catBg;
