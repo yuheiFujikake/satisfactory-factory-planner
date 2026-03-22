@@ -313,6 +313,8 @@ export default function ProductionLineFlow({ roots, planId }: Props) {
   const edgesRef = useRef<Edge[]>([]);
   edgesRef.current = edges;
   const updateNodeInternalsRef = useRef<((ids: string[]) => void) | null>(null);
+  // ドラッグ開始時の全ノード位置を保存（surplus ノードの delta 計算に使用）
+  const preDragPositionsRef = useRef<Map<string, { x: number; y: number }>>(new Map());
 
   useEffect(() => {
     setSplitItems(loadSplitItems(planId));
@@ -352,12 +354,31 @@ export default function ProductionLineFlow({ roots, planId }: Props) {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [roots, splitItems, planId]);
 
+  const onNodeDragStart = useCallback(() => {
+    preDragPositionsRef.current = new Map(nodesRef.current.map(n => [n.id, { ...n.position }]));
+  }, []);
+
   const onNodeDragStop = useCallback((_event: React.MouseEvent, _node: Node, draggedNodes: Node[]) => {
     if (!planId) return;
     const draggedMap = new Map(draggedNodes.map(n => [n.id, n.position]));
-    const allCurrent = nodesRef.current.map(n =>
-      draggedMap.has(n.id) ? { ...n, position: draggedMap.get(n.id)! } : n
-    );
+    const preDrag = preDragPositionsRef.current;
+
+    const allCurrent = nodesRef.current.map(n => {
+      if (draggedMap.has(n.id)) return { ...n, position: draggedMap.get(n.id)! };
+      // 余剰ノードは親ノードのドラッグ量に追従（直接ドラッグされた場合は除く）
+      if (n.type === 'lineSurplusNode') {
+        const parentId = n.id.slice('surplus:'.length);
+        if (draggedMap.has(parentId)) {
+          const prev = preDrag.get(parentId);
+          const next = draggedMap.get(parentId)!;
+          if (prev) {
+            return { ...n, position: { x: n.position.x + (next.x - prev.x), y: n.position.y + (next.y - prev.y) } };
+          }
+        }
+      }
+      return n;
+    });
+
     savePositions(planId, new Map(allCurrent.map(n => [n.id, n.position])));
     const reordered = reorderLineNodeHandles(allCurrent);
     setNodes(reordered);
@@ -488,6 +509,7 @@ export default function ProductionLineFlow({ roots, planId }: Props) {
         edges={displayEdges}
         onNodesChange={onNodesChange}
         onEdgesChange={onEdgesChange}
+        onNodeDragStart={onNodeDragStart}
         onNodeDragStop={onNodeDragStop}
         onNodeClick={handleNodeClick}
         onNodeContextMenu={handleNodeContextMenu}

@@ -81,8 +81,8 @@ export function buildProductionLineGraph(
   function traverse(node: CalculationNode, parentNodeId: string | null) {
     if (node.isCyclic) return;
 
-    // Split raw resources get a per-consumer node ID
-    const isSplitNode = node.isRawResource && splitItems.has(node.itemId) && parentNodeId !== null;
+    // Split nodes (raw or intermediate) get a per-consumer node ID
+    const isSplitNode = splitItems.has(node.itemId) && parentNodeId !== null;
     const nodeId = isSplitNode ? `${node.itemId}::${parentNodeId}` : node.itemId;
 
     if (!itemMap.has(nodeId)) {
@@ -118,18 +118,18 @@ export function buildProductionLineGraph(
     traverse(root, null);
   }
 
-  // ── Compute canSplit: non-split raw materials with multiple consumers ───────
+  // ── Compute canSplit: any non-split node with multiple consumers ─────────
 
-  // Count distinct consumer product nodes per non-split raw material node
-  const rawConsumerSets = new Map<string, Set<string>>(); // nodeId → Set<consumerNodeId>
+  // Count distinct consumer product nodes per non-split node
+  const consumerSets = new Map<string, Set<string>>(); // nodeId → Set<consumerNodeId>
   for (const key of edgeAmountMap.keys()) {
     const sep = key.indexOf('|||');
     const product = key.slice(0, sep);
     const ingredient = key.slice(sep + 3);
     const entry = itemMap.get(ingredient);
-    if (entry?.isRawResource && !entry.isSplit) {
-      if (!rawConsumerSets.has(ingredient)) rawConsumerSets.set(ingredient, new Set());
-      rawConsumerSets.get(ingredient)!.add(product);
+    if (entry && !entry.isSplit) {
+      if (!consumerSets.has(ingredient)) consumerSets.set(ingredient, new Set());
+      consumerSets.get(ingredient)!.add(product);
     }
   }
 
@@ -274,8 +274,8 @@ export function buildProductionLineGraph(
       topPercent: snapHandleTopPercent(nodeTopY, nodeH, inPositions[i]),
     }));
 
-    const canSplit = item.isRawResource && !item.isSplit &&
-      (rawConsumerSets.get(nodeId)?.size ?? 0) > 1;
+    const canSplit = !item.isTarget && !item.isSplit &&
+      (consumerSets.get(nodeId)?.size ?? 0) > 1;
 
     nodes.push({
       id: nodeId,

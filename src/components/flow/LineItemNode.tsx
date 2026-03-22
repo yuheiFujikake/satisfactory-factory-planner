@@ -232,6 +232,36 @@ const LineItemNode = memo(({ data, selected }: NodeProps) => {
               余剰 +{formatRate(surplus)}/min
             </div>
           )}
+          {(d.canSplit || d.isSplit) && (
+            <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '6px', marginTop: '4px' }}>
+              {d.canSplit && (
+                <button
+                  onPointerDown={e => e.stopPropagation()}
+                  onClick={() => d.onSplit?.()}
+                  style={{
+                    fontSize: '11px', padding: '1px 7px', borderRadius: '4px', cursor: 'pointer',
+                    background: 'rgba(100,181,246,0.15)', border: '1px solid rgba(100,181,246,0.4)',
+                    color: '#64b5f6', fontWeight: 700,
+                  }}
+                >
+                  ✂ 分割
+                </button>
+              )}
+              {d.isSplit && (
+                <button
+                  onPointerDown={e => e.stopPropagation()}
+                  onClick={() => d.onMerge?.()}
+                  style={{
+                    fontSize: '11px', padding: '1px 7px', borderRadius: '4px', cursor: 'pointer',
+                    background: 'rgba(206,147,216,0.15)', border: '1px solid rgba(206,147,216,0.4)',
+                    color: '#ce93d8', fontWeight: 700,
+                  }}
+                >
+                  統合
+                </button>
+              )}
+            </div>
+          )}
         </>
       )}
     </div>
