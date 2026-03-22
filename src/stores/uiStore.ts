@@ -15,7 +15,7 @@ interface UiStore {
   /** レシピセレクターの対象アイテム ID（閉じている場合は `null`） */
   recipeSelectorItemId: string | null;
   /** 計算結果パネルのアクティブタブ */
-  activeTab: 'tree' | 'table' | 'machines' | 'ores';
+  activeTab: 'line' | 'table' | 'machines' | 'ores';
   /**
    * 選択アイテムを変更する。
    * @param itemId - 選択するアイテム ID（選択解除する場合は `null`）
@@ -32,7 +32,7 @@ interface UiStore {
    * アクティブタブを切り替える。
    * @param tab - 表示するタブの識別子
    */
-  setActiveTab: (tab: 'tree' | 'table' | 'machines' | 'ores') => void;
+  setActiveTab: (tab: 'line' | 'table' | 'machines' | 'ores') => void;
 }
 
 /**

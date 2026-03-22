@@ -37,6 +37,7 @@ export default function TargetPanel({ onCalculate }: TargetPanelProps) {
   const language = useSettingsStore(s => s.language);
   const openRecipeSelector = useUiStore(s => s.openRecipeSelector);
   const calculate = useCalculationStore(s => s.calculate);
+  const result = useCalculationStore(s => s.result);
 
   const isMobile = useIsMobile();
 
@@ -285,6 +286,26 @@ export default function TargetPanel({ onCalculate }: TargetPanelProps) {
           ) : (
             <div style={{ color: '#a0a0b0', fontSize: '12px' }}>
               プランがありません — 「＋」で新規作成
+            </div>
+          )}
+
+          {/* Summary stats */}
+          {result && (
+            <div style={{
+              display: 'flex', flexWrap: 'wrap', gap: '8px', marginTop: '8px',
+              paddingTop: '8px', borderTop: '1px solid #0f3460',
+            }}>
+              {[
+                { label: '総電力', value: `${result.totalPowerMW.toFixed(1)} MW`, color: '#ff9800' },
+                { label: 'アイテム', value: String(result.flatItems.length), color: '#64b5f6' },
+                { label: '建物種', value: String(result.machineSummary.length), color: '#ce93d8' },
+                { label: '総建物', value: String(result.machineSummary.reduce((s, m) => s + m.count, 0)), color: '#4caf50' },
+              ].map(({ label, value, color }) => (
+                <div key={label} style={{ textAlign: 'center', minWidth: '56px' }}>
+                  <div style={{ color, fontWeight: 700, fontSize: '13px' }}>{value}</div>
+                  <div style={{ color: '#a0a0b0', fontSize: '9px' }}>{label}</div>
+                </div>
+              ))}
             </div>
           )}
         </div>

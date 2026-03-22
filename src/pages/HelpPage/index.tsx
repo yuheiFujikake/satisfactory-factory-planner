@@ -2,12 +2,12 @@ import { useState } from 'react';
 import { useIsMobile } from '../../hooks/useIsMobile';
 
 /** ヘルプページのセクション識別子 */
-type Section = 'quickstart' | 'calculator' | 'graph' | 'plans' | 'items' | 'settings';
+type Section = 'quickstart' | 'calculator' | 'line' | 'plans' | 'items' | 'settings';
 
 const SECTIONS: { id: Section; emoji: string; title: string }[] = [
   { id: 'quickstart',  emoji: '🚀', title: 'クイックスタート' },
   { id: 'calculator',  emoji: '⚙️', title: '計算機画面' },
-  { id: 'graph',       emoji: '🌲', title: '依存グラフ' },
+  { id: 'line',        emoji: '🏗️', title: '製造ライン' },
   { id: 'plans',       emoji: '📁', title: 'プラン管理' },
   { id: 'items',       emoji: '📦', title: 'アイテムブラウザ' },
   { id: 'settings',    emoji: '🔧', title: '設定' },
@@ -66,7 +66,7 @@ export default function HelpPage() {
         <div style={{ flex: 1, overflowY: 'auto', padding: '20px 16px' }}>
           {active === 'quickstart' && <QuickStart />}
           {active === 'calculator' && <CalculatorGuide />}
-          {active === 'graph' && <GraphGuide />}
+          {active === 'line' && <ProductionLineGuide />}
           {active === 'plans' && <PlansGuide />}
           {active === 'items' && <ItemsGuide />}
           {active === 'settings' && <SettingsGuide />}
@@ -121,7 +121,7 @@ export default function HelpPage() {
       <div style={{ flex: 1, overflowY: 'auto', padding: '32px 48px' }}>
         {active === 'quickstart' && <QuickStart />}
         {active === 'calculator' && <CalculatorGuide />}
-        {active === 'graph' && <GraphGuide />}
+        {active === 'line' && <ProductionLineGuide />}
         {active === 'plans' && <PlansGuide />}
         {active === 'items' && <ItemsGuide />}
         {active === 'settings' && <SettingsGuide />}
@@ -146,7 +146,14 @@ const H2 = ({ children }: { children: React.ReactNode }) => (
   </h2>
 );
 
+const H3 = ({ children }: { children: React.ReactNode }) => (
+  <h3 style={{ color: '#c0c8d8', fontSize: '14px', fontWeight: 700, margin: '20px 0 8px' }}>
+    {children}
+  </h3>
+);
+
 /** ヘルプページ用の本文段落コンポーネント */
+
 const P = ({ children }: { children: React.ReactNode }) => (
   <p style={{ color: '#c0c0cc', fontSize: '14px', lineHeight: 1.75, margin: '0 0 12px' }}>
     {children}
@@ -251,6 +258,21 @@ const Screen = ({ children }: { children: React.ReactNode }) => (
   }}>{children}</div>
 );
 
+// カラーバッジ
+const Badge = ({ color, bg, children }: { color: string; bg: string; children: React.ReactNode }) => (
+  <span style={{
+    display: 'inline-block',
+    background: bg,
+    border: `1px solid ${color}`,
+    borderRadius: '4px',
+    padding: '1px 7px',
+    fontSize: '12px',
+    color,
+    fontWeight: 700,
+    marginRight: '4px',
+  }}>{children}</span>
+);
+
 // ─── セクションコンポーネント ─────────────────────────────────────────────────
 
 /** クイックスタートセクション: 基本的な 5 ステップの使い方を説明する */
@@ -286,9 +308,9 @@ function QuickStart() {
         <br />
         <b style={{ color: '#e0e0e0' }}>📊 テーブル</b> — 素材一覧（必要量・台数・製造量・余剰）
         <br />
-        <b style={{ color: '#e0e0e0' }}>🏭 建物</b> — 種別ごとの製造機数と消費電力
+        <b style={{ color: '#e0e0e0' }}>🏭 建設物</b> — 種別ごとの製造機数と消費電力
         <br />
-        <b style={{ color: '#e0e0e0' }}>🌲 依存グラフ</b> — 素材の依存関係をグラフで可視化
+        <b style={{ color: '#e0e0e0' }}>🏗️ 製造ライン</b> — 素材の依存関係と製造フローをグラフで可視化
         <br />
         <b style={{ color: '#e0e0e0' }}>⛏️ 製造地</b> — アイテムをインゴット・液体原材料の組み合わせ別に分類
       </Step>
@@ -335,6 +357,7 @@ function CalculatorGuide() {
         ④ 確認画面で 1 分間あたりの生産量を入力{'\n'}
         ⑤「＋ 追加する」で目標リストに追加
       </Screen>
+
       <Tip>生産量のデフォルト値は、そのアイテムの標準レシピの 1 台あたりの出力量に設定されています。</Tip>
 
       <H2>右パネル — サマリーバー</H2>
@@ -367,7 +390,7 @@ function CalculatorGuide() {
         レシピを変更した場合は必ず「⚙️ 計算実行」で再計算してください。変更しただけでは結果に反映されません。
       </Tip>
 
-      <H2>🏭 建物ビュー</H2>
+      <H2>🏭 建設物ビュー</H2>
       <P>
         必要な製造機を種類別に集計して表示します。各カードには台数と消費電力（MW）が表示されます。
         電力は製造機の基準消費電力 × 台数で計算されます。
@@ -391,93 +414,137 @@ function CalculatorGuide() {
   );
 }
 
-/** 依存グラフセクション: ノード操作・統合・分割の説明 */
-function GraphGuide() {
+/** 製造ラインセクション: ノード操作・統合・分割の説明 */
+function ProductionLineGuide() {
   return (
     <div>
-      <H1>🌲 依存グラフ</H1>
+      <H1>🏗️ 製造ライン</H1>
       <P>
-        計算機画面の「🌲 依存グラフ」タブで表示される、素材の依存関係を視覚化したインタラクティブグラフです。
-        どの素材が何の素材を必要とするか、製造の流れを一目で把握できます。
-        原材料（鉱石など）が上段、生産目標が下段に配置されます。
+        計算機画面の「🏗️ 製造ライン」タブで表示される、製造フローを可視化したインタラクティブグラフです。
+        原材料（左端）から生産目標アイテム（右端）に向かって左→右に流れる構造で、
+        矢印は「素材が製品を生産するために供給される方向」を示します。
       </P>
-
-      <H2>ノードの見方</H2>
-      <div style={{ background: '#0f3460', border: '1px solid #1a3a6a', borderRadius: '8px', overflow: 'hidden', margin: '12px 0' }}>
-        <KV label="🔵 青枠ノード（TARGET）" value="生産目標として設定したアイテム。「TARGET」バッジ付き" />
-        <KV label="🟡 黄枠ノード" value="中間素材（製造が必要なアイテム）" />
-        <KV label="🟢 緑枠ノード（Raw Resource）" value="原材料。採掘のみで製造不要。同じ高さの最上段に揃えて表示" />
-        <KV label="紫バッジ「統合」" value="複数のノードが手動で統合されているノード" />
-        <KV label="XX /min" value="このノードで必要な 1 分あたりの量（統合時は合算値）" />
-        <KV label="× 数字" value="必要な製造機の台数（切り上げ整数）" />
-        <KV label="← 素材" value="このアイテムの製造に必要な素材と数量。複数種ある場合はそれぞれ表示" />
-        <KV label="→ 供給先" value="このアイテムの出力先とその供給量。複数の供給先がある場合はそれぞれ表示" />
-      </div>
-
-      <H2>基本操作</H2>
-      <div style={{ background: '#0f3460', border: '1px solid #1a3a6a', borderRadius: '8px', overflow: 'hidden', margin: '12px 0' }}>
-        <KV label="ノードをドラッグ" value="ノードを移動できます。位置はプランごとに自動保存されます" />
-        <KV label="右クリック / 中クリックでドラッグ" value="グラフ全体をパン（スクロール）します" />
-        <KV label="左クリック + ドラッグ（空白部分）" value="選択ボックスを描いて複数ノードを範囲選択します" />
-        <KV label="Shift + クリック" value="ノードを追加選択します" />
-        <KV label="複数選択後にドラッグ" value="選択したノードをまとめて移動します（位置は全てまとめて保存）" />
-        <KV label="マウスホイール / ピンチ" value="ズームイン・ズームアウト" />
-        <KV label="左下 ＋ / − / 🏠 ボタン" value="ズーム調整・全体表示へフィット" />
-      </div>
-
-      <H2>右上のコントロールボタン</H2>
-      <div style={{ background: '#0f3460', border: '1px solid #1a3a6a', borderRadius: '8px', overflow: 'hidden', margin: '12px 0' }}>
-        <KV label="📐 スナップ" value="ON にするとノードを 20px グリッドに吸着させます。精密な整列に便利" />
-        <KV label="〰️ 曲線 / ➖ 直線" value="ノード間のエッジ（矢印線）の形状を切り替えます" />
-        <KV label="🔄 配置リセット" value="手動移動したノードをすべて自動レイアウト（dagre）に戻します" />
-        <KV label="⤢ 最大化 / ⤓ 縮小" value="グラフを全画面表示にします。フッターも覆います" />
-      </div>
-
-      <H2>ノードの統合・分割</H2>
-      <P>
-        同じ素材が複数の場所で必要とされる場合、各ノードを<b style={{ color: '#ce93d8' }}>手動で統合</b>して1つのノードにまとめることができます。
-        統合すると必要量・製造機台数が合算表示されます。統合状態はプランごとに保存されます。
-      </P>
-
-      <div style={{ background: '#0f3460', border: '1px solid #1a3a6a', borderRadius: '8px', overflow: 'hidden', margin: '12px 0' }}>
-        <KV label="「統合」ボタン" value="同じアイテムが複数存在するノードに表示されます。クリックすると統合モードに入ります" />
-        <KV label="統合モード（オレンジバナー）" value="画面上部にバナーが表示され、統合できるノードが「統合可能」バッジ付きでハイライトされます" />
-        <KV label="「← 統合」ボタン" value="ハイライトされたノードに表示されます。クリックで統合先として選択し、ノードを1つに合併します" />
-        <KV label="追加統合" value="統合済みノードにも「統合」ボタンが表示されます。クリックするとさらに別のノードを追加統合できます" />
-        <KV label="「分割」ボタン" value="統合済みノードに表示されます。分割パネルを開きます" />
-      </div>
-
-      <H2>分割パネルの使い方</H2>
-      <P>
-        「分割」ボタンをクリックすると、統合されたノードの内訳（各構成ノードの量・台数）がパネルで表示されます。
-      </P>
-      <Screen>
-        分割パネルでできること:{'\n'}
-        ・各構成ノードの「分割」ボタン → そのノードだけ統合グループから切り離す{'\n'}
-        ・「すべて分割」ボタン → 統合グループを完全に解除してツリー構造に戻す{'\n'}
-        ・「閉じる」ボタン → パネルを閉じる（統合状態は維持）
-      </Screen>
-
-      <Tip>
-        統合・分割を行っても、<b style={{ color: '#e0e0e0' }}>統合に関係のないノードの位置は変わりません。</b>
-        統合・分割されたノードのみ自動レイアウトで再配置されます。
-      </Tip>
 
       <H2>グラフの基本構造</H2>
       <P>
-        初期状態では<b style={{ color: '#e0e0e0' }}>1 対 1 のツリー構造</b>です。
-        同じ素材が複数の親アイテムから必要とされる場合でも、それぞれ独立したノードとして展開されます。
-        「統合」機能を使うと、複数ノードを 1 つに合わせた DAG 風の表示に切り替えられます。
+        グラフは <b style={{ color: '#e0e0e0' }}>右から左へ</b> の依存関係で自動レイアウトされます。
+        生産目標（右端）が最も右に配置され、その原材料が左に展開していきます。
+        矢印は素材ノード（左）から製品ノード（右）へ向かって描かれ、ラベルに流量（/min）が表示されます。
       </P>
       <Screen>
-        例: 「鉄のインゴット」が「鉄板」と「強化鉄板」の両方で必要な場合{'\n'}
-        → 初期: 「鉄のインゴット」ノードが 2 つ独立して表示される{'\n'}
-        → 統合後: 1 つの「鉄のインゴット」ノードに合算（合計量・合計台数）
+        原材料（最左）→ 中間素材 → 中間素材 → 生産目標（最右）{'\n'}
+        　　　　　　　　　　　　矢印の向き: 左 → 右（素材 → 製品）
       </Screen>
 
+      <H2>ノードの見方</H2>
+      <H3>通常アイテムノード</H3>
+      <div style={{ background: '#0f3460', border: '1px solid #1a3a6a', borderRadius: '8px', overflow: 'hidden', margin: '8px 0' }}>
+        <KV label="アイテム名（上部）" value="カテゴリ絵文字 ＋ アイテム名。カテゴリごとに枠の色が変わります" />
+        <KV label="必要 XX/min（中央）" value="このアイテムを 1 分間に生産する必要量。生産目標は青、それ以外はオレンジ" />
+        <KV label="⚙️ マシーン名 × N 台（下部）" value="使用する製造機名と必要台数（切り上げ整数）" />
+        <KV label="余剰 +X.XX/min" value="台数切り上げにより生じる余剰量。緑色で表示" />
+      </div>
+
+      <H3>ノードのバッジ</H3>
+      <P>
+        <Badge color="#64b5f6" bg="rgba(100,181,246,0.15)">目標</Badge>
+        生産目標として設定したアイテム。枠が青くなります。
+      </P>
+      <P>
+        <Badge color="#4caf50" bg="rgba(76,175,80,0.1)">Raw Resource</Badge>
+        採掘のみで入手できる原材料。製造機は不要です。
+      </P>
+
+      <H3>余剰ノード（緑の破線）</H3>
+      <P>
+        台数切り上げにより発生した余剰量を示す専用ノードです。
+        親アイテムノードの下に緑の破線枠で表示され、製造余剰の量を緑色で表します。
+        「📦 余剰」ボタンで表示・非表示を切り替えられます。
+      </P>
+
+      <H2>矢印（エッジ）の見方</H2>
+      <div style={{ background: '#0f3460', border: '1px solid #1a3a6a', borderRadius: '8px', overflow: 'hidden', margin: '12px 0' }}>
+        <KV label="オレンジの矢印" value="通常のフロー（素材 → 製品）。ラベルに 1 分あたりの供給量を表示" />
+        <KV label="緑の破線矢印" value="余剰フロー。アイテムノードから余剰ノードへの接続" />
+      </div>
+      <P>
+        各ノードの左右に表示される小さな丸（ハンドル）がエッジの接続点です。
+        接続先が複数ある場合は、接続先ノードの上下位置に合わせてハンドルが自動的に並び替わります。
+      </P>
+
+      <H2>基本操作</H2>
+      <div style={{ background: '#0f3460', border: '1px solid #1a3a6a', borderRadius: '8px', overflow: 'hidden', margin: '12px 0' }}>
+        <KV label="ノードをドラッグ" value="ノードを移動。ドラッグ後、接続ハンドルの位置が自動で並び替わります。位置はプランごとに保存" />
+        <KV label="右クリック / 中クリックでドラッグ" value="グラフ全体をパン（移動）します" />
+        <KV label="Shift ＋ ドラッグ（空白部分）" value="矩形選択。完全に枠内に収まったノードだけが選択されます" />
+        <KV label="Shift ＋ クリック" value="ノードを追加選択します" />
+        <KV label="Ctrl ＋ クリック" value="そのノードと依存する全ての子ノードをまとめて選択します" />
+        <KV label="複数選択後にドラッグ" value="選択したノードをまとめて移動します" />
+        <KV label="マウスホイール（縦）" value="グラフを上下にスクロールします" />
+        <KV label="Shift ＋ ホイール" value="グラフを左右にスクロールします" />
+        <KV label="Ctrl ＋ ホイール" value="グラフの中心を基点にズームイン・ズームアウトします" />
+        <KV label="左下 ＋ / − / 🏠 ボタン" value="ズーム調整・全体表示へフィット" />
+      </div>
+
+      <H2>ノード選択時のハイライト</H2>
+      <P>
+        ノードを選択すると、選択ノードと依存関係のあるノード・エッジが強調表示され、無関係なノードは薄く表示されます。
+      </P>
+      <div style={{ background: '#0f3460', border: '1px solid #1a3a6a', borderRadius: '8px', overflow: 'hidden', margin: '12px 0' }}>
+        <KV label="シアン枠（選択中）" value="現在選択されているノード" />
+        <KV label="オレンジ枠 ＋ グロー（依存元）" value="選択ノードに素材を供給している子ノード（依存元）。オレンジの矢印で接続" />
+        <KV label="青い矢印（依存先へ）" value="選択ノードが素材を供給している先のエッジが青くなります" />
+        <KV label="半透明（無関係）" value="選択ノードと依存関係のないノードは opacity 45% に暗くなります" />
+      </div>
+      <Tip>
+        Ctrl ＋ クリックで選択すると、そのノードを起点に依存する全ての素材ノード（子・孫…）が一括選択されます。
+        まとめて移動したいときに便利です。
+      </Tip>
+
+      <H2>右クリックメニュー</H2>
+      <P>
+        ノードを右クリックすると、そのノードに対する操作メニューが表示されます。
+      </P>
+      <div style={{ background: '#0f3460', border: '1px solid #1a3a6a', borderRadius: '8px', overflow: 'hidden', margin: '12px 0' }}>
+        <KV label="✂ 分割" value="原材料ノードを消費先ごとに分割します。複数の消費先を持つ原材料のみ表示" />
+        <KV label="⊕ 統合" value="分割済み原材料ノードを再び 1 つに統合します。分割中のノードのみ表示" />
+        <KV label="⬦ 依存先をすべて選択" value="そのノードに依存する全ての子ノード（余剰ノード含む）をまとめて選択します" />
+      </div>
+
+      <H2>原材料の分割機能</H2>
+      <P>
+        1 つの原材料が複数の製品から使われる場合、デフォルトでは 1 つのノードに集約されます。
+        「分割」を使うと消費先ごとに独立したノードとして配置し直すことができます。
+      </P>
+      <Screen>
+        例: 「鉄鉱石」が「鉄のインゴット」と「鋼材のインゴット」の両方で使われる場合{'\n'}
+        {'\n'}
+        【分割前】鉄鉱石（合計 XX/min） → 2 本の矢印で接続{'\n'}
+        【分割後】鉄鉱石 A（XX/min）→ 鉄のインゴット{'\n'}
+        　　　　　鉄鉱石 B（XX/min）→ 鋼材のインゴット{'\n'}
+        {'\n'}
+        → 工場内の配管・ベルトを分けて設計する際のイメージに合わせられる
+      </Screen>
       <Note>
-        ノードの位置・統合状態はいずれもプランごとに localStorage に保存されます。
-        「🔄 配置リセット」を押すと位置情報のみが削除され、自動レイアウトに戻ります。統合状態はリセットされません。
+        分割状態はプランごとに保存されます。右クリックメニューの「統合」またはノード上の「統合」ボタンで元に戻せます。
+      </Note>
+
+      <H2>右上のコントロールボタン</H2>
+      <div style={{ background: '#0f3460', border: '1px solid #1a3a6a', borderRadius: '8px', overflow: 'hidden', margin: '12px 0' }}>
+        <KV label="📦 余剰（ON/OFF）" value="余剰ノードと余剰エッジの表示・非表示を切り替えます。ON 時はオレンジ強調" />
+        <KV label="📐 スナップ（ON/OFF）" value="ON にするとノードを 20px グリッドに吸着させます。精密な整列に便利" />
+        <KV label="🔄 配置リセット" value="手動移動したノードをすべて自動レイアウト（dagre RL）に戻します" />
+        <KV label="⤢ 最大表示 / ⤓ 縮小" value="グラフを全画面表示にします" />
+      </div>
+
+      <H2>ノード配置の自動保存</H2>
+      <P>
+        ノードをドラッグして移動すると、その位置がプランごとにブラウザに自動保存されます。
+        次回タブを開いたときも同じ配置が復元されます。
+        「🔄 配置リセット」を押すと位置情報が削除され、dagre による自動レイアウトに戻ります。
+      </P>
+      <Note>
+        分割状態はリセットされません。配置のみリセットされます。
       </Note>
     </div>
   );
@@ -511,7 +578,8 @@ function PlansGuide() {
         ・プラン名{'\n'}
         ・生産目標アイテムと必要量（/分）{'\n'}
         ・代替レシピの選択状態{'\n'}
-        ・依存グラフのノード配置位置（手動移動した場合）{'\n'}
+        ・製造ラインのノード配置位置（手動移動した場合）{'\n'}
+        ・製造ラインの原材料分割状態{'\n'}
         ・最終更新日時
       </Screen>
 

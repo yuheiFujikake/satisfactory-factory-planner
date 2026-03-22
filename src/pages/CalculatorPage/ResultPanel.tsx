@@ -8,8 +8,8 @@ import { formatRate, calcProductionStats } from '../../utils/math';
 import { useIsMobile } from '../../hooks/useIsMobile';
 import { flattenTree, aggregateItems, computeItemDepths } from '../../domain/calculator';
 import type { CalculationNode } from '../../types/calculation.types';
-import DependencyFlow from '../../components/flow/DependencyFlow';
 import OreGroupPanel from './OreGroupPanel';
+import ProductionLineFlow from './ProductionLineFlow';
 
 // ── 静的な定数・JSX（コンポーネント外で定義し毎レンダリングの再生成を回避） ────
 
@@ -146,13 +146,13 @@ export default function ResultPanel() {
       background: '#1a1a2e',
       flexShrink: 0,
     }}>
-      {(['table', 'machines', 'tree', 'ores'] as const).map((tab, i) => (
+      {(['table', 'machines', 'line', 'ores'] as const).map((tab, i) => (
         <button
           key={tab}
           style={{ ...tabStyle(tab), flex: isMobile ? 1 : undefined, justifyContent: 'center', display: 'flex', alignItems: 'center' }}
           onClick={() => setActiveTab(tab)}
         >
-          {['📊 テーブル', '🏭 建設物', '🌲 依存グラフ', '⛏️ 製造地'][i]}
+          {['📊 テーブル', '🏭 建設物', '🏗️ 製造ライン', '⛏️ 製造地'][i]}
         </button>
       ))}
     </div>
@@ -303,6 +303,7 @@ export default function ResultPanel() {
         </div>
       </div>
 
+
       {tabBar}
 
       {/* コンテンツ */}
@@ -450,9 +451,9 @@ export default function ResultPanel() {
           </div>
         )}
 
-        {activeTab === 'tree' && (
+        {activeTab === 'line' && (
           <div style={{ height: '100%' }}>
-            <DependencyFlow roots={result.nodes} planId={currentPlanId} />
+            <ProductionLineFlow roots={result.nodes} planId={currentPlanId} />
           </div>
         )}
       </div>

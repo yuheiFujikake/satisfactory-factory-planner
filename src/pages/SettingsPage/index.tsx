@@ -1,4 +1,5 @@
 import { useSettingsStore } from '../../stores/settingsStore';
+import { APP_VERSION } from '../../version';
 
 /**
  * 設定ページコンポーネント。
@@ -170,7 +171,7 @@ export default function SettingsPage() {
       }}>
         <span style={{ ...labelStyle, color: '#f5a623' }}>アプリ情報</span>
         <div style={{ color: '#a0a0b0', fontSize: '13px', lineHeight: 1.8 }}>
-          <div>Satisfactory Factory Planner v1.2</div>
+          <div>Satisfactory Factory Planner v{APP_VERSION}</div>
           <div>Satisfactory 1.0 ゲームデータ使用</div>
           <div>アイテム数: 127</div>
           <div>レシピ数: 107 / マシーン: 11 種類</div>
